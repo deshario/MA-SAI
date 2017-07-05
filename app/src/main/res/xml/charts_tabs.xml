@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_calendar"
+        icon="@drawable/ic_trending_down_white_24dp"
+        icon_pressed="@drawable/ic_trending_down_white_24dp"
+        title="ค่าใช้จ่าย" />
+    <tab
+        id="@+id/tab_file"
+        icon="@drawable/ic_timeline_white_24dp"
+        icon_pressed="@drawable/ic_timeline_white_24dp"
+        title="รายได้" />
+    <tab
+        id="@+id/tab_folder"
+        icon="@drawable/ic_layers_white_24dp"
+        icon_pressed="@drawable/ic_layers_white_24dp"
+        title="ค่าตอบแทน" />
+</tabs>

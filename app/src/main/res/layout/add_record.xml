@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/primary_bootstrap">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@android:color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <!--<TextView-->
+            <!--android:id="@+id/title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Add Record"-->
+            <!--android:textColor="@color/default_bootstrap"-->
+            <!--android:textSize="18sp"/>-->
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/col1"
+            android:background="#ffffffff"
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:alpha=".8">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:textSize="20.0sp"
+                    android:gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="บันทึกรายการ"
+                    />
+
+                <View
+                    android:background="@color/primary_bootstrap"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2.0dip"
+                    android:layout_marginTop="10.0dip" />
+
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#80000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18.0dip"
+                    android:text="จำนวนเงิน" />
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_info_border"
+                    android:id="@+id/amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="0.00 บาท"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"
+                    android:drawableLeft="@drawable/ic_attach_money_817d8f_24dp"
+                    />
+
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#80000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18.0dip"
+                    android:text="เลือกหมวดหมู่" />
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_info_border"
+                    android:id="@+id/categories"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint=" หมวดหมู่ต่างๆ"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:textIsSelectable="true"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:drawableLeft="@drawable/ic_loyalty_817d8f_24dp"
+                    />
+
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#80000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dip"
+                    android:text="วันที่ปัจจุบัน" />
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_info_border"
+                    android:id="@+id/cur_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint=" วันที่/เดือน/พ.ศ"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:focusable="false"
+                    android:textIsSelectable="true"
+                    android:drawableLeft="@drawable/ic_date_range_817d8f_24dp"
+                    />
+
+
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#80000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18.0dip"
+                    android:text="บันทึกย่อ" />
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_info_border"
+                    android:id="@+id/shortnote"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint=" "
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:drawableLeft="@drawable/ic_edit_817d8f_24dp"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dip"
+                    android:weightSum="2">
+
+                    <Button
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/default_bootstrap"
+                        android:id="@+id/cleardata"
+                        android:background="@color/danger_bootstrap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dip"
+                        android:text="ล้างข้อมูล" />
+
+
+                    <Button
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/default_bootstrap"
+                        android:id="@+id/savedata"
+                        android:background="@color/primary_bootstrap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="บันทึกข้อมูล" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

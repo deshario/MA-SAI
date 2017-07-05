@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:textColorSecondary">@color/default_bootstrap</item>-->
+    </style>
+
+    <style name="Mero_CustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <!--Toolbar of add_record.xml || Add this style to toolbar in add_record.xml-->
+        <!--app:theme="@style/ToolbarColoredBackArrow" -->
+        <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+        <item name="android:textColorSecondary">@color/default_bootstrap</item>
+    </style>
+
+    <style name="FullScreenDialogToolbar">
+        <item name="android:background">@color/success_bootstrap</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+    <style name="CustomFullScreen">
+        <item name="android:background">@color/danger_bootstrap</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        android:background="@color/primary_bootstrap"
+        app:tabIndicatorColor="@color/yellow"
+        app:tabSelectedTextColor="@color/yellow"
+        app:tabTextColor="@color/white"
+        app:tabTextAppearance="@style/Mero_CustomTabText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/viewpager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/default_bootstrap" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:layout_above="@+id/bottom_tabs"
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/default_bootstrap" />
+
+        <!--<Button-->
+            <!--android:id="@+id/test"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"/>-->
+
+        <com.vk.dev.android.ExpandableBottomTabBar
+            android:id="@+id/bottom_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/primary_bootstrap"
+            app:max_tab_count="5"
+            android:textSize="16sp"
+            android:textColor="@color/yellow"
+            app:selected_tab_text_color="@color/default_bootstrap"
+            app:tab_resource="@xml/bottombar_tabs_five"
+            app:more_icon_resource="@drawable/ic_date_range_white_24dp"
+            />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

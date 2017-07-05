@@ -1,0 +1,69 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- image - android:scaleType="centerCrop"-->
+
+        <ImageView
+            android:id="@+id/screen_shot"
+            android:layout_width="wrap_content"
+            android:layout_height="110dp"
+            android:contentDescription="@string/app_name"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/one"
+            android:layout_centerHorizontal="true"/>
+
+        <!--<TextView-->
+            <!--android:id="@+id/date_no"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:contentDescription="@string/app_name"-->
+            <!--android:background="@color/primary_deshario"-->
+            <!--android:text="11"-->
+            <!--android:textColor="@color/default_bootstrap"-->
+            <!--android:gravity="center"/>-->
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark_gray"
+            />
+
+        <TextView
+            android:id="@+id/titler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/screen_shot"
+            android:layout_alignLeft="@+id/screen_shot"
+            android:text="@string/app_name"
+            android:inputType="text"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titler"
+            android:layout_alignLeft="@+id/titler"
+            android:text="@string/app_name"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"/>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
