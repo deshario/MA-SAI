@@ -316,6 +316,9 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
     public void onBackPressed() {
         super.onBackPressed();
         Main_Frag.tabBarView.resetFocusOnAllTabs();
+//        Main_Today_Frag aa = new Main_Today_Frag();
+//        aa.dowork();
+//        Toast.makeText(this,"TEST",Toast.LENGTH_SHORT).show();
     }
 
     public void hideKeyboard(Context ctx) {

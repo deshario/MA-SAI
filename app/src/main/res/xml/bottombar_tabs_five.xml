@@ -24,7 +24,7 @@
         id="@+id/jh"
         icon="@drawable/ic_person_outline_white_24dp"
         icon_pressed="@drawable/ic_person_outline_black_24dp"
-        title="สอนใช้งาน" />
+        title="ชำระหนี้" />
 
     <tab
         id="@+id/dsf"

@@ -81,7 +81,7 @@ public class Records extends Model {
 
     public static boolean records_exists() {
         return new Select()
-                .from(Category.class)
+                .from(Records.class)
                 .exists();
     }
 
@@ -118,22 +118,16 @@ public class Records extends Model {
                 .exists();
     }
 
-    public static List<Records> joiner(int type) {
-        return new Select()
-                .from(Records.class)
-                .innerJoin(Category.class).as("p")
-                .on("u.Id = p.Id")
-                .where("p.cat_type = 2")
-                .execute();
-    }
-
-    public static ArrayList<String> getCustom(String field_name,int type){
+//    public static ArrayList<String> getCustom(String field_name, Category category){
+    public static ArrayList<String> getCustom(String field_name, int type){
         ArrayList<String> arraylist = new ArrayList<String>();
+        // select * from Records INNER JOIN Categories ON(Records.category_id=Categories.Id) where Categories.cat_type=3;
         String resultRecords = new Select()
                 .from(Records.class)
-                .join(Category.class)
-                .on("Records.Id = Categories.Id")
-                .where("Categories.Id = ?", type)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
+//                .where("Categories.cat_type = "+category.getCat_type())
+                .where("Categories.cat_type = "+type)
                 .toSql();
 
         Cursor resultCursor = Cache.openDatabase().rawQuery(resultRecords, null);

@@ -40,5 +40,6 @@ dependencies {
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
     compile 'com.layer-net:thai-datetimepicker:1.0.3'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     testCompile 'junit:junit:4.12'
 }

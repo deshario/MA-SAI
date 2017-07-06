@@ -61,7 +61,7 @@ public class RecordAdapter extends BaseAdapter {
         row.setId(position);
 
         listViewHolder.date.setText(AllRecords.getThaiDate(listStorage.get(position).getData_recorded()));
-        listViewHolder.desc.setText(""+listStorage.get(position).getData_amount());
+        listViewHolder.desc.setText(listStorage.get(position).getShortnote());
 
         row.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -143,10 +143,10 @@ public class Main_Frag extends Fragment {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                if (first && positionOffset == 0 && positionOffsetPixels == 0){
-//                    onPageSelected(0);
-//                    first = false;
-//                }
+                if (first && positionOffset == 0 && positionOffsetPixels == 0){
+                    onPageSelected(0);
+                    first = false;
+                }
             }
 
             @Override
