@@ -73,6 +73,10 @@ public class Category extends Model {
         this.cat_type = cat_type;
     }
 
+     /*
+        || ======================= Database Functions ======================= ||
+    */
+
     // Used to return items from another table based on the foreign key
     public List<Records> records() {
         return getMany(Records.class, "Category");

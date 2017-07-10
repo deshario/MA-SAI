@@ -1,7 +1,6 @@
 package com.deshario.agriculture;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.deshario.agriculture.Fragments.AllRecords;
-import com.deshario.agriculture.Fragments.Main_Today_Frag;
 import com.deshario.agriculture.Fragments.Planning_Tab_Frag;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
@@ -70,7 +68,7 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(" Dashboard");
+        getSupportActionBar().setTitle(" Smart ROI For Farmers");
         getSupportActionBar().setIcon(R.drawable.ic_dashboard_white_24dp);
     }
 
@@ -83,24 +81,21 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.calendar_icon){
+//        if(id == R.id.calendar_icon){
             manual = Calendar.getInstance();
-            DatePickerDialog dpd = DatePickerDialog.newInstance(
-                    Main_Tab.this,
-                    manual.get(Calendar.YEAR),
-                    manual.get(Calendar.MONTH),
-                    manual.get(Calendar.DAY_OF_MONTH)
-            );
-            dpd.show(getFragmentManager(), "Datepickerdialog");
-            dpd.setCancelText("ยกเลิก");
-            dpd.setTitle("เลือกวันที่ต้องการดูข้อมูล");
-            dpd.setOkText("เลือก");
-        }
+//            DatePickerDialog dpd = DatePickerDialog.newInstance(
+//                    Main_Tab.this,
+//                    manual.get(Calendar.YEAR),
+//                    manual.get(Calendar.MONTH),
+//                    manual.get(Calendar.DAY_OF_MONTH)
+//            );
+//            dpd.show(getFragmentManager(), "Datepickerdialog");
+//            dpd.setCancelText("ยกเลิก");
+//            dpd.setTitle("เลือกวันที่ต้องการดูข้อมูล");
+//            dpd.setOkText("เลือก");
+//        }
         if(id == R.id.layers_icon){
             alldata();
-        }
-        if(id == R.id.refresh_icon){
-//            new Main_Today_Frag().dowork();
         }
         return super.onOptionsItemSelected(item);
     }

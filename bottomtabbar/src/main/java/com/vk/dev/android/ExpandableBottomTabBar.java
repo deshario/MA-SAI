@@ -175,7 +175,7 @@ public class ExpandableBottomTabBar extends LinearLayout implements View.OnClick
             mTabCount = mTabInfoList.size();
             if (mTabCount > mMaxTabPerRow) {
                 final TabInformation moreTab = new TabInformation();
-                moreTab.title = "More";
+                moreTab.title = "เลือนขึ้น";
                 moreTab.iconResId = mMoreIconRecId;
                 moreTab.iconPressedResId = mMoreIconRecId;
                 mTabInfoList.add(mMoreTabPosition, moreTab);

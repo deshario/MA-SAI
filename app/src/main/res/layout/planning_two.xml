@@ -86,13 +86,35 @@
                     android:textColor="#80000000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="ชื่อรายการ" />
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_info_border"
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint=" เช่น : ชื่อพืช"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:inputType="text"
+                    android:drawablePadding="4dp"
+                    android:drawableLeft="@drawable/ic_filter_vintage_817d8f_24dp"
+                    />
+
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="#80000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="18.0dip"
                     android:text="คาดการณ์ค่าใช้จ่าย" />
 
                 <EditText
                     android:layout_marginTop="10dp"
                     android:background="@drawable/edittext_info_border"
-                    android:id="@+id/guess_price"
+                    android:id="@+id/expense"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="บาท/ไร่"
@@ -114,7 +136,7 @@
                 <EditText
                     android:layout_marginTop="10dp"
                     android:background="@drawable/edittext_info_border"
-                    android:id="@+id/answer"
+                    android:id="@+id/area_x_expense"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="0 บาท"
@@ -137,7 +159,7 @@
                 <EditText
                     android:layout_marginTop="10dp"
                     android:background="@drawable/edittext_info_border"
-                    android:id="@+id/date_guess"
+                    android:id="@+id/date_expense"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="วันที่/เดือน/พ.ศ"
@@ -160,7 +182,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/default_bootstrap"
-                        android:id="@+id/savedata"
+                        android:id="@+id/saveexpense"
                         android:background="@color/primary_deshario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

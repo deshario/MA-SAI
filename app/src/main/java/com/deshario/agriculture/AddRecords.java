@@ -2,12 +2,10 @@ package com.deshario.agriculture;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,22 +18,17 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.deshario.agriculture.Fragments.Categories_Tab_Frag;
 import com.deshario.agriculture.Fragments.Main_Frag;
-import com.deshario.agriculture.Fragments.Main_Today_Frag;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
-import com.layernet.thaidatetimepicker.time.RadialPickerLayout;
-import com.layernet.thaidatetimepicker.time.TimePickerDialog;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
 
@@ -166,7 +159,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 }else{
                     Double amount = Double.parseDouble(_amount);
                     Date selected_date = date_4insert; // Sun Jul 06 23:23:25 GMT+07:00 2560
-                    System.out.println("insertation date : "+selected_date);
+                    //System.out.println("insertation date : "+selected_date);
                     //Toast.makeText(AddRecords.this,"Amount : "+amount+"\nCategory : "+cat+"\nDate : "+_date+"\nShortnote : "+shortnote,Toast.LENGTH_SHORT).show();
 
                     Category category = Category.getSingleCategory(item_id);
@@ -176,16 +169,16 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                     records.setData_recorded(selected_date);
                     records.setShortnote(shortnote);
                     records.save();
-                    cls_btn.performClick();
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(selected_date);
                     long datetime = calendar.getTimeInMillis();
-                    //System.out.println("Date in Long is :: "+datetime);
+                   // System.out.println("Date in Long is :: "+datetime);
                     boolean status = Records.check_exists(datetime);
                     if(status == true){
+                        cls_btn.performClick();
                         Toast.makeText(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-                        //Main_Today_Frag.swiper.setRefreshing();
+                        //Latest_Record_Frag.swiper.setRefreshing();
                         onBackPressed();
                     }
 
@@ -335,16 +328,23 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
     }
 
     private String default_date(){
-        DateFormat mydate = DateFormat.getDateInstance(DateFormat.LONG, new Locale("th")); // THAI DATE
-        now = Calendar.getInstance();
-        String date_current;
-        now.set(Calendar.YEAR, Th_Year(now.get(Calendar.YEAR)));
-//        now.set(Calendar.YEAR, now.get(Calendar.YEAR));
-        now.set(Calendar.MONTH, now.get(Calendar.MONTH));
-        now.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
-        DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
-        date_current = today.format(now.getTime());
-        return date_current;
+        String thai_date = null;
+        date_4insert = Calendar.getInstance().getTime();
+        String DATE_FORMAT_NOW = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String stringDate = sdf.format(date_4insert);
+        String[] output = stringDate.split("-");
+
+        int _day = Integer.valueOf(output[0]);
+        int _month = Integer.valueOf(output[1]);
+        int _year = Integer.valueOf(output[2]);
+
+        int day_ = _day;
+        String month_ = Th_Months(_month-1);
+        int year_ = Th_Year(_year);
+        thai_date = day_+" "+month_+" "+year_;
+
+        return thai_date;
     }
 
     @Override

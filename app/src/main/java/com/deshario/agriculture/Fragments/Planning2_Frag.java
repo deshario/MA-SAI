@@ -11,17 +11,20 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.deshario.agriculture.Models.ExpensePlan;
+import com.deshario.agriculture.Models.IncomePlan;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
-import com.layernet.thaidatetimepicker.time.RadialPickerLayout;
-import com.layernet.thaidatetimepicker.time.TimePickerDialog;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,10 +36,11 @@ import java.util.Locale;
 public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
         com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
-    EditText et_area,et_price,et_ans,et_date;
-    String field1,field;
+    EditText et_area,et_name,et_expense,et_total,et_date;
+    Button btn_save_expense;
+    Date expensedate;
     Calendar now;
-    Context mcontext;
+    Context context;
     DecimalFormat desharioformat;
     private FullScreenDialogController dialogController;
 
@@ -46,16 +50,24 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.planning_two, container, false);
-
-        mcontext = getContext();
+        context = getContext();
         desharioformat = new DecimalFormat();
         desharioformat.applyPattern("0.00");
+        bindview(view);
+        work();
+        return view;
+    }
 
+    public void bindview(View view){
         et_area = (EditText)view.findViewById(R.id.area);
-        et_price = (EditText)view.findViewById(R.id.guess_price);
-        et_ans = (EditText)view.findViewById(R.id.answer);
-        et_date = (EditText)view.findViewById(R.id.date_guess);
+        et_name = (EditText)view.findViewById(R.id.name);
+        et_expense = (EditText)view.findViewById(R.id.expense);
+        et_total = (EditText)view.findViewById(R.id.area_x_expense);
+        et_date = (EditText)view.findViewById(R.id.date_expense);
+        btn_save_expense = (Button) view.findViewById(R.id.saveexpense);
+    }
 
+    public void work(){
         et_area.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -67,7 +79,7 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
             public void afterTextChanged(Editable s) {
                 Double _area = 0.00, _price = 0.00;
                 String area = s.toString();
-                String price = et_price.getText().toString();
+                String price = et_expense.getText().toString();
                 if(price.isEmpty()){
                     price = "0";
                 }else{
@@ -81,7 +93,7 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                 update_value(_area,_price);
             }
         });
-        et_price.addTextChangedListener(new TextWatcher() {
+        et_expense.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 
@@ -106,15 +118,12 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                 update_value(_area,_price);
             }
         });
-
         et_date.setText(" "+default_date());
-
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(getActivity(),"TEST",Toast.LENGTH_SHORT).show();
                 now = Calendar.getInstance();
-                FragmentManager manager = ((AppCompatActivity)mcontext).getFragmentManager();
+                FragmentManager manager = ((AppCompatActivity) context).getFragmentManager();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
                         Planning2_Frag.this,
                         now.get(Calendar.YEAR),
@@ -126,29 +135,74 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                 dpd.setOkText("เลือก");
             }
         });
+        btn_save_expense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String area = et_area.getText().toString();
+                String name = et_name.getText().toString();
+                String expense = et_expense.getText().toString();
+                String total = et_total.getText().toString();
+                String date = et_date.getText().toString();
+                if(area.isEmpty() || name.isEmpty() || expense.isEmpty() || total.isEmpty() || date.isEmpty()){
+                    Toast.makeText(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                }else{
+                    Double _area = Double.parseDouble(area);
+                    Double _expense = Double.parseDouble(expense);
+                    Double _total =  remove_text(total);
+                    String item_name = name;
+                    Date date_expense = expensedate;
 
-        return view;
+                    //Toast.makeText(context,"Area : "+_area+"\nExpense : "+_expense+
+                    // "\nTotal : "+_total+"\nItemname : "+item_name,Toast.LENGTH_SHORT).show();
+
+                    ExpensePlan expensePlan = new ExpensePlan();
+                    expensePlan.setItem_name(item_name);
+                    expensePlan.setArea(_area);
+                    expensePlan.setExpense(_expense);
+                    expensePlan.setExpense_x_area(_total);
+                    expensePlan.setExpense_created(date_expense);
+                    expensePlan.save();
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date_expense);
+                    long datetime = calendar.getTimeInMillis();
+                    System.out.println("date_expense inserted : "+datetime);
+                    boolean status = ExpensePlan.check_exists(datetime);
+                    if(status == true){
+                        clear_fields();
+                        Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 
     public void update_value(Double data1, Double data2){
         Double d1 = Double.valueOf(data1);
         Double d2 = Double.valueOf(data2);
         Double answer = d1*d2;
-        //Toast.makeText(getActivity(),"d1:"+data1+"\nd2:"+new_item,Toast.LENGTH_SHORT).show();
-        et_ans.setText(String.valueOf(desharioformat.format(answer)));
-        et_ans.append(" บาท");
+        et_total.setText(String.valueOf(desharioformat.format(answer)));
+        et_total.append(" บาท");
     }
 
     private String default_date(){
-        now = Calendar.getInstance();
-        String date_current;
-        now.set(Calendar.YEAR, Th_Year(now.get(Calendar.YEAR)));
-        now.set(Calendar.MONTH, now.get(Calendar.MONTH));
-        now.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
-        DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
-        date_current = today.format(now.getTime());
-        //now = Calendar.getInstance();  // Reset Year
-        return date_current;
+        String thai_date = null;
+        expensedate = Calendar.getInstance().getTime();
+        String DATE_FORMAT_NOW = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String stringDate = sdf.format(expensedate);
+        String[] output = stringDate.split("-");
+
+        int _day = Integer.valueOf(output[0]);
+        int _month = Integer.valueOf(output[1]);
+        int _year = Integer.valueOf(output[2]);
+
+        int day_ = _day;
+        String month_ = Th_Months(_month-1);
+        int year_ = Th_Year(_year);
+        thai_date = day_+" "+month_+" "+year_;
+
+        return thai_date;
     }
 
     @Override
@@ -170,22 +224,49 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        now.set(Calendar.YEAR, Th_Year(year));
-        now.set(Calendar.MONTH, monthOfYear);
-        now.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-        DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("TH"));
-        Date date = new Date();
-        et_date.setText(dateFormat.format(now.getTime()));
-        String _date_ = et_date.getText().toString();
-        et_date.setText(" "+today.format(now.getTime()));
-        //Toast.makeText(getActivity(),"Date : "+_date_,Toast.LENGTH_SHORT).show(); // use for insert
-        //System.out.println("Date : "+dateFormat.format(date)); //2017-06-10 19:43:39
-        //System.out.println("Date : "+date); //Sat Jun 10 19:43:39 GMT+07:00 2017
+        try {
+            String selected_date = dayOfMonth+"/"+(++monthOfYear)+"/"+year;
+            System.out.println("Selected date : "+selected_date);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            expensedate = formatter.parse(selected_date);
+
+            int sel_day = dayOfMonth;
+            String sel_month = Th_Months(monthOfYear-1);
+            int sel_year = Th_Year(year);
+            String total_date = sel_day+" "+sel_month+" "+sel_year;
+
+            System.out.println("Date : "+expensedate);
+            et_date.setText(" "+total_date);
+
+        }catch(ParseException e){
+            System.out.println("Error : "+e);
+            Toast.makeText(context,"ความผิดพลาด : "+e,Toast.LENGTH_LONG).show();
+        }
     }
 
+    public String Th_Months(int month){
+        String[] th_months = new String[] {
+                "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."
+        };
+        return th_months[month];
+    }
 
     public static int Th_Year(int en_year){
         return en_year+543;
+    }
+
+    public double remove_text(String textwithnumber){
+        String cutter = textwithnumber;
+        cutter = cutter.replaceAll("[^\\d.]", "");
+        double pure_no = Double.parseDouble(cutter);
+        return pure_no;
+    }
+
+    private void clear_fields(){
+        et_area.setText("");
+        et_name.setText("");
+        et_expense.setText("");
+        et_total.setText("");
+        et_date.setText(" "+default_date());
     }
 }

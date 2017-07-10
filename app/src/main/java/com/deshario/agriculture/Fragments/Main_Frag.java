@@ -1,7 +1,6 @@
 package com.deshario.agriculture.Fragments;
 
-import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,22 +9,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
-import com.deshario.agriculture.Cal_Date;
 import com.deshario.agriculture.Main_Tab;
 import com.deshario.agriculture.PayDebt;
-import com.deshario.agriculture.Thaidate;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
+import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 import com.vk.dev.android.ExpandableBottomTabBar;
 import com.deshario.agriculture.R;
+
+import java.util.Calendar;
 
 /**
  * Created by Deshario on 4/17/2017.
@@ -42,6 +39,8 @@ public class Main_Frag extends Fragment {
     public static ExpandableBottomTabBar tabBarView;
     public static FullScreenDialogFragment dialogFragment;
     Boolean first = true;
+    Calendar manual;
+    Context context;
 
     final int[] ICONS = new int[] {
             R.mipmap.ic_launcher,
@@ -55,6 +54,7 @@ public class Main_Frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View myview =  inflater.inflate(R.layout.main_tabbar,null);
+        context = myview.getContext();
 //        System.out.println("Infalte ok");
 //        Toast.makeText(getActivity(),"Inflate Done",Toast.LENGTH_SHORT).show();
         //((Main_Tab) getActivity()).setActionBarTitle("title");
@@ -77,7 +77,6 @@ public class Main_Frag extends Fragment {
         //tabBarView.setEnabled(false);
         //tabBarView.setSelected(false);
         tabBarView.resetFocusOnAllTabs();
-
 
         tabBarView.setOnTabClickedListener(new ExpandableBottomTabBar.OnTabClickedListener() {
             @Override
@@ -124,12 +123,19 @@ public class Main_Frag extends Fragment {
                         dialogFragment.show(getFragmentManager(), dialogTag);
                         break;
                     case 4: // More Button
+
                         break;
                     case 5: // paydebt
                         startActivity(new Intent(getActivity(),PayDebt.class));
                         break;
-                    case 7: // about
-
+                    case 6: // calendar
+                        Toast.makeText(context,"Custom Date",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 7:
+                        Toast.makeText(context,"About",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 8:
+                        getActivity().finish();
                         break;
                     default:
                 }
@@ -148,6 +154,7 @@ public class Main_Frag extends Fragment {
         //Set an Apater for the View Pager
         myAdapter = new MyAdapter(getChildFragmentManager());
         viewPager.setAdapter(myAdapter);
+        viewPager.setCurrentItem(1);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -166,7 +173,7 @@ public class Main_Frag extends Fragment {
                 }
 
                 if(position == 1){
-                    //Main_Today_Frag.refresh();
+                    //Latest_Record_Frag.refresh();
                 }
             }
 
@@ -202,8 +209,8 @@ public class Main_Frag extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new Main_Today_Frag();
-                case 1 : return new Main_Today_Frag();
+                case 0 : return new Previous_Record_Frag();
+                case 1 : return new Latest_Record_Frag();
                 case 2 : return new Prediction_Frag();
 
             }
@@ -222,7 +229,7 @@ public class Main_Frag extends Fragment {
                 case 0 :
                     return "ก่อนหน้า";
                 case 1 :
-                    return "ปัจจุบัน";
+                    return "ล่าสุด";
                 case 2 :
                     return "คาดการณ์";
             }

@@ -38,11 +38,12 @@ public class Records extends Model {
         super();
     }
 
-    public Records(double data_amount, Category category, Date data_recorded, String shortnote) {
+    public Records(double data_amount, Category category, Date data_recorded, Date data_updated, String shortnote) {
         super();
         this.data_amount = data_amount;
         this.category = category;
         this.data_recorded = data_recorded;
+        this.data_updated = data_updated;
         this.shortnote = shortnote;
     }
 
@@ -86,6 +87,10 @@ public class Records extends Model {
         this.shortnote = shortnote;
     }
 
+    /*
+        || ======================= Database Functions ======================= ||
+    */
+
     public static List<Records> getAllRecords() {
         return new Select().from(Records.class).execute();
     }
@@ -104,10 +109,18 @@ public class Records extends Model {
         return record;
     }
 
-    public static Records getLatestSingleRecord() {
+    public static Records getLatestSingleRecordById() {
         Records record = new Select()
                 .from(Records.class)
                 .orderBy("Id DESC")
+                .executeSingle();
+        return record;
+    }
+
+    public static Records getLatestSingleRecordByDate() {
+        Records record = new Select()
+                .from(Records.class)
+                .orderBy("data_created DESC")
                 .executeSingle();
         return record;
     }
