@@ -32,6 +32,7 @@
 
 
     <color name="dark_gray">#E5E5E5</color>
+    <color name="dark_gray_dark">#808080</color>
     <color name="primary_deshario">#2396F1</color>
 
     <color name="custom_primary">#736EFE</color>

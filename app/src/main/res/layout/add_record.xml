@@ -10,7 +10,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/primary_deshario"
         app:titleTextColor="@android:color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -57,10 +57,10 @@
                     />
 
                 <View
-                    android:background="@color/primary_bootstrap"
+                    android:background="@color/primary_deshario"
                     android:layout_width="fill_parent"
-                    android:layout_height="2.0dip"
-                    android:layout_marginTop="10.0dip" />
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp" />
 
                 <TextView
                     android:textSize="18sp"
@@ -174,7 +174,7 @@
                         android:textSize="16sp"
                         android:textColor="@color/default_bootstrap"
                         android:id="@+id/savedata"
-                        android:background="@color/primary_bootstrap"
+                        android:background="@color/primary_deshario"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="บันทึกข้อมูล" />

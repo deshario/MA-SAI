@@ -4,11 +4,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="test">&#xf1fe;</string>
-    <string-array name="steps_subtitles">
-        <item>Title of the alarm</item>
-        <item>Description of the alarm</item>
-        <item>Time when the alarm will go off</item>
-        <item>Week schedule of the alarm</item>
+    <string-array name="crud_options">
+        <item>ดูรายการนี้</item>
+        <item>ปรับปรุงรายการนี้</item>
+        <item>ลบรายการนี้</item>
     </string-array>
     <string-array name="martial_status">
         <item>โสด</item>

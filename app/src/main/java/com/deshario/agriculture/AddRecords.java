@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,11 +29,13 @@ import com.layernet.thaidatetimepicker.time.TimePickerDialog;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
 
@@ -47,6 +50,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
     private FullScreenDialogFragment dialogFragment;
     Calendar now;
     int item_id;
+    Date date_4insert;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,17 +155,18 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String _amount = et_amount.getText().toString();
                 String cat = et_categories.getText().toString();
                 String _date = et_date.getText().toString();
                 String shortnote = et_shortnote.getText().toString();
 
-
                 if(_amount.isEmpty() || cat.isEmpty() || _date.isEmpty() || shortnote.isEmpty()){
                     Toast.makeText(AddRecords.this,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                 }else{
                     Double amount = Double.parseDouble(_amount);
-                    Date selected_date = now.getTime();
+                    Date selected_date = date_4insert; // Sun Jul 06 23:23:25 GMT+07:00 2560
+                    System.out.println("insertation date : "+selected_date);
                     //Toast.makeText(AddRecords.this,"Amount : "+amount+"\nCategory : "+cat+"\nDate : "+_date+"\nShortnote : "+shortnote,Toast.LENGTH_SHORT).show();
 
                     Category category = Category.getSingleCategory(item_id);
@@ -180,14 +185,13 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                     boolean status = Records.check_exists(datetime);
                     if(status == true){
                         Toast.makeText(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-//                        Main_Today_Frag.swiper.setRefreshing();
+                        //Main_Today_Frag.swiper.setRefreshing();
                         onBackPressed();
                     }
 
                 }
             }
         });
-
 
     }
 
@@ -316,9 +320,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
     public void onBackPressed() {
         super.onBackPressed();
         Main_Frag.tabBarView.resetFocusOnAllTabs();
-//        Main_Today_Frag aa = new Main_Today_Frag();
-//        aa.dowork();
-//        Toast.makeText(this,"TEST",Toast.LENGTH_SHORT).show();
     }
 
     public void hideKeyboard(Context ctx) {
@@ -333,21 +334,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-//    private void updateLabel() {
-//        String myFormat = "dd/MM/yy"; //In which you need put here //"MM/dd/yy";
-//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-//
-//        //DateFormat df_medium = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT); // DATETIME
-//        DateFormat mydate = DateFormat.getDateInstance(DateFormat.FULL, Locale.UK); // DATE
-//        //DateFormat mydate = DateFormat.getDateInstance(DateFormat.LONG, new Locale("th")); // THAI DATE
-//
-//        //Toast.makeText(getActivity(),sdf.format(myCalendar.getTime()),Toast.LENGTH_SHORT).show();
-//        et_date.setText(sdf.format(myCalendar.getTime()));
-//        String data = et_date.getText().toString();
-//        et_date.setText(mydate.format(myCalendar.getTime()));
-//        et_date.setText(data);
-//    }
-//
     private String default_date(){
         DateFormat mydate = DateFormat.getDateInstance(DateFormat.LONG, new Locale("th")); // THAI DATE
         now = Calendar.getInstance();
@@ -361,26 +347,26 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         return date_current;
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        Toast.makeText(AddRecords.this,"HAHAHA",Toast.LENGTH_SHORT).show();
-//    }
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        now.set(Calendar.YEAR, Th_Year(year));
-//        now.set(Calendar.YEAR, year);
-        now.set(Calendar.MONTH, monthOfYear);
-        now.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-        DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("TH"));
-        Date date = new Date();
-        et_date.setText(dateFormat.format(now.getTime()));
-        String _date_ = et_date.getText().toString();
-        et_date.setText(" "+today.format(now.getTime()));
-       // Toast.makeText(AddRecords.this,"Date : "+_date_,Toast.LENGTH_SHORT).show(); // use for insert
-        //System.out.println("Date : "+dateFormat.format(date)); //2017-06-10 19:43:39
-        //System.out.println("Date : "+date); //Sat Jun 10 19:43:39 GMT+07:00 2017
+        try {
+            String selected_date = dayOfMonth+"/"+(++monthOfYear)+"/"+year;
+            System.out.println("Selected date : "+selected_date);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            date_4insert = formatter.parse(selected_date);
+
+            int sel_day = dayOfMonth;
+            String sel_month = Th_Months(monthOfYear-1);
+            int sel_year = Th_Year(year);
+            String total_date = sel_day+" "+sel_month+" "+sel_year;
+
+            System.out.println("Date : "+date_4insert);
+            et_date.setText(" "+total_date);
+
+        }catch(ParseException e){
+            System.out.println("Error : "+e);
+            Toast.makeText(AddRecords.this,"ความผิดพลาด : "+e,Toast.LENGTH_LONG).show();
+        }
     }
 
     public String Th_Months(int month){

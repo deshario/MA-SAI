@@ -4,20 +4,21 @@ package com.deshario.agriculture.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
-import com.deshario.agriculture.Adapters.CustomListAdapter;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,47 +31,29 @@ import java.util.Locale;
  */
 public class Main_Today_Frag extends Fragment {
 
-    public Context context;
-    static ArrayList<String> datas;
-
-    ListView list_view;
-//    String all_items[] = {"รายได้","ค่าใช้จ่าย","กำไร - ขาดทุน","หนี้สิน/เงินกู้","ชำระหนี้สิน/เงินกู้","คงเหลือ"};
-    String all_items[] = {"รายได้","ค่าใช้จ่าย","กำไร","หนี้สิน/เงินกู้","ชำระหนี้สิน/เงินกู้","คงเหลือ","บันทึกย่อ","วันที่"};
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private static String LOG_TAG = "CardViewActivity";
-
-    ArrayList<String> values = new ArrayList<>();
-
-    public SimpleAdapter phone_adapter;
-    List<HashMap<String, String>> aList;
-
-    public static List<Records> records;
+    private Context context;
+    private ListView list_view;
+    private String all_items[] = {"รายได้","ค่าใช้จ่าย","กำไร","หนี้สิน/เงินกู้","ชำระหนี้สิน/เงินกู้","คงเหลือ","บันทึกย่อ","วันที่"};
+    private ArrayList<String> values = new ArrayList<>();
+    private SimpleAdapter phone_adapter;
+    private List<HashMap<String, String>> aList;
+    private static List<Records> records;
 
     public Main_Today_Frag() {
         setRetainInstance(true);
     }
 
+    TextView date1,date2,note_txt;
+    TextView income, expense, profit, debt, pay_debt, total_remain;
+    TextView income_val, expense_val, profit_val, debt_val, pay_debt_val, total_remain_val;
+    ImageButton btn_refresh;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.main_today_frag, container, false);
-//        View view = inflater.inflate(R.layout.cardview_main, container, false);
+        View view = inflater.inflate(R.layout.cardview_manual, container, false);
         context = container.getContext();
-        list_view = (ListView)view.findViewById(R.id.listview);
-        dowork();
-
-//        Records aa = Records.getLatestSingleRecord();
-//        System.out.println("AA SIZE :: "+aa.getData_amount());
-//        mRecyclerView = (RecyclerView)view.findViewById(R.id.rvAllUsers);
-//        mRecyclerView.setHasFixedSize(true);
-//        mLayoutManager = new LinearLayoutManager(context);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new CustomListAdapter(getDataSet());
-//        mRecyclerView.setAdapter(mAdapter);
-
+        bindview(view);
+        work();
         return view;
     }
 
@@ -126,7 +109,7 @@ public class Main_Today_Frag extends Fragment {
 
         String[] from = {"listview_image", "listview_title", "listview_value"};
         // int[] to = {R.id.listview_image, R.id.title, R.id.value};
-        int[] to = {R.id.icon, R.id.itemname, R.id.amount};
+        int[] to = {R.id.icon2, R.id.item2, R.id.amount};
 
 //        CustomListAdapter aa = new CustomListAdapter(context,aList,R.layout.custom_main_card, from, to);
         // phone_adapter = new SimpleAdapter(context, aList, R.layout.main_custom_listview, from, to);
@@ -141,7 +124,6 @@ public class Main_Today_Frag extends Fragment {
 
     }
 
-
     public static String[] calculation(Records record){
         ArrayList<String> amounts = new ArrayList<String>();
         DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH"));
@@ -153,24 +135,21 @@ public class Main_Today_Frag extends Fragment {
         double remain = 0.0; // คงเหลือ
 
         records = Records.getAllRecords();
-//        ArrayList<String> amounts = Records.getCustom("data_amount",record.getCategory());
+        //ArrayList<String> amounts = Records.getCustom("data_amount",record.getCategory());
         //System.out.println("datas size is == "+datas.size());
-      //  System.out.println("Amount is == "+amounts);
+        //System.out.println("Amount is == "+amounts);
 
         for(int i=0; i< records.size(); i++){
           Double balance = records.get(i).getData_amount();
           int dbalance = records.get(i).getCategory().getCat_type();
             remain += balance;
         }
-       // System.out.println(" Total : "+remain);
+
+        //System.out.println(" Total : "+remain);
 
         int type = record.getCategory().getCat_type();
         boolean cat_topic_1 = false, cat_topic_2 = false, cat_topic_3 = false;
-
-
         double total_amounts = 0.0;
-
-
 
         switch (type){
             case 1:
@@ -204,10 +183,10 @@ public class Main_Today_Frag extends Fragment {
         }
 
         for(int j=0; j<amounts.size(); j++){
-//            System.out.println("Amounts : "+amounts.get(j));
+           // System.out.println("Amounts : "+amounts.get(j));
             total_amounts += Double.valueOf(amounts.get(j));
         }
-//        System.out.println("Total Amounts : "+total_amounts);
+        // System.out.println("Total Amounts : "+total_amounts);
 
        // System.out.println("Income : "+income);
        // System.out.println("expenses : "+expenses);
@@ -217,19 +196,20 @@ public class Main_Today_Frag extends Fragment {
        // System.out.println("remain : "+remain);
 
         String note = record.getShortnote();
-        String date = today.format(record.getData_recorded());
+        //String date = today.format(record.getData_recorded());
+        Date date = record.getData_recorded();
 
        // System.out.println("Date : "+remain);
 
         return new String[]{
-                String.valueOf(income),
-                String.valueOf(expenses),
-                String.valueOf(profit),
-                String.valueOf(debt),
-                String.valueOf(pay_debts),
-                String.valueOf(remain),
-                String.valueOf(note),
-                String.valueOf(date)
+                String.valueOf(income), // [0]
+                String.valueOf(expenses), // [1]
+                String.valueOf(profit), // [2]
+                String.valueOf(debt), // [3]
+                String.valueOf(pay_debts), // [4]
+                String.valueOf(remain), // [5]
+                String.valueOf(note), // [6]
+                String.valueOf(date) // [7]
         };
     }
 
@@ -240,6 +220,116 @@ public class Main_Today_Frag extends Fragment {
         Double debt = 0.0; // หนี้สิน
         Double Pay_debts = 0.0; // ชำระหนี้สิน
         Double remain = 0.0; // คงเหลือ
+    }
+
+    public void bindview(View view){
+        date1 = (TextView)view.findViewById(R.id.date1);
+        date2 = (TextView)view.findViewById(R.id.date2);
+        note_txt = (TextView)view.findViewById(R.id.note);
+
+        income = (TextView) view.findViewById(R.id.item1);
+        expense = (TextView) view.findViewById(R.id.item2);
+        profit = (TextView) view.findViewById(R.id.item3);
+        debt = (TextView) view.findViewById(R.id.item4);
+        pay_debt = (TextView) view.findViewById(R.id.item5);
+        total_remain = (TextView) view.findViewById(R.id.item6);
+
+        income_val = (TextView) view.findViewById(R.id.amount1);
+        expense_val = (TextView) view.findViewById(R.id.amount2);
+        profit_val = (TextView) view.findViewById(R.id.amount3);
+        debt_val = (TextView) view.findViewById(R.id.amount4);
+        pay_debt_val = (TextView) view.findViewById(R.id.amount5);
+        total_remain_val = (TextView) view.findViewById(R.id.amount6);
+
+        btn_refresh = (ImageButton) view.findViewById(R.id.refresh_btn);
+        btn_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                work();
+            }
+        });
+    }
+
+    public void work(){
+        String thb = "\u0E3F";
+
+        income.setText(all_items[0]);
+        expense.setText(all_items[1]);
+        profit.setText(all_items[2]);
+        debt.setText(all_items[3]);
+        pay_debt.setText(all_items[4]);
+        total_remain.setText(all_items[5]);
+
+        boolean records_exists  = Records.records_exists();
+        System.out.println("Record Exists : "+records_exists);
+        if(records_exists == false){ // No record
+            income_val.setText(thb+"0.00");
+            expense_val.setText(thb+"0.00");
+            profit_val.setText(thb+"0.00");
+            debt_val.setText(thb+"0.00");
+            pay_debt_val.setText(thb+"0.00");
+            total_remain_val.setText(thb+"0.00");
+        }else{
+            Records temp = Records.getLatestSingleRecord();
+            String datas [] = calculation(temp);
+            String date_ = datas[7];
+            Date date = new Date(date_);
+
+            //DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH"));
+            //String newDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date);
+            //System.out.println("Date ::: "+date_); // Wed May 18 15:20:26 GMT+07:00 2540
+            //System.out.println("NewDate : "+newDateFormat); // 18-05-2540 15:20:26
+            //System.out.println("Formatted : "+today.format(date)); // 18 พ.ค. 2540
+
+            int agenda[] = dateToCalendar(date);
+            String day = ""+agenda[0];
+            String month = ""+Th_Months(agenda[1],true);
+            String year = ""+agenda[2];
+
+            income_val.setText(thb+datas[0]);
+            expense_val.setText(thb+datas[1]);
+            profit_val.setText(thb+datas[2]);
+            debt_val.setText(thb+datas[3]);
+            pay_debt_val.setText(thb+datas[4]);
+            total_remain_val.setText(thb+datas[5]);
+            note_txt.setText("บันทึกย่อ : "+datas[6]);
+            date1.setText(day);
+            date2.setText(month+" "+year);
+        }
+    }
+
+    private int[] dateToCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH); // month start at 0 not 1
+        int year = calendar.get(Calendar.YEAR);
+        return new int[]{day, month, year};
+    }
+
+    public String Th_Months(int month, boolean full){
+        String[] th_months_short = new String[] {
+                "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."
+        };
+        String[] th_months_long = new String[]{
+                "มกราคม",
+                "กุมภาพันธ์",
+                "มีนาคม",
+                "เมษายน",
+                "พฤษภาคม",
+                "มิถุนายน",
+                "กรกฎาคม",
+                "สิงหาคม",
+                "กันยายน",
+                "ตุลาคม",
+                "พฤศจิกายน",
+                "ธันวาคม"
+        };
+        if(full == true){
+            return th_months_long[month];
+        }else{
+            return th_months_short[month];
+        }
     }
 
 }

@@ -28,6 +28,9 @@ public class Records extends Model {
     @Column(name = "data_created", index = true)
     private Date data_recorded;
 
+    @Column(name = "data_updated", index = true)
+    private Date data_updated;
+
     @Column(name = "shortnote")
     private String shortnote;
 
@@ -65,6 +68,14 @@ public class Records extends Model {
 
     public void setData_recorded(Date data_recorded) {
         this.data_recorded = data_recorded;
+    }
+
+    public Date getData_updated() {
+        return data_updated;
+    }
+
+    public void setData_updated(Date data_updated) {
+        this.data_updated = data_updated;
     }
 
     public String getShortnote() {
@@ -118,18 +129,45 @@ public class Records extends Model {
                 .exists();
     }
 
-//    public static ArrayList<String> getCustom(String field_name, Category category){
+    public static boolean check_updated(long date) {
+        return new Select()
+                .from(Records.class)
+                .where("data_updated = ?", date)
+                .exists();
+    }
+
+    public static List<Records> getSpecificRecordsByType(int type) { // Get Records by specific category type
+        return new Select()
+                .from(Records.class)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
+                .where("Categories.cat_type = "+type+" AND data_amount > 0")
+                // We can use Multi where
+                //.where("Categories.cat_type = "+type)
+                //.where("data_amount > 0") //data_amount
+                .execute();
+
+    }
+
+    public static List<Records> getSpecificRecordsByItem(Category category) { // Get Records by specific category type
+        return new Select()
+                .from(Records.class)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
+                .where("Categories.cat_item = ?",category.getCat_item())
+                .execute();
+    }
+
+    //public static ArrayList<String> getCustom(String field_name, Category category){
+    //select * from Records INNER JOIN Categories ON(Records.category_id=Categories.Id) where Categories.cat_type=3;
     public static ArrayList<String> getCustom(String field_name, int type){
         ArrayList<String> arraylist = new ArrayList<String>();
-        // select * from Records INNER JOIN Categories ON(Records.category_id=Categories.Id) where Categories.cat_type=3;
         String resultRecords = new Select()
                 .from(Records.class)
                 .innerJoin(Category.class)
                 .on("Records.category_id = Categories.Id")
-//                .where("Categories.cat_type = "+category.getCat_type())
                 .where("Categories.cat_type = "+type)
                 .toSql();
-
         Cursor resultCursor = Cache.openDatabase().rawQuery(resultRecords, null);
         while(resultCursor.moveToNext()) {
             arraylist.add(resultCursor.getString(resultCursor.getColumnIndexOrThrow(field_name)));

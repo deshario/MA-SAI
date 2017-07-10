@@ -1,72 +1,114 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="3dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:background="@color/dark_gray">
+    android:background="@color/primary_bootstrap"
+    android:gravity="center_horizontal">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cvSingleUser"
+        android:id="@+id/card_view"
+        android:layout_marginTop="-3dp"
+        android:layout_marginBottom="-2dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/default_bootstrap">
+        android:layout_height="match_parent"
+        card_view:cardBackgroundColor="@color/dark_gray"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true">
 
-        <RelativeLayout
+
+        <LinearLayout
+            android:id="@+id/main_col"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/hd"/>
-
-            <TextView
-                android:id="@+id/itemname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="Product Name"
-                android:layout_toRightOf="@id/icon"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/amount"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="$100"
-                android:gravity="right"
-                android:layout_toRightOf="@id/itemname"
-                android:textColor="@color/black"/>
-
-
-            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                android:id="@+id/progress"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/itemname"
-                android:layout_toRightOf="@id/icon"
-                android:layout_marginTop="5dp"
-                app:rcBackgroundColor="@color/dark_gray"
-                app:rcBackgroundPadding="2dp"
-                app:rcMax="100"
-                app:rcProgress="90"
-                app:rcProgressColor="@color/primary_bootstrap"
-                app:rcRadius="20dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:background="@color/primary_deshario">
 
+                <LinearLayout
+                    android:id="@+id/topbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/icson5"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/refund"/>
 
-        </RelativeLayout>
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/dark_gray"
+                        android:layout_marginLeft="5dp"
+                        />
 
+                    <LinearLayout
+                        android:id="@+id/inner_top_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="5dp">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="หนี้สินทั้งหมด"
+                            android:textColor="@color/default_bootstrap"
+                            android:layout_marginLeft="5dp"
+                            android:textSize="18sp" />
 
+                        <TextView
+                            android:id="@+id/count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="items found"
+                            android:layout_marginTop="2dp"
+                            android:background="@drawable/rounded_textview"
+                            android:textColor="@color/primary_deshario"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+                    <!--// Add space for right align btn-->
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/refresh_btn"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:padding="1dp"
+                        android:background="?android:selectableItemBackground"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="-2dp"
+                android:background="@color/primary_bootstrap" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

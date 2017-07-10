@@ -1,6 +1,7 @@
 package com.deshario.agriculture.Fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,14 +10,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Cal_Date;
 import com.deshario.agriculture.Main_Tab;
+import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.Thaidate;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.vk.dev.android.ExpandableBottomTabBar;
@@ -77,7 +82,7 @@ public class Main_Frag extends Fragment {
         tabBarView.setOnTabClickedListener(new ExpandableBottomTabBar.OnTabClickedListener() {
             @Override
             public void onTabClicked(View view, int pos) {
-                //Toast.makeText(getActivity(),"Clicked on Tab "+pos, Toast.LENGTH_SHORT).show();
+                tabBarView.resetFocusOnAllTabs();
                 switch (pos){
                     case 0:
                         final Bundle chart_args = new Bundle();
@@ -98,7 +103,6 @@ public class Main_Frag extends Fragment {
                         break;
                     case  2:
                         final Bundle plan_args = new Bundle();
-                       // plan_args.putString(Planning1_Frag.UNIQUE_NAME, "planning_key");
                         plan_args.putString(Planning_Tab_Frag.UNIQUE_NAME, "planning_key");
                         dialogFragment = new FullScreenDialogFragment.Builder(getActivity())
                                 .setTitle("การวางแผน")
@@ -119,8 +123,13 @@ public class Main_Frag extends Fragment {
 
                         dialogFragment.show(getFragmentManager(), dialogTag);
                         break;
-                    case 4:
-                        //startActivity(new Intent(getActivity(),Cal_Date.class));
+                    case 4: // More Button
+                        break;
+                    case 5: // paydebt
+                        startActivity(new Intent(getActivity(),PayDebt.class));
+                        break;
+                    case 7: // about
+
                         break;
                     default:
                 }

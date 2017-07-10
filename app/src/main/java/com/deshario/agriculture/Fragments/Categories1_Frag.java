@@ -16,6 +16,7 @@ package com.deshario.agriculture.Fragments;
         import com.afollestad.materialdialogs.DialogAction;
         import com.afollestad.materialdialogs.MaterialDialog;
         import com.deshario.agriculture.Models.Category;
+        import com.deshario.agriculture.Models.Records;
         import com.deshario.agriculture.R;
         import com.deshario.agriculture.Adapters.GridListAdapter;
         import com.franmontiel.fullscreendialog.FullScreenDialogContent;
@@ -174,9 +175,15 @@ public class Categories1_Frag extends Fragment implements FullScreenDialogConten
 
     public void delete(long id){
         Category category = Category.load(Category.class, id);
-        category.delete();
-        resetdata();
-        Toast.makeText(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
+        List<Records> records = Records.getSpecificRecordsByItem(category);
+        int count = records.size();
+        if(count >= 1){
+            Toast.makeText(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
+        }else{
+            category.delete();
+            resetdata();
+            Toast.makeText(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static void resetdata(){

@@ -63,7 +63,7 @@ public class LineColumn extends Fragment {
         chartTop = (LineChartView) rootView.findViewById(R.id.chart_top);
 
         // Generate and set data for line chart
-        generateInitialLineData();
+         generateInitialLineData();
 
         // *** BOTTOM COLUMN CHART ***
 
@@ -131,10 +131,10 @@ public class LineColumn extends Fragment {
         List<AxisValue> axisValues = new ArrayList<AxisValue>();
         List<PointValue> values = new ArrayList<PointValue>();
         for (int i = 0; i < numValues; ++i) {
-            values.add(new PointValue(i, 0));
-//            axisValues.add(new AxisValue(i).setLabel(days[i]));
-            axisValues.add(new AxisValue(i).setLabel(""+(i+1)));
-            //System.out.println("Add Times : "+i);
+            //values.add(new PointValue(i, 0));
+            //axisValues.add(new AxisValue(i).setLabel(days[i]));
+            values.add(new PointValue(i,20));
+            axisValues.add(new AxisValue(i).setLabel(""+(i+1))); // Bottom Desc [day of month]
         }
 
         Line line = new Line(values);
@@ -168,11 +168,17 @@ public class LineColumn extends Fragment {
         // Modify data targets
         Line line = lineData.getLines().get(0);// For this example there is always only one line.
         line.setColor(color);
+        int datas[] = new int[100];
+        for(int i=0; i<line.getValues().size(); i++){
+            datas[i] = datas[i]+100;
+        }
+        int i=0;
         for (PointValue value : line.getValues()) {
+
             // Change target only for Y value.
             value.setTarget(value.getX(), (float) Math.random() * 500); // Data
-            //System.out.println(""+(float) Math.random() * 500);
-            //value.setTarget(value.getX(), 243f); // Data
+//            value.setTarget(value.getX(), datas[i]); // Data
+            i++;
         }
 
         // Start new data animation with 300ms duration;

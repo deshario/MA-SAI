@@ -161,7 +161,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/default_bootstrap"
                         android:id="@+id/savedata"
-                        android:background="@color/primary_bootstrap"
+                        android:background="@color/primary_deshario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="บันทึกข้อมูล" />

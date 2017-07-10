@@ -1,0 +1,456 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/primary_deshario"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_marginTop="-3dp"
+        android:layout_marginBottom="-2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@color/default_bootstrap"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:id="@+id/topbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/date1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="08"
+                    android:gravity="center"
+                    android:textSize="30sp"
+                    android:padding="8dp"/>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/dark_gray"
+                    android:layout_marginLeft="-5dp"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/inner_top_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="5dp">
+
+                    <TextView
+                        android:id="@+id/date2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="มกราคม 2016"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="shortnote"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/rounded_textview"
+                        android:textColor="@color/primary_deshario"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+                <!--// Add space for right align btn-->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                />
+
+                <ImageButton
+                    android:id="@+id/refresh_btn"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:padding="1dp"
+                    android:src="@drawable/refresh"
+                    android:background="?android:selectableItemBackground"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/dark_gray" />
+
+            <ScrollView
+                android:id="@+id/scroller"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:scrollbarThumbVertical="@android:color/transparent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/col1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/icon1"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/income"/>
+
+                        <TextView
+                            android:id="@+id/item1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="Product Name"
+                            android:layout_toRightOf="@id/icon1"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/amount1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="$100"
+                            android:gravity="right"
+                            android:layout_toRightOf="@id/item1"
+                            android:textColor="@color/black"/>
+
+                        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                            android:id="@+id/desc1"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_below="@id/item1"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/icon1"
+                            app:rcBackgroundColor="@color/dark_gray"
+                            app:rcBackgroundPadding="2dp"
+                            app:rcMax="100"
+                            app:rcProgress="50"
+                            app:rcProgressColor="@color/custom_text_inactive"
+                            app:rcRadius="20dp" />
+
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/desc1"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="20dp"-->
+                            <!--android:layout_marginBottom="10dp"-->
+                            <!--android:layout_below="@id/item1"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:textSize="18sp"-->
+                            <!--android:text="description"-->
+                            <!--android:gravity="right"-->
+                            <!--android:layout_toRightOf="@id/icon1"-->
+                            <!--android:textColor="@color/black"/>-->
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="-5dp"
+                        android:background="@color/dark_gray" />
+
+                    <RelativeLayout
+                        android:id="@+id/col2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/icon2"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/decrease"/>
+
+                        <TextView
+                            android:id="@+id/item2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="Product Name"
+                            android:layout_toRightOf="@id/icon2"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/amount2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/item2"
+                            android:gravity="right"
+                            android:text="$100"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                            android:id="@+id/desc2"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_below="@id/item2"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/icon2"
+                            app:rcBackgroundColor="@color/dark_gray"
+                            app:rcBackgroundPadding="2dp"
+                            app:rcMax="100"
+                            app:rcProgress="50"
+                            app:rcProgressColor="@color/custom_text_inactive"
+                            app:rcRadius="20dp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/dark_gray"/>
+
+                    <RelativeLayout
+                        android:id="@+id/col3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/icon3"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/coins"/>
+
+                        <TextView
+                            android:id="@+id/item3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="Product Name"
+                            android:layout_toRightOf="@id/icon3"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/amount3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="$100"
+                            android:gravity="right"
+                            android:layout_toRightOf="@id/item3"
+                            android:textColor="@color/black"/>
+
+                        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                            android:id="@+id/desc3"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_below="@id/item3"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/icon3"
+                            app:rcBackgroundColor="@color/dark_gray"
+                            app:rcBackgroundPadding="2dp"
+                            app:rcMax="100"
+                            app:rcProgress="50"
+                            app:rcProgressColor="@color/custom_text_inactive"
+                            app:rcRadius="20dp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/dark_gray"/>
+
+                    <RelativeLayout
+                        android:id="@+id/col4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/icon4"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/debt"/>
+
+                        <TextView
+                            android:id="@+id/item4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="Product Name"
+                            android:layout_toRightOf="@id/icon4"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/amount4"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="$100"
+                            android:gravity="right"
+                            android:layout_toRightOf="@id/item4"
+                            android:textColor="@color/black"/>
+
+                        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                            android:id="@+id/desc4"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_below="@id/item4"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/icon4"
+                            app:rcBackgroundColor="@color/dark_gray"
+                            app:rcBackgroundPadding="2dp"
+                            app:rcMax="100"
+                            app:rcProgress="50"
+                            app:rcProgressColor="@color/custom_text_inactive"
+                            app:rcRadius="20dp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/dark_gray"/>
+
+                    <RelativeLayout
+                        android:id="@+id/col5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/icon5"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/refund"/>
+
+                        <TextView
+                            android:id="@+id/item5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="Product Name"
+                            android:layout_toRightOf="@id/icon5"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/amount5"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="$100"
+                            android:gravity="right"
+                            android:layout_toRightOf="@id/item5"
+                            android:textColor="@color/black"/>
+
+                        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                            android:id="@+id/desc5"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_below="@id/item5"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/icon5"
+                            app:rcBackgroundColor="@color/dark_gray"
+                            app:rcBackgroundPadding="2dp"
+                            app:rcMax="100"
+                            app:rcProgress="50"
+                            app:rcProgressColor="@color/custom_text_inactive"
+                            app:rcRadius="20dp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/dark_gray" />
+
+                    <RelativeLayout
+                        android:id="@+id/col6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/icon6"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/wallet"/>
+
+                        <TextView
+                            android:id="@+id/item6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="Product Name"
+                            android:layout_toRightOf="@id/icon6"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/amount6"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="$100"
+                            android:gravity="right"
+                            android:layout_toRightOf="@id/item6"
+                            android:textColor="@color/black"/>
+
+                        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                            android:id="@+id/desc6"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_below="@id/item6"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/icon6"
+                            app:rcBackgroundColor="@color/dark_gray"
+                            app:rcBackgroundPadding="2dp"
+                            app:rcMax="100"
+                            app:rcProgress="50"
+                            app:rcProgressColor="@color/custom_text_inactive"
+                            app:rcRadius="20dp" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
