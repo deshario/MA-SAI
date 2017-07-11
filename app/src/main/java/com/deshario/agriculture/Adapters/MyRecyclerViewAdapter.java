@@ -98,13 +98,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         public void onItemClick(int position, View v);
     }
 
-    public String getThaiDate(Date date){
-        String thai_date = null;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        DateFormat thai1 = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("TH"));
-        thai_date = thai1.format(calendar.getTime());
+    public String getThaiDate(String date){
+        String thai_date = date;
+        String[] output = thai_date.split("-");
+        int _day = Integer.valueOf(output[2]);
+        int _month = Integer.valueOf(output[1]);
+        int _year = Integer.valueOf(output[0]);
+        String month_ = Th_Months(_month-1);
+        int year_ = Th_Year(_year);
+        thai_date = _day+" "+month_+" "+year_;
         return thai_date;
     }
 
@@ -179,6 +181,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         dialog.dismiss();
                     }
                 }).show();
+    }
+
+    public String Th_Months(int month){
+        String[] th_months = new String[] {
+                "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."
+        };
+        return th_months[month];
+    }
+
+    public int Th_Year(int en_year){
+        return en_year+543;
     }
 
 }

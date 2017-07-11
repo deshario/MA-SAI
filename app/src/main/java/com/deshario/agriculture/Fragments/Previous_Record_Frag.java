@@ -37,6 +37,7 @@ public class Previous_Record_Frag extends Fragment {
     private SimpleAdapter phone_adapter;
     private List<HashMap<String, String>> aList;
     private static List<Records> records;
+    String thb = "\u0E3F";
 
     public Previous_Record_Frag() {
         setRetainInstance(true);
@@ -46,7 +47,7 @@ public class Previous_Record_Frag extends Fragment {
     TextView income, expense, profit, debt, pay_debt, total_remain;
     TextView income_val, expense_val, profit_val, debt_val, pay_debt_val, total_remain_val;
     RoundCornerProgressBar prog_income,prog_expense,prog_profit,prog_debt,prog_paydebt,prog_remain;
-    ImageButton btn_refresh;
+    static ImageButton btn_refresh;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class Previous_Record_Frag extends Fragment {
         work();
         return view;
     }
+
 
     public static String[] calculation(Records record){
         ArrayList<String> amounts = new ArrayList<String>();
@@ -130,7 +132,8 @@ public class Previous_Record_Frag extends Fragment {
 
         String note = record.getShortnote();
         //String date = today.format(record.getData_recorded());
-        Date date = record.getData_created();
+        String date = record.getData_created();
+       // Date date = record.getData_created();
 
         // System.out.println("Date : "+remain);
 
@@ -183,7 +186,7 @@ public class Previous_Record_Frag extends Fragment {
     }
 
     public void work(){
-        String thb = "\u0E3F";
+
 
         income.setText(all_items[0]);
         expense.setText(all_items[1]);
@@ -193,51 +196,66 @@ public class Previous_Record_Frag extends Fragment {
         total_remain.setText(all_items[5]);
 
         Records record = Records.getLatestRecordByDate();
-        Date latest_date = record.getData_created();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(latest_date);
-        long latestdate = calendar.getTimeInMillis();
 
-        boolean records_exists  = Records.previous_records_exists(latestdate);
+        boolean records_exists  = Records.records_exists();
         System.out.println("Record Exists : "+records_exists);
-        if(records_exists == false){ // No record
-            String dates[] = getDefault_date();
-            String day = dates[0];
-            String month = dates[1];
-            String year = dates[2];
-            income_val.setText(thb+"0.00");
-            expense_val.setText(thb+"0.00");
-            profit_val.setText(thb+"0.00");
-            debt_val.setText(thb+"0.00");
-            pay_debt_val.setText(thb+"0.00");
-            total_remain_val.setText(thb+"0.00");
-            date1.setText(day);
-            date2.setText(month+" "+year);
-            prog_income.setProgress(0);
-            prog_expense.setProgress(0);
-            prog_profit.setProgress(0);
-            prog_debt.setProgress(0);
-            prog_paydebt.setProgress(0);
-            prog_remain.setProgress(0);
+        if(records_exists == true){
+            String latest_date = record.getData_created();
+            boolean previous_records_exists  = Records.previous_records_exists(latest_date);
+            if(previous_records_exists == false){
+                NO_DATA_EXISTS(); // There is only 1 record || previous was not exists
+            }else{
+                Records previous_record = Records.getPreviousRecord(latest_date);
+                String datas [] = calculation(previous_record);
+
+                String date_ = datas[7];
+                String dates[] = getThaiDate(date_);
+                String day = dates[0];
+                String month = dates[1];
+                String year = dates[2];
+
+                income_val.setText(thb+datas[0]);
+                expense_val.setText(thb+datas[1]);
+                profit_val.setText(thb+datas[2]);
+                debt_val.setText(thb+datas[3]);
+                pay_debt_val.setText(thb+datas[4]);
+                total_remain_val.setText(thb+datas[5]);
+                note_txt.setText("บันทึกย่อ : "+datas[6]);
+                date1.setText(day);
+                date2.setText(month+" "+year);
+
+                prog_income.setProgress(50);
+                prog_expense.setProgress(50);
+                prog_profit.setProgress(50);
+                prog_debt.setProgress(50);
+                prog_paydebt.setProgress(50);
+                prog_remain.setProgress(50);
+
+            }
         }else{
-            Records previous_record = Records.getPreviousRecord(latestdate);
-            String datas [] = calculation(previous_record);
-            String date_ = datas[7];
-            Date date = new Date(date_);
-            String dates[] = getThaiDate(date);
-            String day = dates[0];
-            String month = dates[1];
-            String year = dates[2];
-            income_val.setText(thb+datas[0]);
-            expense_val.setText(thb+datas[1]);
-            profit_val.setText(thb+datas[2]);
-            debt_val.setText(thb+datas[3]);
-            pay_debt_val.setText(thb+datas[4]);
-            total_remain_val.setText(thb+datas[5]);
-            note_txt.setText("บันทึกย่อ : "+datas[6]);
-            date1.setText(day);
-            date2.setText(month+" "+year);
+            NO_DATA_EXISTS();
         }
+    }
+
+    private void NO_DATA_EXISTS(){
+        String dates[] = getDefault_date();
+        String day = dates[0];
+        String month = dates[1];
+        String year = dates[2];
+        income_val.setText(thb+"0.00");
+        expense_val.setText(thb+"0.00");
+        profit_val.setText(thb+"0.00");
+        debt_val.setText(thb+"0.00");
+        pay_debt_val.setText(thb+"0.00");
+        total_remain_val.setText(thb+"0.00");
+        date1.setText(day);
+        date2.setText(month+" "+year);
+        prog_income.setProgress(0);
+        prog_expense.setProgress(0);
+        prog_profit.setProgress(0);
+        prog_debt.setProgress(0);
+        prog_paydebt.setProgress(0);
+        prog_remain.setProgress(0);
     }
 
     private String[] getDefault_date(){
@@ -265,29 +283,20 @@ public class Previous_Record_Frag extends Fragment {
         };
     }
 
-    public String[] getThaiDate(Date date){ //Sat Jul 29 00:00:00 GMT+07:00 2017
-        String full_thai_date = null;
-        String DATE_FORMAT_NOW = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(date);
-        String[] output = stringDate.split("-");
-        //System.out.println("transformed date : "+stringDate);
-
-        int _day = Integer.valueOf(output[0]);
+    public String[] getThaiDate(String date){
+        String thai_date = date;
+        String[] output = thai_date.split("-");
+        int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
-        int _year = Integer.valueOf(output[2]);
-
-        int day_ = _day;
+        int _year = Integer.valueOf(output[0]);
         String month_ = Th_Months(_month-1,true);
         int year_ = Th_Year(_year);
-
-        full_thai_date = day_+" "+month_+" "+year_;
-
+        thai_date = _day+" "+month_+" "+year_;
         return new String[]{
-                String.valueOf(day_),
+                String.valueOf(_day),
                 month_,
                 String.valueOf(year_),
-                full_thai_date
+                thai_date
         };
     }
 

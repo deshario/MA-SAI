@@ -45,7 +45,7 @@ public class Latest_Record_Frag extends Fragment {
     TextView date1,date2,note_txt;
     TextView income, expense, profit, debt, pay_debt, total_remain;
     TextView income_val, expense_val, profit_val, debt_val, pay_debt_val, total_remain_val;
-    ImageButton btn_refresh;
+    static ImageButton btn_refresh;
     RoundCornerProgressBar prog_income,prog_expense,prog_profit,prog_debt,prog_paydebt,prog_remain;
 
     @Override
@@ -130,7 +130,8 @@ public class Latest_Record_Frag extends Fragment {
 
         String note = record.getShortnote();
         //String date = today.format(record.getData_recorded());
-        Date date = record.getData_created();
+//        Date date = record.getData_created();
+        String date = record.getData_created();
 
        // System.out.println("Date : "+remain);
 
@@ -224,12 +225,13 @@ public class Latest_Record_Frag extends Fragment {
         }else{
             Records temp = Records.getLatestRecordByDate();
             String datas [] = calculation(temp);
+
             String date_ = datas[7];
-            Date date = new Date(date_);
-            String dates[] = getThaiDate(date);
+            String dates[] = getThaiDate(date_);
             String day = dates[0];
             String month = dates[1];
             String year = dates[2];
+
             income_val.setText(thb+datas[0]);
             expense_val.setText(thb+datas[1]);
             profit_val.setText(thb+datas[2]);
@@ -267,29 +269,20 @@ public class Latest_Record_Frag extends Fragment {
         };
     }
 
-    public String[] getThaiDate(Date date){ //Sat Jul 29 00:00:00 GMT+07:00 2017
-        String full_thai_date = null;
-        String DATE_FORMAT_NOW = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(date);
-        String[] output = stringDate.split("-");
-        //System.out.println("transformed date : "+stringDate);
-
-        int _day = Integer.valueOf(output[0]);
+    public String[] getThaiDate(String date){
+        String thai_date = date;
+        String[] output = thai_date.split("-");
+        int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
-        int _year = Integer.valueOf(output[2]);
-
-        int day_ = _day;
+        int _year = Integer.valueOf(output[0]);
         String month_ = Th_Months(_month-1,true);
         int year_ = Th_Year(_year);
-
-        full_thai_date = day_+" "+month_+" "+year_;
-
+        thai_date = _day+" "+month_+" "+year_;
         return new String[]{
-                String.valueOf(day_),
+                String.valueOf(_day),
                 month_,
                 String.valueOf(year_),
-                full_thai_date
+                thai_date
         };
     }
 

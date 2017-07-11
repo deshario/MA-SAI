@@ -25,11 +25,11 @@ public class Records extends Model {
     @Column(name = "category_id", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     public Category category;
 
-    @Column(name = "data_created", index = true)
-    private Date data_created;
+    @Column(name = "data_created")
+    private String data_created;
 
-    @Column(name = "data_updated", index = true)
-    private Date data_updated;
+    @Column(name = "data_updated")
+    private String data_updated;
 
     @Column(name = "shortnote")
     private String shortnote;
@@ -38,7 +38,7 @@ public class Records extends Model {
         super();
     }
 
-    public Records(double data_amount, Category category, Date data_created, Date data_updated, String shortnote) {
+    public Records(double data_amount, Category category, String data_created, String data_updated, String shortnote) {
         super();
         this.data_amount = data_amount;
         this.category = category;
@@ -63,19 +63,19 @@ public class Records extends Model {
         this.category = category;
     }
 
-    public Date getData_created() {
+    public String getData_created() {
         return data_created;
     }
 
-    public void setData_created(Date data_created) {
+    public void setData_created(String data_created) {
         this.data_created = data_created;
     }
 
-    public Date getData_updated() {
+    public String getData_updated() {
         return data_updated;
     }
 
-    public void setData_updated(Date data_updated) {
+    public void setData_updated(String data_updated) {
         this.data_updated = data_updated;
     }
 
@@ -125,20 +125,23 @@ public class Records extends Model {
         return record;
     }
 
-    public static boolean previous_records_exists(long latestdate) {
+    public static boolean previous_records_exists(String latestdate) {
+        //select * from Records where datetime("data_created") < datetime("2017-08-11") order by data_created desc limit 1;
         return new Select()
                 .from(Records.class)
-                .where("data_created < "+latestdate)
+                //.where("datetime('data_created') < datetime('?')",latestdate)
+                .where("data_created < ?",latestdate)
                 .orderBy("data_created DESC")
                 .limit(1)
                 .exists();
     }
 
-    public static Records getPreviousRecord(long latestdate){
+    public static Records getPreviousRecord(String latestdate){
         //select * from Records where data_created < 1499792400000 order by data_created desc limit 1;
         Records record = new Select()
                 .from(Records.class)
-                .where("data_created < "+latestdate)
+                //.where("datetime('data_created') < ?",latestdate)
+                .where("data_created < ?",latestdate)
                 .orderBy("data_created DESC")
                 .limit(1)
                 .executeSingle();
@@ -155,10 +158,10 @@ public class Records extends Model {
         return arraylist;
     }
 
-    public static boolean check_exists(long date) {
+    public static boolean check_exists(Records records) {
         return new Select()
                 .from(Records.class)
-                .where("data_created = ?", date)
+                .where("Id = ?", records.getId())
                 .exists();
     }
 

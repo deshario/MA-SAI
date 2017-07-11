@@ -159,21 +159,25 @@ public class Main_Frag extends Fragment {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (first && positionOffset == 0 && positionOffsetPixels == 0){
-                    onPageSelected(0);
-                    first = false;
-                }
+                //if (first && positionOffset == 0 && positionOffsetPixels == 0){
+                 //   onPageSelected(1); // default must be 0 || lefttab is 0 so...
+                 //   first = false;
+                //}
             }
 
             @Override
             public void onPageSelected(int position) {
-               int pageno = position;
-                if(position == 0){
-
-                }
-
-                if(position == 1){
-                    //Latest_Record_Frag.refresh();
+                switch (position){
+                    case 0:
+                        Previous_Record_Frag.btn_refresh.performClick();
+                        break;
+                    case 1:
+                        Latest_Record_Frag.btn_refresh.performClick();
+                        break;
+                    case 2:
+                        System.out.println("Page2");
+                        break;
+                    default:
                 }
             }
 

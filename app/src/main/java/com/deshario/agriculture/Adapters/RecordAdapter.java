@@ -212,7 +212,7 @@ public class RecordAdapter extends BaseAdapter {
         Records records = Records.load(Records.class,record.getId());
         records.setData_amount(amount);
         record.setShortnote(note);
-        record.setData_updated(today);
+       // record.setData_updated(today);
         records.save();
 
         notifyDataSetChanged();
@@ -262,26 +262,15 @@ public class RecordAdapter extends BaseAdapter {
         Toast.makeText(context,"ลบรายการสำเร็จ",Toast.LENGTH_SHORT).show();
     }
 
-    public String getThaiDate(Date date){
-        //System.out.println("transform this : "+date); //Sat Jul 29 00:00:00 GMT+07:00 2017
-        String thai_date = null;
-
-        String DATE_FORMAT_NOW = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(date);
-        String[] output = stringDate.split("-");
-        //System.out.println("transformed date : "+stringDate);
-
-        int _day = Integer.valueOf(output[0]);
+    public String getThaiDate(String date){
+        String thai_date = date;
+        String[] output = thai_date.split("-");
+        int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
-        int _year = Integer.valueOf(output[2]);
-
-        int day_ = _day;
+        int _year = Integer.valueOf(output[0]);
         String month_ = Th_Months(_month-1);
         int year_ = Th_Year(_year);
-
-        thai_date = day_+" "+month_+" "+year_;
-
+        thai_date = _day+" "+month_+" "+year_;
         return thai_date;
     }
 
