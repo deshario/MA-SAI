@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -18,7 +17,6 @@ import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -132,7 +130,7 @@ public class Latest_Record_Frag extends Fragment {
 
         String note = record.getShortnote();
         //String date = today.format(record.getData_recorded());
-        Date date = record.getData_recorded();
+        Date date = record.getData_created();
 
        // System.out.println("Date : "+remain);
 
@@ -224,7 +222,7 @@ public class Latest_Record_Frag extends Fragment {
             prog_paydebt.setProgress(0);
             prog_remain.setProgress(0);
         }else{
-            Records temp = Records.getLatestSingleRecordByDate();
+            Records temp = Records.getLatestRecordByDate();
             String datas [] = calculation(temp);
             String date_ = datas[7];
             Date date = new Date(date_);

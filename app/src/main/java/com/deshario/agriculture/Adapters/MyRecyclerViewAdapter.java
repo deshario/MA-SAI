@@ -82,7 +82,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.icon_debt.setImageResource(R.drawable.refund);
         holder.amount.setText(thb+mDataset.get(position).getData_amount());
         holder.label.setText(mDataset.get(position).getCategory().getCat_item());
-        holder.dateTime.setText(getThaiDate(mDataset.get(position).getData_recorded()));
+        holder.dateTime.setText(getThaiDate(mDataset.get(position).getData_created()));
     }
 
     public Records getItem(int position) {
@@ -144,7 +144,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         item_name.setText(record.getCategory().getCat_item());
         item_amount.setText("จำนวนเงิน : "+thb+record.getData_amount());
-        item_date.setText("วันที่กู้ : "+getThaiDate(record.getData_recorded()));
+        item_date.setText("วันที่กู้ : "+getThaiDate(record.getData_created()));
 
         amount2pay = (EditText) debt_dialog.getCustomView().findViewById(R.id.pay_debt);
         amount2pay.setFilters(new InputFilter[]{new CustomRangeInputFilter(1, record.getData_amount())});

@@ -47,10 +47,11 @@ public class RecordAdapter extends BaseAdapter {
     private TextView name_category;
     private FullScreenDialogFragment dialogFragment;
     private String str_amount=null, str_note=null;
+    int data_position;
 
     public RecordAdapter(Context context, List<Records> customizedListView) {
         this.context = context;
-        layoutinflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutinflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listStorage = customizedListView;
     }
 
@@ -76,7 +77,7 @@ public class RecordAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final View row;
         ViewHolder listViewHolder;
         if(convertView == null){
@@ -93,15 +94,15 @@ public class RecordAdapter extends BaseAdapter {
         }
 
         row.setId(position);
-
         listViewHolder.img.setImageResource(R.drawable.refund);
-        listViewHolder.date.setText(getThaiDate(listStorage.get(position).getData_recorded()));
+        listViewHolder.date.setText(getThaiDate(listStorage.get(position).getData_created()));
         listViewHolder.note.setText(listStorage.get(position).getShortnote());
 
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Records record = getItem(row.getId());
+                data_position = row.getId();
                 view_data(record);
             }
         });
@@ -141,7 +142,7 @@ public class RecordAdapter extends BaseAdapter {
 
     public void do_view(Records record){
         String amount = "จำนวนเงิน : "+thb+record.getData_amount();
-        String rec_date = "วันที่ : "+getThaiDate(record.getData_recorded());
+        String rec_date = "วันที่ : "+getThaiDate(record.getData_created());
         String note = "บันทึกย่อ : "+record.getShortnote();
         String category_topic = "หมวดหมู่ : "+record.getCategory().getCat_topic();
         String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
@@ -227,38 +228,38 @@ public class RecordAdapter extends BaseAdapter {
         }
     }
 
-
-    public void do_delete(Records record){
-        Toast.makeText(context,"do_delete : "+record.getShortnote(),Toast.LENGTH_SHORT).show();
-        ColorDialog dialog = new ColorDialog(context);
-        dialog.setTitle("ยืนยันการลบ");
-        dialog.setContentText("จำนวนเงิน : "+record.getData_amount()+"\nบันทึกย่อ : "+record.getShortnote()+
-        "\nหมวดหมู่ : "+record.getCategory().getCat_item());
-        //dialog.setContentImage(context.getResources().getDrawable(R.drawable.hd));
-        dialog.setPositiveListener("ลบ", new ColorDialog.OnPositiveListener() {
-            @Override
-            public void onClick(ColorDialog dialog) {
-                Toast.makeText(context, dialog.getPositiveText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        })
-                .setNegativeListener("ยกเลิก", new ColorDialog.OnNegativeListener() {
+    public void do_delete(final Records record){
+        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
+        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
+        boolean wrapInScrollView = true;
+        MaterialDialog delete_dialog = new MaterialDialog.Builder(context)
+                .customView(R.layout.delete_information,wrapInScrollView)
+                .positiveText("ลบ")
+                .negativeText("ยกเลิก")
+                .backgroundColorRes(R.color.default_bootstrap)
+                .positiveColorRes(R.color.danger_bootstrap)
+                .negativeColorRes(R.color.primary_bootstrap)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(ColorDialog dialog) {
-                        Toast.makeText(context, dialog.getNegativeText().toString(), Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which){
+                        verify_delete(record);
                     }
-                }).show();
-//        MaterialDialog dialog = new MaterialDialog.Builder(context)
-//                .title("รายการ : "+record.getShortnote())
-//                .positiveText("ลบ")
-//                .negativeText("ยกเลิก")
-//                .onPositive(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        Toast.makeText(context,"dialog positive",Toast.LENGTH_LONG).show();
-//                    }
-//                })
-//                .show();
+                })
+                .build();
+        txt_amount = (TextView)delete_dialog.getCustomView().findViewById(R.id.data_amount);
+        txt_catitem = (TextView)delete_dialog.getCustomView().findViewById(R.id.category);
+        txt_amount.setText(amount);
+        txt_catitem.setText(category_item);
+        delete_dialog.show();
+
+    }
+
+    public void verify_delete(Records record){
+        Records records = Records.load(Records.class, record.getId());
+        records.delete();
+        listStorage.remove(data_position);
+        notifyDataSetChanged();
+        Toast.makeText(context,"ลบรายการสำเร็จ",Toast.LENGTH_SHORT).show();
     }
 
     public String getThaiDate(Date date){
@@ -294,8 +295,5 @@ public class RecordAdapter extends BaseAdapter {
     public int Th_Year(int en_year){
         return en_year+543;
     }
-
-
-
 
 }

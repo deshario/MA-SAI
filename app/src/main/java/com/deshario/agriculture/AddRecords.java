@@ -166,7 +166,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                     Records records = new Records();
                     records.setCategory(category);
                     records.setData_amount(amount);
-                    records.setData_recorded(selected_date);
+                    records.setData_created(selected_date);
                     records.setShortnote(shortnote);
                     records.save();
 
@@ -186,6 +186,27 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
             }
         });
 
+        check();
+
+    }
+
+    public void check(){
+//        Records record = Records.getLatestRecordByDate();
+//        System.out.println("Latest Date : "+getThaiDate(record.getData_created()));
+//        System.out.println("Latest Shortnote : "+record.getShortnote());
+//
+//        System.out.println("============ Previous ======================");
+//
+//        Date latest_date = record.getData_created();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(latest_date);
+//        long latestdate = calendar.getTimeInMillis();
+//
+//
+//        Records previous = Records.getPreviousRecord(latestdate);
+//
+//        System.out.println("previous Date : "+getThaiDate(previous.getData_created()));
+//        System.out.println("previous Shortnote : "+previous.getShortnote());
     }
 
     public void initializtion(){
@@ -329,11 +350,19 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
 
     private String default_date(){
         String thai_date = null;
-        date_4insert = Calendar.getInstance().getTime();
+        Date temp_date = Calendar.getInstance().getTime();
         String DATE_FORMAT_NOW = "dd-MM-yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(date_4insert);
+        String stringDate = sdf.format(temp_date);
+
         String[] output = stringDate.split("-");
+
+        try{
+            date_4insert = sdf.parse(stringDate);
+        }catch(Exception e){
+            System.out.println("Error : "+e);
+            Toast.makeText(AddRecords.this,"Error : "+e,Toast.LENGTH_SHORT).show();
+        }
 
         int _day = Integer.valueOf(output[0]);
         int _month = Integer.valueOf(output[1]);
@@ -343,6 +372,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         String month_ = Th_Months(_month-1);
         int year_ = Th_Year(_year);
         thai_date = day_+" "+month_+" "+year_;
+        System.out.println("Default Date ok : "+date_4insert);
 
         return thai_date;
     }
@@ -360,13 +390,39 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
             int sel_year = Th_Year(year);
             String total_date = sel_day+" "+sel_month+" "+sel_year;
 
-            System.out.println("Date : "+date_4insert);
+            System.out.println("Date set : "+date_4insert);
             et_date.setText(" "+total_date);
+
+            System.out.println("Milliseconds set : "+date_4insert.getHours()+"\nmin : "+date_4insert.getMinutes()+"\nseconds : "+date_4insert.getSeconds());
+            System.out.println("currentTimeMillis set : "+System.currentTimeMillis());
 
         }catch(ParseException e){
             System.out.println("Error : "+e);
             Toast.makeText(AddRecords.this,"ความผิดพลาด : "+e,Toast.LENGTH_LONG).show();
         }
+    }
+
+    public String getThaiDate(Date date){
+        //System.out.println("transform this : "+date); //Sat Jul 29 00:00:00 GMT+07:00 2017
+        String thai_date = null;
+
+        String DATE_FORMAT_NOW = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String stringDate = sdf.format(date);
+        String[] output = stringDate.split("-");
+        //System.out.println("transformed date : "+stringDate);
+
+        int _day = Integer.valueOf(output[0]);
+        int _month = Integer.valueOf(output[1]);
+        int _year = Integer.valueOf(output[2]);
+
+        int day_ = _day;
+        String month_ = Th_Months(_month-1);
+        int year_ = Th_Year(_year);
+
+        thai_date = day_+" "+month_+" "+year_;
+
+        return thai_date;
     }
 
     public String Th_Months(int month){

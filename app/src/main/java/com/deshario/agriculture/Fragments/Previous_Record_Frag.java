@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -18,7 +17,6 @@ import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -132,7 +130,7 @@ public class Previous_Record_Frag extends Fragment {
 
         String note = record.getShortnote();
         //String date = today.format(record.getData_recorded());
-        Date date = record.getData_recorded();
+        Date date = record.getData_created();
 
         // System.out.println("Date : "+remain);
 
@@ -194,7 +192,13 @@ public class Previous_Record_Frag extends Fragment {
         pay_debt.setText(all_items[4]);
         total_remain.setText(all_items[5]);
 
-        boolean records_exists  = Records.records_exists();
+        Records record = Records.getLatestRecordByDate();
+        Date latest_date = record.getData_created();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(latest_date);
+        long latestdate = calendar.getTimeInMillis();
+
+        boolean records_exists  = Records.previous_records_exists(latestdate);
         System.out.println("Record Exists : "+records_exists);
         if(records_exists == false){ // No record
             String dates[] = getDefault_date();
@@ -216,8 +220,8 @@ public class Previous_Record_Frag extends Fragment {
             prog_paydebt.setProgress(0);
             prog_remain.setProgress(0);
         }else{
-            Records temp = Records.getLatestSingleRecordById();
-            String datas [] = calculation(temp);
+            Records previous_record = Records.getPreviousRecord(latestdate);
+            String datas [] = calculation(previous_record);
             String date_ = datas[7];
             Date date = new Date(date_);
             String dates[] = getThaiDate(date);

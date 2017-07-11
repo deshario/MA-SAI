@@ -58,7 +58,6 @@ public class AllRecords extends Fragment implements FullScreenDialogContent {
         return view;
     }
 
-
     @Override
     public void onDialogCreated(FullScreenDialogController dialogController) {
 

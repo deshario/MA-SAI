@@ -26,7 +26,7 @@ public class Records extends Model {
     public Category category;
 
     @Column(name = "data_created", index = true)
-    private Date data_recorded;
+    private Date data_created;
 
     @Column(name = "data_updated", index = true)
     private Date data_updated;
@@ -38,11 +38,11 @@ public class Records extends Model {
         super();
     }
 
-    public Records(double data_amount, Category category, Date data_recorded, Date data_updated, String shortnote) {
+    public Records(double data_amount, Category category, Date data_created, Date data_updated, String shortnote) {
         super();
         this.data_amount = data_amount;
         this.category = category;
-        this.data_recorded = data_recorded;
+        this.data_created = data_created;
         this.data_updated = data_updated;
         this.shortnote = shortnote;
     }
@@ -63,12 +63,12 @@ public class Records extends Model {
         this.category = category;
     }
 
-    public Date getData_recorded() {
-        return data_recorded;
+    public Date getData_created() {
+        return data_created;
     }
 
-    public void setData_recorded(Date data_recorded) {
-        this.data_recorded = data_recorded;
+    public void setData_created(Date data_created) {
+        this.data_created = data_created;
     }
 
     public Date getData_updated() {
@@ -109,7 +109,7 @@ public class Records extends Model {
         return record;
     }
 
-    public static Records getLatestSingleRecordById() {
+    public static Records getLatestRecordById() {
         Records record = new Select()
                 .from(Records.class)
                 .orderBy("Id DESC")
@@ -117,10 +117,30 @@ public class Records extends Model {
         return record;
     }
 
-    public static Records getLatestSingleRecordByDate() {
+    public static Records getLatestRecordByDate() {
         Records record = new Select()
                 .from(Records.class)
                 .orderBy("data_created DESC")
+                .executeSingle();
+        return record;
+    }
+
+    public static boolean previous_records_exists(long latestdate) {
+        return new Select()
+                .from(Records.class)
+                .where("data_created < "+latestdate)
+                .orderBy("data_created DESC")
+                .limit(1)
+                .exists();
+    }
+
+    public static Records getPreviousRecord(long latestdate){
+        //select * from Records where data_created < 1499792400000 order by data_created desc limit 1;
+        Records record = new Select()
+                .from(Records.class)
+                .where("data_created < "+latestdate)
+                .orderBy("data_created DESC")
+                .limit(1)
                 .executeSingle();
         return record;
     }
