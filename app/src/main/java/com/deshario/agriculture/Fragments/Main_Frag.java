@@ -43,9 +43,10 @@ public class Main_Frag extends Fragment {
     Context context;
 
     final int[] ICONS = new int[] {
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
+//            R.mipmap.ic_launcher,
+            R.drawable.left,
+            R.drawable.latest,
+            R.drawable.predict,
     };
 
 

@@ -7,6 +7,7 @@ import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,7 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import cn.refactor.lib.colordialog.PromptDialog;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.DataObjectHolder> {
     private Context context;
@@ -114,7 +114,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         boolean wrapInScrollView = true;
         MaterialDialog debt_dialog = new MaterialDialog.Builder(context)
                 .customView(R.layout.pay_debt,wrapInScrollView)
-                .positiveText("จ่าย")
+                .positiveText("ชำระ")
                 .negativeText("ยกเลิก")
                 .backgroundColorRes(R.color.default_bootstrap)
                 .positiveColorRes(R.color.primary_bootstrap)
@@ -151,6 +151,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         amount2pay = (EditText) debt_dialog.getCustomView().findViewById(R.id.pay_debt);
         amount2pay.setFilters(new InputFilter[]{new CustomRangeInputFilter(1, record.getData_amount())});
 
+        WindowManager.LayoutParams lp = debt_dialog.getWindow().getAttributes();
+        lp.dimAmount=0.5f;
+        debt_dialog.getWindow().setAttributes(lp);
+        debt_dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         debt_dialog.show();
     }
 
@@ -169,18 +173,25 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }else{
             String remain  = "คุณมียอดเงินที่ค้างชำระ "+thb+remain_debt;
             data = paid+"\n\n"+remain;
+
         }
-        new PromptDialog(context)
-                .setDialogType(PromptDialog.DIALOG_TYPE_SUCCESS)
-                .setAnimationEnable(true)
-                .setTitleText("แจ้งการชำระเงิน")
-                .setContentText(data)
-                .setPositiveListener("ตกลง", new PromptDialog.OnPositiveListener() {
+
+        MaterialDialog info_dialog = new MaterialDialog.Builder(context)
+                .customView(R.layout.debt_payed_inform,true)
+                .positiveText("ตกลง")
+                .backgroundColorRes(R.color.default_bootstrap)
+                .positiveColorRes(R.color.primary_bootstrap)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(PromptDialog dialog) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         dialog.dismiss();
                     }
-                }).show();
+                })
+                .build();
+        TextView inform = (TextView)info_dialog.getCustomView().findViewById(R.id.info_item);
+        inform.setText(data);
+        info_dialog.show();
+
     }
 
     public String Th_Months(int month){

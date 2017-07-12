@@ -27,14 +27,14 @@ public class IncomePlan extends Model {
     @Column(name = "income_x_area")
     private double income_x_area;
 
-    @Column(name = "income_created", index = true)
-    private Date income_created;
+    @Column(name = "income_created")
+    private String income_created;
 
     public IncomePlan() {
         super();
     }
 
-    public IncomePlan(double area, String item_name, double income, double income_x_area, Date income_created) {
+    public IncomePlan(double area, String item_name, double income, double income_x_area, String income_created) {
         super();
         this.area = area;
         this.item_name = item_name;
@@ -75,17 +75,21 @@ public class IncomePlan extends Model {
         this.income_x_area = income_x_area;
     }
 
-    public Date getIncome_created() {
+    public String getIncome_created() {
         return income_created;
     }
 
-    public void setIncome_created(Date income_created) {
+    public void setIncome_created(String income_created) {
         this.income_created = income_created;
     }
 
     /*
        || ======================= Database Functions ======================= ||
    */
+
+    public static List<IncomePlan> getAllIncomePlans() {
+        return new Select().from(IncomePlan.class).execute();
+    }
 
     public static boolean check_exists(long date) {
         return new Select()

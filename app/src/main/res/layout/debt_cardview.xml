@@ -62,7 +62,7 @@
                         android:scrollHorizontally="true"
                         android:text="itemname"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/date"

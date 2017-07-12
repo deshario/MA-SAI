@@ -26,8 +26,10 @@ import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
@@ -59,17 +61,12 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         final String dialogTag = "dialog";
         if (savedInstanceState != null) {
             dialogFragment = (FullScreenDialogFragment) getSupportFragmentManager().findFragmentByTag(dialogTag);
-            if (dialogFragment != null) {
-                //records_fulldialog.setOnConfirmListener(this);
-                //records_fulldialog.setOnDiscardListener(this);
-            }
+            if (dialogFragment != null) { }
         }
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("รายการใหม่");
-        //getSupportActionBar().setIcon(R.drawable.ic_arrow_back_white_24dp);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         myToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
         initializtion();
@@ -116,7 +113,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(AddRecords.this,Thaidate.class));
                 now = Calendar.getInstance();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
                         AddRecords.this,
@@ -127,10 +123,33 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 dpd.show(getFragmentManager(), "Datepickerdialog");
                 dpd.setCancelText("ยกเลิก");
                 dpd.setOkText("เลือก");
+
+                // Disable Specific Dates in Calendar
+                List<Records> allRecords = Records.getAllRecords();
+                Calendar calendar = null;
+                SimpleDateFormat sdf = new SimpleDateFormat(SQLITE_DATE_FORMAT);
+                List<Calendar> dates = new ArrayList<>();
+                Date date = null;
+
+                for(int i=0; i<allRecords.size(); i++){
+                    String used_date = allRecords.get(i).getData_created();
+                    //System.out.println("Used Date : "+date);
+                    try {
+                        date = sdf.parse(used_date);
+                        AddRecords obj = new AddRecords();
+                        calendar = obj.dateToCalendar(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    dates.add(calendar);
+                }
+
+                Calendar[] disabledDays1 = dates.toArray(new Calendar[dates.size()]);
+                dpd.setDisabledDays(disabledDays1);
+                // Disable Specific Dates in Calendar
+
             }
         });
-
-//        et_shortnote.setText(note());
 
         cls_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,13 +192,19 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
 //                    if(status == true){
                         cls_btn.performClick();
                         Toast.makeText(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-//                        onBackPressed();
+                        onBackPressed();
 //                    }
 
                 }
             }
         });
 
+    }
+
+    private Calendar dateToCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
     }
 
     public void initializtion(){
@@ -253,43 +278,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
             };
         }
         //
-    }
-
-    public String note(){
-        String nowdate = null;
-        String strCurrentDate= "2017-06-29";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-        Date newDate = null;
-        try {
-
-            DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
-//            DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM); // DATE
-
-
-            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-            DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
-
-            String inputDateStr = strCurrentDate;
-            Date date_oo = inputFormat.parse(inputDateStr);
-            String outputDateStr = today.format(date_oo);
-            System.out.println("outputDateStr = "+outputDateStr);
-
-            nowdate = outputDateStr;
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return nowdate;
-    }
-
-    //@Override
-    public void onConfirm(@Nullable Bundle result) {
-        //fullName.setText(result.getString(SurnameFragment.RESULT_FULL_NAME));
-    }
-
-    //@Override
-    public void onDiscard() {
-        //Toast.makeText(MainActivity.this, R.string.dialog_discarded, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -387,7 +375,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         return th_months[month];
     }
 
-    public String add_zero_or_not(int number){
+    public static String add_zero_or_not(int number){
         String num = null;
         if(number < 10){
             num = "0"+number;

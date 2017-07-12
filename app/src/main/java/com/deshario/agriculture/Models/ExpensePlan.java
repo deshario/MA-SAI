@@ -6,6 +6,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Deshario on 7/10/2017.
@@ -26,14 +27,14 @@ public class ExpensePlan extends Model {
     @Column(name = "expense_x_area")
     private double expense_x_area;
 
-    @Column(name = "expense_created", index = true)
-    private Date expense_created;
+    @Column(name = "expense_created")
+    private String expense_created;
 
     public ExpensePlan() {
         super();
     }
 
-    public ExpensePlan(double area, String item_name, double expense, double expense_x_area, Date expense_created) {
+    public ExpensePlan(double area, String item_name, double expense, double expense_x_area, String expense_created) {
         super();
         this.area = area;
         this.item_name = item_name;
@@ -74,17 +75,21 @@ public class ExpensePlan extends Model {
         this.expense_x_area = expense_x_area;
     }
 
-    public Date getExpense_created() {
+    public String getExpense_created() {
         return expense_created;
     }
 
-    public void setExpense_created(Date expense_created) {
+    public void setExpense_created(String expense_created) {
         this.expense_created = expense_created;
     }
 
      /*
         || ======================= Database Functions ======================= ||
     */
+
+    public static List<ExpensePlan> getAllExpensePlans() {
+        return new Select().from(ExpensePlan.class).execute();
+    }
 
     public static boolean check_exists(long date) {
         return new Select()

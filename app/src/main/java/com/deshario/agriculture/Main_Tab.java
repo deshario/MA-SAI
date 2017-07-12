@@ -68,7 +68,7 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(" Smart ROI For Farmers");
+        getSupportActionBar().setTitle(" MA - SAI");
         getSupportActionBar().setIcon(R.drawable.ic_dashboard_white_24dp);
     }
 

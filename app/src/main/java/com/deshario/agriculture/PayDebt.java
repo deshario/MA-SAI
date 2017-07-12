@@ -23,7 +23,7 @@ public class PayDebt extends AppCompatActivity {
     public static RecyclerView mRecyclerView;
     public static RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView counter;
+    public static TextView counter;
     List<Records> debtrecords;
 
     @Override
@@ -44,6 +44,7 @@ public class PayDebt extends AppCompatActivity {
 
     public void reload(){
         debtrecords = Records.getSpecificRecordsByType(1);
+        PayDebt.counter.setText("พบ "+debtrecords.size()+" รายการ");
         mAdapter = new MyRecyclerViewAdapter(debtrecords,PayDebt.this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();

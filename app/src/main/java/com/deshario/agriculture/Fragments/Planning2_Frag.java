@@ -15,8 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Models.ExpensePlan;
 import com.deshario.agriculture.Models.IncomePlan;
+import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
@@ -26,8 +28,10 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -38,7 +42,8 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
 
     EditText et_area,et_name,et_expense,et_total,et_date;
     Button btn_save_expense;
-    Date expensedate;
+    String expensedate;
+    String SQLITE_DATE_FORMAT = "yyyy-MM-dd";
     Calendar now;
     Context context;
     DecimalFormat desharioformat;
@@ -133,6 +138,30 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                 dpd.show(manager, "Datepickerdialog");
                 dpd.setCancelText("ยกเลิก");
                 dpd.setOkText("เลือก");
+
+                // Disable Specific Dates in Calendar
+                List<ExpensePlan> Expenseplans = ExpensePlan.getAllExpensePlans();
+                Calendar calendar = null;
+                SimpleDateFormat sdf = new SimpleDateFormat(SQLITE_DATE_FORMAT);
+                List<Calendar> dates = new ArrayList<>();
+                Date date = null;
+
+                for(int i=0; i<Expenseplans.size(); i++){
+                    String used_date = Expenseplans.get(i).getExpense_created();
+                    //System.out.println("Used Date : "+date);
+                    try {
+                        date = sdf.parse(used_date);
+                        Planning2_Frag obj = new Planning2_Frag();
+                        calendar = obj.dateToCalendar(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    dates.add(calendar);
+                }
+
+                Calendar[] disabledDays1 = dates.toArray(new Calendar[dates.size()]);
+                dpd.setDisabledDays(disabledDays1);
+                // Disable Specific Dates in Calendar
             }
         });
         btn_save_expense.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +179,7 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                     Double _expense = Double.parseDouble(expense);
                     Double _total =  remove_text(total);
                     String item_name = name;
-                    Date date_expense = expensedate;
+                    String date_expense = expensedate;
 
                     //Toast.makeText(context,"Area : "+_area+"\nExpense : "+_expense+
                     // "\nTotal : "+_total+"\nItemname : "+item_name,Toast.LENGTH_SHORT).show();
@@ -163,15 +192,15 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                     expensePlan.setExpense_created(date_expense);
                     expensePlan.save();
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date_expense);
-                    long datetime = calendar.getTimeInMillis();
-                    System.out.println("date_expense inserted : "+datetime);
-                    boolean status = ExpensePlan.check_exists(datetime);
-                    if(status == true){
+                    // Calendar calendar = Calendar.getInstance();
+                    // calendar.setTime(date_expense);
+                    // long datetime = calendar.getTimeInMillis();
+                    // System.out.println("date_expense inserted : "+datetime);
+                    // boolean status = ExpensePlan.check_exists(datetime);
+                    // if(status == true){
                         clear_fields();
                         Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-                    }
+                    // }
                 }
             }
         });
@@ -187,15 +216,17 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
 
     private String default_date(){
         String thai_date = null;
-        expensedate = Calendar.getInstance().getTime();
-        String DATE_FORMAT_NOW = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(expensedate);
-        String[] output = stringDate.split("-");
+        Date temp_date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat(SQLITE_DATE_FORMAT);
+        String stringDate = sdf.format(temp_date);
 
-        int _day = Integer.valueOf(output[0]);
+        String[] output = stringDate.split("-");
+        expensedate = stringDate;
+        System.out.println("SQ DATE OK : "+expensedate);
+
+        int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
-        int _year = Integer.valueOf(output[2]);
+        int _year = Integer.valueOf(output[0]);
 
         int day_ = _day;
         String month_ = Th_Months(_month-1);
@@ -224,24 +255,16 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        try {
-            String selected_date = dayOfMonth+"/"+(++monthOfYear)+"/"+year;
-            System.out.println("Selected date : "+selected_date);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            expensedate = formatter.parse(selected_date);
-
-            int sel_day = dayOfMonth;
-            String sel_month = Th_Months(monthOfYear-1);
-            int sel_year = Th_Year(year);
-            String total_date = sel_day+" "+sel_month+" "+sel_year;
-
-            System.out.println("Date : "+expensedate);
-            et_date.setText(" "+total_date);
-
-        }catch(ParseException e){
-            System.out.println("Error : "+e);
-            Toast.makeText(context,"ความผิดพลาด : "+e,Toast.LENGTH_LONG).show();
-        }
+        String month = AddRecords.add_zero_or_not(++monthOfYear);
+        String day = AddRecords.add_zero_or_not(dayOfMonth);
+        String selected_date = year+"-"+month+"-"+day;
+        expensedate = selected_date;
+        int sel_day = dayOfMonth;
+        String sel_month = Th_Months(monthOfYear-1);
+        int sel_year = Th_Year(year);
+        String total_date = sel_day+" "+sel_month+" "+sel_year;
+        System.out.println("SQ DATE SET : "+expensedate);
+        et_date.setText(" "+total_date);
     }
 
     public String Th_Months(int month){
@@ -268,5 +291,11 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
         et_expense.setText("");
         et_total.setText("");
         et_date.setText(" "+default_date());
+    }
+
+    private Calendar dateToCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
     }
 }

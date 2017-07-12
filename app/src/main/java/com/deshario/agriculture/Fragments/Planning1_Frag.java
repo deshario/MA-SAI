@@ -27,8 +27,10 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -40,9 +42,10 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
     EditText et_area,et_name,et_income,et_total,et_date;
     Button btn_save_income;
     Calendar now;
-    Date incomedate;
+    String incomedate;
     Context context;
     DecimalFormat desharioformat;
+    String SQLITE_DATE_FORMAT = "yyyy-MM-dd";
     private FullScreenDialogController dialogController;
 
     public Planning1_Frag(){}
@@ -134,6 +137,31 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
                 dpd.show(manager, "Datepickerdialog");
                 dpd.setCancelText("ยกเลิก");
                 dpd.setOkText("เลือก");
+
+                // Disable Specific Dates in Calendar
+                List<IncomePlan> Incomeplans = IncomePlan.getAllIncomePlans();
+                Calendar calendar = null;
+                SimpleDateFormat sdf = new SimpleDateFormat(SQLITE_DATE_FORMAT);
+                List<Calendar> dates = new ArrayList<>();
+                Date date = null;
+
+                for(int i=0; i<Incomeplans.size(); i++){
+                    String used_date = Incomeplans.get(i).getIncome_created();
+                    //System.out.println("Used Date : "+date);
+                    try {
+                        date = sdf.parse(used_date);
+                        Planning1_Frag obj = new Planning1_Frag();
+                        calendar = obj.dateToCalendar(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    dates.add(calendar);
+                }
+
+                Calendar[] disabledDays1 = dates.toArray(new Calendar[dates.size()]);
+                dpd.setDisabledDays(disabledDays1);
+                // Disable Specific Dates in Calendar
+
             }
         });
 
@@ -152,7 +180,7 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
                     Double _income = Double.parseDouble(income);
                     Double _total =  remove_text(total);
                     String item_name = name;
-                    Date date_income = incomedate;
+                    String date_income = incomedate;
 
                     IncomePlan incomePlan = new IncomePlan();
                     incomePlan.setItem_name(item_name);
@@ -162,15 +190,15 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
                     incomePlan.setIncome_created(date_income);
                     incomePlan.save();
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date_income);
-                    long datetime = calendar.getTimeInMillis();
-                    System.out.println("date_income inserted : "+datetime);
-                    boolean status = IncomePlan.check_exists(datetime);
-                    if(status == true){
+                   // Calendar calendar = Calendar.getInstance();
+                   // calendar.setTime(date_income);
+                    // long datetime = calendar.getTimeInMillis();
+                    // System.out.println("date_income inserted : "+datetime);
+                    // boolean status = IncomePlan.check_exists(datetime);
+                    // if(status == true){
                         clear_fields();
                         Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-                    }
+                    // }
 
                 }
             }
@@ -187,15 +215,17 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
 
     private String default_date(){
         String thai_date = null;
-        incomedate = Calendar.getInstance().getTime();
-        String DATE_FORMAT_NOW = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(incomedate);
-        String[] output = stringDate.split("-");
+        Date temp_date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat(SQLITE_DATE_FORMAT);
+        String stringDate = sdf.format(temp_date);
 
-        int _day = Integer.valueOf(output[0]);
+        String[] output = stringDate.split("-");
+        incomedate = stringDate;
+        System.out.println("SQ DATE OK : "+incomedate);
+
+        int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
-        int _year = Integer.valueOf(output[2]);
+        int _year = Integer.valueOf(output[0]);
 
         int day_ = _day;
         String month_ = Th_Months(_month-1);
@@ -224,24 +254,16 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        try {
-            String selected_date = dayOfMonth+"/"+(++monthOfYear)+"/"+year;
-            System.out.println("Selected date : "+selected_date);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            incomedate = formatter.parse(selected_date);
-
-            int sel_day = dayOfMonth;
-            String sel_month = Th_Months(monthOfYear-1);
-            int sel_year = Th_Year(year);
-            String total_date = sel_day+" "+sel_month+" "+sel_year;
-
-            System.out.println("Date : "+incomedate);
-            et_date.setText(" "+total_date);
-
-        }catch(ParseException e){
-            System.out.println("Error : "+e);
-            Toast.makeText(context,"ความผิดพลาด : "+e,Toast.LENGTH_LONG).show();
-        }
+        String month = AddRecords.add_zero_or_not(++monthOfYear);
+        String day = AddRecords.add_zero_or_not(dayOfMonth);
+        String selected_date = year+"-"+month+"-"+day;
+        incomedate = selected_date;
+        int sel_day = dayOfMonth;
+        String sel_month = Th_Months(monthOfYear-1);
+        int sel_year = Th_Year(year);
+        String total_date = sel_day+" "+sel_month+" "+sel_year;
+        System.out.println("SQ DATE SET : "+incomedate);
+        et_date.setText(" "+total_date);
     }
 
     public String Th_Months(int month){
@@ -268,5 +290,11 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
         et_income.setText("");
         et_total.setText("");
         et_date.setText(" "+default_date());
+    }
+
+    private Calendar dateToCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
     }
 }

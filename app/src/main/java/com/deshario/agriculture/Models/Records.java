@@ -147,7 +147,7 @@ public class Records extends Model {
                 .executeSingle();
         return record;
     }
-
+    
     public static ArrayList<String> getSpecific(String field_name) {
         ArrayList<String> arraylist = new ArrayList<String>();
         String resultRecords = new Select().from(Records.class).toSql();

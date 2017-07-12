@@ -1,40 +1,30 @@
 package com.deshario.agriculture.Adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.text.InputFilter;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.deshario.agriculture.AddRecords;
-import com.deshario.agriculture.CustomRangeInputFilter;
-import com.deshario.agriculture.Fragments.AllRecords;
-import com.deshario.agriculture.Fragments.Categories_Tab_Frag;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import cn.refactor.lib.colordialog.ColorDialog;
-import cn.refactor.lib.colordialog.PromptDialog;
 
 public class RecordAdapter extends BaseAdapter {
 
@@ -48,6 +38,7 @@ public class RecordAdapter extends BaseAdapter {
     private FullScreenDialogFragment dialogFragment;
     private String str_amount=null, str_note=null;
     int data_position;
+    View positive_button;
 
     public RecordAdapter(Context context, List<Records> customizedListView) {
         this.context = context;
@@ -72,8 +63,11 @@ public class RecordAdapter extends BaseAdapter {
 
     static class ViewHolder{
         ImageView img;
+        TextView title;
         TextView date;
         TextView note;
+        View line;
+        LinearLayout ln;
     }
 
     @Override
@@ -83,7 +77,10 @@ public class RecordAdapter extends BaseAdapter {
         if(convertView == null){
             listViewHolder = new ViewHolder();
             row  = layoutinflater.inflate(R.layout.cardview, parent, false);
+            listViewHolder.ln = (LinearLayout) row.findViewById(R.id.linear_border);
+            listViewHolder.line = (View) row.findViewById(R.id.line_view);
             listViewHolder.img = (ImageView)row.findViewById(R.id.img_icon);
+            listViewHolder.title = (TextView)row.findViewById(R.id.item_title);
             listViewHolder.date = (TextView)row.findViewById(R.id.titler);
             listViewHolder.note = (TextView)row.findViewById(R.id.desc);
 
@@ -94,7 +91,33 @@ public class RecordAdapter extends BaseAdapter {
         }
 
         row.setId(position);
-        listViewHolder.img.setImageResource(R.drawable.refund);
+
+        int type = listStorage.get(position).getCategory().getCat_type();
+        switch (type){
+            case 1: // debt
+                listViewHolder.title.setText("หนี้สิน");
+                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.danger_bootstrap));
+                listViewHolder.img.setImageResource(R.drawable.debt);
+                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.linear_danger_border));
+                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.danger_bootstrap));
+                break;
+            case 2: // expense
+                listViewHolder.title.setText("ค่าใช้จ่าย");
+                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.primary_deshario));
+                listViewHolder.img.setImageResource(R.drawable.refund);
+                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.linear_primary_border));
+                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.primary_deshario));
+                break;
+            case 3: // income
+                listViewHolder.title.setText("รายได้");
+                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.success_bootstrap));
+                listViewHolder.img.setImageResource(R.drawable.wallet);
+                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.linear_success_border));
+                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.success_bootstrap));
+                break;
+            default:
+        }
+
         listViewHolder.date.setText(getThaiDate(listStorage.get(position).getData_created()));
         listViewHolder.note.setText(listStorage.get(position).getShortnote());
 
@@ -111,7 +134,7 @@ public class RecordAdapter extends BaseAdapter {
     }
 
     public void view_data(final Records record){
-        new MaterialDialog.Builder(context)
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .title("ตัวเลือก")
                 .items(R.array.crud_options)
                 .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
@@ -137,7 +160,13 @@ public class RecordAdapter extends BaseAdapter {
                     }
                 })
                 .positiveText("เลือก")
-                .show();
+                .build();
+
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.dimAmount=0.5f;
+        dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        dialog.show();
     }
 
     public void do_view(Records record){
@@ -193,6 +222,9 @@ public class RecordAdapter extends BaseAdapter {
                 })
                 .build();
 
+        positive_button = update_dialog.getActionButton(DialogAction.POSITIVE);
+        //positive_button.setEnabled(false);
+
         name_category = (TextView)update_dialog.getCustomView().findViewById(R.id.category_name);
         et_amount = (EditText)update_dialog.getCustomView().findViewById(R.id.update_amount);
         et_note = (EditText)update_dialog.getCustomView().findViewById(R.id.update_note);
@@ -217,15 +249,15 @@ public class RecordAdapter extends BaseAdapter {
 
         notifyDataSetChanged();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(today);
-        long datetime = calendar.getTimeInMillis();
-        boolean status = Records.check_updated(datetime);
-        if(status == true){
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(today);
+//        long datetime = calendar.getTimeInMillis();
+//        boolean status = Records.check_updated(datetime);
+//        if(status == true){
             Toast.makeText(context,"รายการของคุณปรับปรุงสำเร็จ",Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(context,"ไม่สามารถปรับปรุงรายการของคุณได้",Toast.LENGTH_SHORT).show();
-        }
+//        }else{
+//            Toast.makeText(context,"ไม่สามารถปรับปรุงรายการของคุณได้",Toast.LENGTH_SHORT).show();
+//        }
     }
 
     public void do_delete(final Records record){
