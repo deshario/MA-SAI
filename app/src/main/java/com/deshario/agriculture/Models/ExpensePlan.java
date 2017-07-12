@@ -91,7 +91,7 @@ public class ExpensePlan extends Model {
         return new Select().from(ExpensePlan.class).execute();
     }
 
-    public static boolean check_exists(long date) {
+    public static boolean expense_exists(String date) {
         return new Select()
                 .from(ExpensePlan.class)
                 .where("expense_created = ?", date)

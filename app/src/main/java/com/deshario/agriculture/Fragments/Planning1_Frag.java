@@ -33,6 +33,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -174,7 +176,7 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
                 String total = et_total.getText().toString();
                 String date = et_date.getText().toString();
                 if(area.isEmpty() || name.isEmpty() || income.isEmpty() || total.isEmpty() || date.isEmpty()){
-                    Toast.makeText(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                    Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                 }else{
                     Double _area = Double.parseDouble(area);
                     Double _income = Double.parseDouble(income);
@@ -182,24 +184,20 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
                     String item_name = name;
                     String date_income = incomedate;
 
-                    IncomePlan incomePlan = new IncomePlan();
-                    incomePlan.setItem_name(item_name);
-                    incomePlan.setArea(_area);
-                    incomePlan.setIncome(_income);
-                    incomePlan.setIncome_x_area(_total);
-                    incomePlan.setIncome_created(date_income);
-                    incomePlan.save();
-
-                   // Calendar calendar = Calendar.getInstance();
-                   // calendar.setTime(date_income);
-                    // long datetime = calendar.getTimeInMillis();
-                    // System.out.println("date_income inserted : "+datetime);
-                    // boolean status = IncomePlan.check_exists(datetime);
-                    // if(status == true){
+                    boolean date_taken = IncomePlan.income_exists(date_income);
+                    if(date_taken == true){
+                        Toasty.warning(context," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
+                    }else{
+                        IncomePlan incomePlan = new IncomePlan();
+                        incomePlan.setItem_name(item_name);
+                        incomePlan.setArea(_area);
+                        incomePlan.setIncome(_income);
+                        incomePlan.setIncome_x_area(_total);
+                        incomePlan.setIncome_created(date_income);
+                        incomePlan.save();
                         clear_fields();
-                        Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-                    // }
-
+                        Toasty.success(context,"รายได้ของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

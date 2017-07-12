@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.deshario.agriculture.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lecho.lib.hellocharts.gesture.ZoomType;
@@ -70,6 +71,17 @@ public class LineColumn extends Fragment {
         chartBottom = (ColumnChartView) rootView.findViewById(R.id.chart_bottom);
 
        generateColumnData();
+
+        Calendar c = Calendar.getInstance();
+        String[] monthName = {"January", "February",
+                "March", "April", "May", "June", "July",
+                "August", "September", "October", "November",
+                "December"};
+        String month = monthName[c.get(Calendar.MONTH)];
+        int monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        //System.out.println("current month : "+month);
+        //System.out.println("total date : "+monthMaxDays);
 
         return rootView;
     }
@@ -176,8 +188,8 @@ public class LineColumn extends Fragment {
         for (PointValue value : line.getValues()) {
 
             // Change target only for Y value.
-            value.setTarget(value.getX(), (float) Math.random() * 500); // Data
-//            value.setTarget(value.getX(), datas[i]); // Data
+//            value.setTarget(value.getX(), (float) Math.random() * 500); // Data
+            value.setTarget(value.getX(), datas[i]); // Data
             i++;
         }
 

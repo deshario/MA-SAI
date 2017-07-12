@@ -18,7 +18,7 @@ package com.deshario.agriculture.Fragments;
         import com.deshario.agriculture.Models.Category;
         import com.deshario.agriculture.Models.Records;
         import com.deshario.agriculture.R;
-        import com.deshario.agriculture.Adapters.GridListAdapter;
+        import com.deshario.agriculture.Adapters.CategoryAdapter;
         import com.franmontiel.fullscreendialog.FullScreenDialogContent;
         import com.franmontiel.fullscreendialog.FullScreenDialogController;
         import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
@@ -26,12 +26,14 @@ package com.deshario.agriculture.Fragments;
         import java.util.ArrayList;
         import java.util.List;
 
+        import es.dmoral.toasty.Toasty;
+
 /**
  * Created by deshario on 10/06/17.
  */
 public class Categories1_Frag extends Fragment implements FullScreenDialogContent{
     public static Context context;
-    public static GridListAdapter adapter;
+    public static CategoryAdapter adapter;
     public static ArrayList<String> arrayList;
     public static ListView listView;
     public String new_item;
@@ -79,7 +81,7 @@ public class Categories1_Frag extends Fragment implements FullScreenDialogConten
         for (int i = 0; i < category_items.size(); i++) {
             arrayList.add(category_items.get(i).getCat_item());
         }
-        adapter = new GridListAdapter(context, arrayList, true);
+        adapter = new CategoryAdapter(context, arrayList, true);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
@@ -103,16 +105,16 @@ public class Categories1_Frag extends Fragment implements FullScreenDialogConten
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 new_item = String.valueOf(input);
                                 if(new_item == null || new_item.isEmpty()){
-                                    Toast.makeText(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                                    Toasty.info(getActivity(), "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
                                 }else{
                                     if(new_item.length() <=5 ){
-                                        Toast.makeText(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
+                                        Toasty.info(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
                                     }else{
                                         //Toast.makeText(getActivity(),new_item+" : "+title,Toast.LENGTH_SHORT).show();
 
                                         boolean validate = Category.check_exists(new_item);
                                         if(validate == true){
-                                            Toast.makeText(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
+                                            Toasty.info(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
                                         }else{
                                             Category category = new Category();
                                             category.setCat_topic(title);
@@ -122,7 +124,7 @@ public class Categories1_Frag extends Fragment implements FullScreenDialogConten
 
                                             boolean status = Category.check_exists(new_item);
                                             if(status == true){
-                                                Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                                                Toasty.success(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                                             }
                                             resetdata();
                                         }
@@ -178,11 +180,11 @@ public class Categories1_Frag extends Fragment implements FullScreenDialogConten
         List<Records> records = Records.getSpecificRecordsByItem(category);
         int count = records.size();
         if(count >= 1){
-            Toast.makeText(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
+            Toasty.warning(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
         }else{
             category.delete();
             resetdata();
-            Toast.makeText(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
+            Toasty.success(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
         }
     }
 

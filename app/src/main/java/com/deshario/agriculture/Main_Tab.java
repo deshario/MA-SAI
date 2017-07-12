@@ -26,6 +26,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by Deshario on 5/28/2017.
  */
@@ -54,21 +56,21 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
             }
         }
 
-        if (savedInstanceState == null) {
-//            Toast.makeText(Main_Tab.this, "savedInstanceState == null", Toast.LENGTH_SHORT).show();
+        if(savedInstanceState == null) {
+            //Toast.makeText(Main_Tab.this, "savedInstanceState == null", Toast.LENGTH_SHORT).show();
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction();
             mFragmentTransaction.replace(R.id.containerView, new Main_Frag());
             mFragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             mFragmentTransaction.addToBackStack(null);
             mFragmentTransaction.commit();
-        } else {
+        }else{
             Toast.makeText(Main_Tab.this, "savedInstanceState not = null", Toast.LENGTH_SHORT).show();
         }
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(" MA - SAI");
+        getSupportActionBar().setTitle(" Smart ROI For Smart Farmer");
         getSupportActionBar().setIcon(R.drawable.ic_dashboard_white_24dp);
     }
 
@@ -156,7 +158,7 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
 
         // Toast.makeText(AddRecords.this,"Date : "+_date_,Toast.LENGTH_SHORT).show(); // use for insert
 //         Toast.makeText(Main_Tab.this,"Date : "+dateFormat.format(date),Toast.LENGTH_SHORT).show(); // use for insert
-         Toast.makeText(Main_Tab.this,"วันที่ : "+thai.format(date),Toast.LENGTH_SHORT).show(); // use for insert
+        Toasty.normal(Main_Tab.this, "วันที่ : " + thai.format(date), Toast.LENGTH_SHORT).show(); // use for insert
         //System.out.println("Date : "+dateFormat.format(date)); //2017-06-10 19:43:39
         //System.out.println("Date : "+date); //Sat Jun 10 19:43:39 GMT+07:00 2017
     }

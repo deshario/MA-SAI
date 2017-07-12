@@ -101,6 +101,13 @@ public class Records extends Model {
                 .exists();
     }
 
+    public static boolean records_exists(String date) {
+        return new Select()
+                .from(Records.class)
+                .where("data_created = ?",date)
+                .exists();
+    }
+
     public static Records getSingleRecord(int id) {
         Records record = new Select()
                 .from(Records.class) // Specify the table to search
@@ -147,7 +154,7 @@ public class Records extends Model {
                 .executeSingle();
         return record;
     }
-    
+
     public static ArrayList<String> getSpecific(String field_name) {
         ArrayList<String> arraylist = new ArrayList<String>();
         String resultRecords = new Select().from(Records.class).toSql();

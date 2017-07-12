@@ -91,7 +91,7 @@ public class IncomePlan extends Model {
         return new Select().from(IncomePlan.class).execute();
     }
 
-    public static boolean check_exists(long date) {
+    public static boolean income_exists(String date) {
         return new Select()
                 .from(IncomePlan.class)
                 .where("income_created = ?", date)

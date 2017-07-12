@@ -17,7 +17,9 @@ import com.deshario.agriculture.R;
 
 import java.util.ArrayList;
 
-public class GridListAdapter extends BaseAdapter {
+import es.dmoral.toasty.Toasty;
+
+public class CategoryAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<String> arrayList;
     private LayoutInflater inflater;
@@ -26,7 +28,7 @@ public class GridListAdapter extends BaseAdapter {
     public static int sel_position;
     public Category category;
 
-    public GridListAdapter(Context context, ArrayList<String> arrayList, boolean isListView) {
+    public CategoryAdapter(Context context, ArrayList<String> arrayList, boolean isListView) {
         this.context = context;
         this.arrayList = arrayList;
         this.isListView = isListView;
@@ -118,7 +120,7 @@ public class GridListAdapter extends BaseAdapter {
         if (selectedPosition != -1) {
             return sel_position;
         }else{
-            Toast.makeText(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
+            Toasty.info(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
         }
         return -1;
     }
@@ -130,7 +132,7 @@ public class GridListAdapter extends BaseAdapter {
             selectedPosition = -1;//after removing selectedPosition set it back to -1
             notifyDataSetChanged();
         }else{
-            Toast.makeText(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
+            Toasty.info(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
         }
     }
 }

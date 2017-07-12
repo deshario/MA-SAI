@@ -26,6 +26,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class RecordAdapter extends BaseAdapter {
 
     private LayoutInflater layoutinflater;
@@ -143,7 +145,7 @@ public class RecordAdapter extends BaseAdapter {
                         int position = which;
                         switch (position){
                             case -1:
-                                Toast.makeText(context,"select atleast one!",Toast.LENGTH_SHORT).show();
+                                Toasty.info(context,"select atleast one!",Toast.LENGTH_SHORT).show();
                                 break;
                             case 0:
                                 do_view(record);
@@ -194,6 +196,12 @@ public class RecordAdapter extends BaseAdapter {
         txt_date.setText(rec_date);
         txt_note.setText(note);
         txt_catitem.setText(category_item);
+
+        WindowManager.LayoutParams lp = viewer_dialog.getWindow().getAttributes();
+        lp.dimAmount=1f;
+        viewer_dialog.getWindow().setAttributes(lp);
+        viewer_dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        viewer_dialog.show();
         viewer_dialog.show();
     }
 
@@ -212,7 +220,7 @@ public class RecordAdapter extends BaseAdapter {
                         str_amount = et_amount.getText().toString();
                         str_note = et_note.getText().toString();
                         if(str_amount.isEmpty() || str_note.isEmpty()){
-                            Toast.makeText(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                            Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                         }else{
                             double amount = Double.parseDouble(str_amount);
                             String note = str_note;
@@ -246,18 +254,8 @@ public class RecordAdapter extends BaseAdapter {
         record.setShortnote(note);
        // record.setData_updated(today);
         records.save();
-
         notifyDataSetChanged();
-
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(today);
-//        long datetime = calendar.getTimeInMillis();
-//        boolean status = Records.check_updated(datetime);
-//        if(status == true){
-            Toast.makeText(context,"รายการของคุณปรับปรุงสำเร็จ",Toast.LENGTH_SHORT).show();
-//        }else{
-//            Toast.makeText(context,"ไม่สามารถปรับปรุงรายการของคุณได้",Toast.LENGTH_SHORT).show();
-//        }
+        Toasty.success(context,"รายการของคุณปรับปรุงสำเร็จ",Toast.LENGTH_SHORT).show();
     }
 
     public void do_delete(final Records record){
@@ -291,7 +289,7 @@ public class RecordAdapter extends BaseAdapter {
         records.delete();
         listStorage.remove(data_position);
         notifyDataSetChanged();
-        Toast.makeText(context,"ลบรายการสำเร็จ",Toast.LENGTH_SHORT).show();
+        Toasty.success(context,"ลบรายการสำเร็จ",Toast.LENGTH_SHORT).show();
     }
 
     public String getThaiDate(String date){

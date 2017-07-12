@@ -5,11 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.deshario.agriculture.Adapters.MyRecyclerViewAdapter;
+import com.deshario.agriculture.Adapters.PayDebtAdapter;
 import com.deshario.agriculture.Models.Records;
 
 import java.util.List;
@@ -38,14 +36,14 @@ public class PayDebt extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(debtrecords,PayDebt.this);
+        mAdapter = new PayDebtAdapter(debtrecords,PayDebt.this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     public void reload(){
         debtrecords = Records.getSpecificRecordsByType(1);
         PayDebt.counter.setText("พบ "+debtrecords.size()+" รายการ");
-        mAdapter = new MyRecyclerViewAdapter(debtrecords,PayDebt.this);
+        mAdapter = new PayDebtAdapter(debtrecords,PayDebt.this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }

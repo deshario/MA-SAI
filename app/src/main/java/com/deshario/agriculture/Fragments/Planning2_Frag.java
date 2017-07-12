@@ -34,6 +34,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -173,7 +175,7 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                 String total = et_total.getText().toString();
                 String date = et_date.getText().toString();
                 if(area.isEmpty() || name.isEmpty() || expense.isEmpty() || total.isEmpty() || date.isEmpty()){
-                    Toast.makeText(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                    Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                 }else{
                     Double _area = Double.parseDouble(area);
                     Double _expense = Double.parseDouble(expense);
@@ -181,26 +183,20 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                     String item_name = name;
                     String date_expense = expensedate;
 
-                    //Toast.makeText(context,"Area : "+_area+"\nExpense : "+_expense+
-                    // "\nTotal : "+_total+"\nItemname : "+item_name,Toast.LENGTH_SHORT).show();
-
-                    ExpensePlan expensePlan = new ExpensePlan();
-                    expensePlan.setItem_name(item_name);
-                    expensePlan.setArea(_area);
-                    expensePlan.setExpense(_expense);
-                    expensePlan.setExpense_x_area(_total);
-                    expensePlan.setExpense_created(date_expense);
-                    expensePlan.save();
-
-                    // Calendar calendar = Calendar.getInstance();
-                    // calendar.setTime(date_expense);
-                    // long datetime = calendar.getTimeInMillis();
-                    // System.out.println("date_expense inserted : "+datetime);
-                    // boolean status = ExpensePlan.check_exists(datetime);
-                    // if(status == true){
+                    boolean date_exists = ExpensePlan.expense_exists(date_expense);
+                    if(date_exists == true){
+                        Toasty.warning(context," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
+                    }else{
+                        ExpensePlan expensePlan = new ExpensePlan();
+                        expensePlan.setItem_name(item_name);
+                        expensePlan.setArea(_area);
+                        expensePlan.setExpense(_expense);
+                        expensePlan.setExpense_x_area(_total);
+                        expensePlan.setExpense_created(date_expense);
+                        expensePlan.save();
                         clear_fields();
-                        Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-                    // }
+                        Toasty.success(context,"ค่าใช้จ่ายของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

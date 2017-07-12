@@ -24,6 +24,8 @@ import com.deshario.agriculture.R;
 
 import java.util.Calendar;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by Deshario on 4/17/2017.
  */
@@ -130,10 +132,10 @@ public class Main_Frag extends Fragment {
                         startActivity(new Intent(getActivity(),PayDebt.class));
                         break;
                     case 6: // calendar
-                        Toast.makeText(context,"Custom Date",Toast.LENGTH_SHORT).show();
+                        Toasty.normal(context, "Custom Date", Toast.LENGTH_SHORT).show();
                         break;
                     case 7:
-                        Toast.makeText(context,"About",Toast.LENGTH_SHORT).show();
+                        Toasty.normal(context,"About",Toast.LENGTH_SHORT).show();
                         break;
                     case 8:
                         getActivity().finish();

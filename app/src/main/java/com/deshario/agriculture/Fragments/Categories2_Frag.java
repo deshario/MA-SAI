@@ -18,17 +18,19 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
-import com.deshario.agriculture.Adapters.GridListAdapter;
+import com.deshario.agriculture.Adapters.CategoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by deshario on 10/06/17.
  */
 public class Categories2_Frag extends Fragment {
     public static Context context;
-    public static GridListAdapter adapter;
+    public static CategoryAdapter adapter;
     public static ArrayList<String> arrayList;
     public static ListView listView;
     public String new_item;
@@ -72,7 +74,7 @@ public class Categories2_Frag extends Fragment {
         for (int i = 0; i < category_items.size(); i++) {
             arrayList.add(category_items.get(i).getCat_item());
         }
-        adapter = new GridListAdapter(context, arrayList, true);
+        adapter = new CategoryAdapter(context, arrayList, true);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
@@ -96,14 +98,14 @@ public class Categories2_Frag extends Fragment {
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 new_item = String.valueOf(input);
                                 if(new_item == null || new_item.isEmpty()){
-                                    Toast.makeText(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                                    Toasty.info(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                                 }else{
                                     if(new_item.length() <=5 ){
-                                        Toast.makeText(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
+                                        Toasty.info(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
                                     }else{
                                         boolean validate = Category.check_exists(new_item);
                                         if(validate == true){
-                                            Toast.makeText(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
+                                            Toasty.info(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
                                         }else{
                                             //Toast.makeText(getActivity(),new_item+" : "+title,Toast.LENGTH_SHORT).show();
                                             Category category = new Category();
@@ -114,7 +116,7 @@ public class Categories2_Frag extends Fragment {
 
                                             boolean status = Category.check_exists(new_item);
                                             if(status == true){
-                                                Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                                                Toasty.success(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                                             }
                                             resetdata();
                                         }
@@ -170,11 +172,11 @@ public class Categories2_Frag extends Fragment {
         List<Records> records = Records.getSpecificRecordsByItem(category);
         int count = records.size();
         if(count >= 1){
-            Toast.makeText(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
+            Toasty.warning(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
         }else{
             category.delete();
             resetdata();
-            Toast.makeText(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
+            Toasty.success(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
         }
     }
 

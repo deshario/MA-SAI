@@ -10,16 +10,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.deshario.agriculture.Adapters.GridListAdapter;
 import com.deshario.agriculture.Models.Category;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by Deshario on 4/17/2017.
@@ -150,7 +149,7 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
 
         Bundle result = new Bundle();
         if(data == null) {
-            Toast.makeText(getActivity(),"กรุณาเลือกรายการจากหมวดหมู่",Toast.LENGTH_SHORT).show();
+            Toasty.info(getActivity(), "กรุณาเลือกรายการจากหมวดหมู่", Toast.LENGTH_SHORT).show();
         }else{
 
             Category category = new Category();

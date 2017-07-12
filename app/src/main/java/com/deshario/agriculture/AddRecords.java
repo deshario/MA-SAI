@@ -34,6 +34,8 @@ import java.util.Locale;
 
 import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by Deshario on 5/31/2017.
  */
@@ -175,26 +177,30 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 String shortnote = et_shortnote.getText().toString();
 
                 if(_amount.isEmpty() || cat.isEmpty() || _date.isEmpty() || shortnote.isEmpty()){
-                    Toast.makeText(AddRecords.this,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                    Toasty.info(AddRecords.this,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                 }else{
                     Double amount = Double.parseDouble(_amount);
                     String selected_date = date_4insert;
-                    //Toast.makeText(AddRecords.this,"Amount : "+amount+"\nCategory : "+cat+"\nDate : "+_date+"\nShortnote : "+shortnote,Toast.LENGTH_SHORT).show();
-                    Category category = Category.getSingleCategory(item_id);
-                    Records records = new Records();
-                    records.setCategory(category);
-                    records.setData_amount(amount);
-                    records.setData_created(selected_date);
-                    records.setShortnote(shortnote);
-                    records.save();
 
-//                    boolean status = Records.check_exists();
-//                    if(status == true){
+                    boolean date_taken = Records.records_exists(selected_date);
+                    if(date_taken == true){
+                        Toasty.warning(AddRecords.this," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
+                    }else{
+                        Category category = Category.getSingleCategory(item_id);
+                        Records records = new Records();
+                        records.setCategory(category);
+                        records.setData_amount(amount);
+                        records.setData_created(selected_date);
+                        records.setShortnote(shortnote);
+                        records.save();
+
+                        //boolean status = Records.check_exists();
+                        //if(status == true){
                         cls_btn.performClick();
-                        Toast.makeText(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                        Toasty.success(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                         onBackPressed();
-//                    }
-
+                        //}
+                    }
                 }
             }
         });

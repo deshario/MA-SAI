@@ -21,15 +21,12 @@ import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.R;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
+import es.dmoral.toasty.Toasty;
 
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.DataObjectHolder> {
+public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObjectHolder> {
     private Context context;
     private List<Records> mDataset;
     private String thb = "\u0E3F";
@@ -66,7 +63,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
     }
 
-    public MyRecyclerViewAdapter(List<Records> myDataset, Context context) {
+    public PayDebtAdapter(List<Records> myDataset, Context context) {
         mDataset = myDataset;
     }
 
@@ -130,7 +127,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         String cash = amount2pay.getText().toString();
                         if(cash.isEmpty()){
-                            Toast.makeText(context,"การชำระหนี้ล้มเหลว",Toast.LENGTH_SHORT).show();
+                            Toasty.info(context,"การชำระหนี้ล้มเหลว",Toast.LENGTH_SHORT).show();
                         }else{
                             double amount = Double.parseDouble(cash);
                             update_debt(record,amount);
