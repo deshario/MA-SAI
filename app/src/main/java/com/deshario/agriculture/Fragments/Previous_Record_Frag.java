@@ -48,7 +48,7 @@ public class Previous_Record_Frag extends Fragment {
     TextView income, expense, profit, debt, pay_debt, total_remain;
     TextView income_val, expense_val, profit_val, debt_val, pay_debt_val, total_remain_val;
     RoundCornerProgressBar prog_income,prog_expense,prog_profit,prog_debt,prog_paydebt,prog_remain;
-    static ImageButton btn_refresh;
+    public static ImageButton btn_refresh;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -187,8 +187,6 @@ public class Previous_Record_Frag extends Fragment {
     }
 
     public void work(){
-
-
         income.setText(all_items[0]);
         expense.setText(all_items[1]);
         profit.setText(all_items[2]);

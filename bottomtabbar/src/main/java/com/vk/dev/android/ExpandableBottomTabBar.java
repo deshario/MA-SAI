@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vk.dev.expandablebottombar.R;
 
@@ -65,7 +66,7 @@ public class ExpandableBottomTabBar extends LinearLayout implements View.OnClick
     private int mTabTextColor;
     private int mSelectedTabTextColor;
     private int mMoreIconRecId = android.R.drawable.ic_menu_more;
-
+    private int des_icon = android.R.drawable.arrow_down_float;
     private static class TabInformation {
         int id;
         int iconResId;
@@ -175,7 +176,7 @@ public class ExpandableBottomTabBar extends LinearLayout implements View.OnClick
             mTabCount = mTabInfoList.size();
             if (mTabCount > mMaxTabPerRow) {
                 final TabInformation moreTab = new TabInformation();
-                moreTab.title = "เลือนขึ้น";
+                moreTab.title = "ขึ้น/ลง";
                 moreTab.iconResId = mMoreIconRecId;
                 moreTab.iconPressedResId = mMoreIconRecId;
                 mTabInfoList.add(mMoreTabPosition, moreTab);
@@ -351,6 +352,28 @@ public class ExpandableBottomTabBar extends LinearLayout implements View.OnClick
         }
     }
 
+//    public void changeTab(int position, String title, boolean status){
+//
+//        int hide_icon = android.R.drawable.ic_menu_add;
+//        int show_icon = android.R.drawable.ic_secure;
+//        if(status == true){
+//            // moreTab =  mTabInfoList.get(position);
+//            Toast.makeText(mContext,"true"+title,Toast.LENGTH_SHORT).show();
+//            moreTab.title = title;
+//            moreTab.iconResId = show_icon;
+//            moreTab.iconPressedResId = show_icon;
+//            mTabInfoList.set(position,moreTab);
+//        }
+//        if(status == false){
+//            //moreTab =  mTabInfoList.get(position);
+//            Toast.makeText(mContext,"false"+title,Toast.LENGTH_SHORT).show();
+//            moreTab.title = title;
+//            moreTab.iconResId = hide_icon;
+//            moreTab.iconPressedResId = hide_icon;
+//            mTabInfoList.set(position,moreTab);
+//        }
+//    }
+
     private int getLayoutIndex(int i) {
         return i / mMaxTabPerRow;
     }
@@ -385,14 +408,15 @@ public class ExpandableBottomTabBar extends LinearLayout implements View.OnClick
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
                             setBtmTabsVisibility(btmTabContainers, View.GONE);
+                            //changeTab("44",false);
                             mAllTabsVisible = false;
                         }
                     });
 
                     btm.setDuration(mAnimationDuration);
                     btm.start();
-                } else if (pos == mMoreTabPosition &&
-                        mAllTabsVisible == false) {
+                } else if (pos == mMoreTabPosition && mAllTabsVisible == false) {
+                    //changeTab("55",true);
                     setBtmTabsVisibility(btmTabContainers, View.VISIBLE);
                     mAllTabsVisible = true;
                     ValueAnimator btm = ValueAnimator.ofFloat(0, topTabContainer.getHeight());
@@ -408,6 +432,9 @@ public class ExpandableBottomTabBar extends LinearLayout implements View.OnClick
                     btm.start();
                 }
             }
+
+
+
 
             if (pos != mMoreTabPosition) {
                 getTabViewAt(mSelectedTab).setBackgroundColor(mBgColor);

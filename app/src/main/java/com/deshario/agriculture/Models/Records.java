@@ -9,6 +9,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -201,21 +202,26 @@ public class Records extends Model {
                 .execute();
     }
 
-    //public static ArrayList<String> getCustom(String field_name, Category category){
-    //select * from Records INNER JOIN Categories ON(Records.category_id=Categories.Id) where Categories.cat_type=3;
-    public static ArrayList<String> getCustom(String field_name, int type){
-        ArrayList<String> arraylist = new ArrayList<String>();
-        String resultRecords = new Select()
-                .from(Records.class)
-                .innerJoin(Category.class)
-                .on("Records.category_id = Categories.Id")
-                .where("Categories.cat_type = "+type)
-                .toSql();
-        Cursor resultCursor = Cache.openDatabase().rawQuery(resultRecords, null);
+    public static List<Records> getDataBy_date_n_Type(String date, int catg_type){
+        // Ex : date = '2017-09' && catg_type = 1
+        List<Records> records = new ArrayList<>();
+        String deshario = "SELECT * FROM Records JOIN Categories ON Records.category_id = Categories.Id " +
+                "WHERE strftime('%Y-%m', data_created) = '"+date+"' AND Categories.cat_type = "+catg_type+" ORDER BY data_created ASC";
+        Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
         while(resultCursor.moveToNext()) {
-            arraylist.add(resultCursor.getString(resultCursor.getColumnIndexOrThrow(field_name)));
+            Records found_records = new Records();
+            Category category = new Category();
+            category.setCat_topic(resultCursor.getString(resultCursor.getColumnIndexOrThrow("cat_topic")));
+            category.setCat_item(resultCursor.getString(resultCursor.getColumnIndexOrThrow("cat_item")));
+            category.setCat_type(resultCursor.getInt(resultCursor.getColumnIndexOrThrow("cat_type")));
+
+            found_records.setData_amount(resultCursor.getDouble(resultCursor.getColumnIndexOrThrow("data_amount")));
+            found_records.setShortnote(resultCursor.getString(resultCursor.getColumnIndexOrThrow("shortnote")));
+            found_records.setData_created(resultCursor.getString(resultCursor.getColumnIndexOrThrow("data_created")));
+            found_records.setCategory(category);
+            records.add(found_records);
         }
-        return arraylist;
+        return records;
     }
 
 }

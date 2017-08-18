@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 
 import java.util.ArrayList;
@@ -181,8 +182,16 @@ public class LineColumn extends Fragment {
         Line line = lineData.getLines().get(0);// For this example there is always only one line.
         line.setColor(color);
         int datas[] = new int[100];
+
+        List<Records> records = Records.getDataBy_date_n_Type("2017-08",1);
+        for(int j=0; j<records.size(); j++){
+            //System.out.println(" Type"+j+" : "+records.get(j).getCategory().getCat_topic());
+            //System.out.println(" Amount"+j+" : "+records.get(j).getData_amount());
+        }
         for(int i=0; i<line.getValues().size(); i++){
+
             datas[i] = datas[i]+100;
+            //System.out.println("datas[i] = "+datas[i]); = 100
         }
         int i=0;
         for (PointValue value : line.getValues()) {

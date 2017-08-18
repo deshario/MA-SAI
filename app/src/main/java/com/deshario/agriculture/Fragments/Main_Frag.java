@@ -127,6 +127,7 @@ public class Main_Frag extends Fragment {
                         break;
                     case 4: // More Button
 
+
                         break;
                     case 5: // paydebt
                         startActivity(new Intent(getActivity(),PayDebt.class));
@@ -178,7 +179,6 @@ public class Main_Frag extends Fragment {
                         Latest_Record_Frag.btn_refresh.performClick();
                         break;
                     case 2:
-                        System.out.println("Page2");
                         break;
                     default:
                 }

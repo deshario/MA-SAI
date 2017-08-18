@@ -46,7 +46,7 @@ public class Latest_Record_Frag extends Fragment {
     TextView date1,date2,note_txt;
     TextView income, expense, profit, debt, pay_debt, total_remain;
     TextView income_val, expense_val, profit_val, debt_val, pay_debt_val, total_remain_val;
-    static ImageButton btn_refresh;
+    public static ImageButton btn_refresh;
     RoundCornerProgressBar prog_income,prog_expense,prog_profit,prog_debt,prog_paydebt,prog_remain;
 
     @Override

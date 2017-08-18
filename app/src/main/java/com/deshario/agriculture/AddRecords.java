@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.deshario.agriculture.Fragments.Categories_Tab_Frag;
+import com.deshario.agriculture.Fragments.Latest_Record_Frag;
 import com.deshario.agriculture.Fragments.Main_Frag;
+import com.deshario.agriculture.Fragments.Previous_Record_Frag;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
@@ -199,6 +201,8 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                         cls_btn.performClick();
                         Toasty.success(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                         onBackPressed();
+                        Previous_Record_Frag.btn_refresh.performClick();
+                        Latest_Record_Frag.btn_refresh.performClick();
                         //}
                     }
                 }
