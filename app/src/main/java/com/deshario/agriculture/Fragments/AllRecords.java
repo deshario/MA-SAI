@@ -47,23 +47,16 @@ public class AllRecords extends Fragment implements FullScreenDialogContent {
 
         List<Records> abc = Records.getDataBy_date_n_Type("2017-08",1);
         Calendar calendar = Calendar.getInstance();
-
+        SimpleDateFormat monthonly = new SimpleDateFormat("MMM");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR,2017);
         cal.set(Calendar.MONTH,Calendar.AUGUST);
         int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        System.out.println("NumDays = "+maxDay);
+        System.out.println(monthonly.format(cal.getTime())+" :: "+maxDay+" Days");
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        boolean alldates[] = new boolean[maxDay];
-        ArrayList<DateValue> dateValues = new ArrayList<>();
-        DateValue dv;
-        // 0 1 2 3 4 5 6 7 8 9 10
-        // 1 2 3 4
 
         ArrayList<String> dates = new ArrayList<>();
         for (int i=0; i<maxDay; i++){
-            dv = new DateValue();
             cal.set(Calendar.DAY_OF_MONTH,i+1);
             String date = df.format(cal.getTime());
             dates.add(i,date);
@@ -75,28 +68,19 @@ public class AllRecords extends Fragment implements FullScreenDialogContent {
             found_dates.add(i,my_date);
         }
 
-        boolean data[][] = new boolean[dates.size()][found_dates.size()];
-        String [][] list = new String[dates.size()][found_dates.size()];
-
         for(int i=0; i<dates.size(); i++){
-            for(int j=0; j<found_dates.size(); j++){
-                if(dates.get(i).equals(found_dates.get(j))){
-                    System.out.println(i+":"+j+": "+dates.get(i) +" == "+found_dates.get(j));
-                    data[i][j] = true;
-                    list[i][j] = found_dates.get(j);
-                }else{
-                    data[i][j] = false;
-                    list[i][j] = dates.get(i);
-                    System.out.println(i+":"+j+": "+dates.get(i)+" Not Found !");
-                }
-            }
+            boolean status = check_exists(found_dates,dates.get(i));
+            System.out.println(dates.get(i)+" : "+status);
         }
-
-
 
         customAdapter = new RecordAdapter(context,allItems);
         gridview.setAdapter(customAdapter);
         return view;
+    }
+
+    public boolean check_exists(ArrayList datalist,String keyword){
+        int index = datalist.indexOf(keyword);
+        return (index == -1?false:true);
     }
 
     @Override
