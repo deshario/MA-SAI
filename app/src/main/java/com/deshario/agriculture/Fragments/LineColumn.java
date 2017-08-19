@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -99,7 +101,8 @@ public class LineColumn extends Fragment {
 
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.pickColor()));
+                values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.pickColor())); // down charts
+//                values.add(new SubcolumnValue(10, ChartUtils.pickColor()));
             }
 
             axisValues.add(new AxisValue(i).setLabel(months[i]));
@@ -146,7 +149,7 @@ public class LineColumn extends Fragment {
         for (int i = 0; i < numValues; ++i) {
             //values.add(new PointValue(i, 0));
             //axisValues.add(new AxisValue(i).setLabel(days[i]));
-            values.add(new PointValue(i,20));
+            //values.add(new PointValue(i,20));
             axisValues.add(new AxisValue(i).setLabel(""+(i+1))); // Bottom Desc [day of month]
         }
 
@@ -167,7 +170,7 @@ public class LineColumn extends Fragment {
         chartTop.setViewportCalculationEnabled(false);
 
         // And set initial max viewport and current viewport- remember to set viewports after data.
-        Viewport v = new Viewport(0, 500, 30, 0); // float => left top right bottom
+        Viewport v = new Viewport(0, 5000, 30, 0); // float => left top right bottom
         chartTop.setMaximumViewport(v);
         chartTop.setCurrentViewport(v);
 
@@ -183,14 +186,55 @@ public class LineColumn extends Fragment {
         line.setColor(color);
         int datas[] = new int[100];
 
-        List<Records> records = Records.getDataBy_date_n_Type("2017-08",1);
-        for(int j=0; j<records.size(); j++){
-            //System.out.println(" Type"+j+" : "+records.get(j).getCategory().getCat_topic());
-            //System.out.println(" Amount"+j+" : "+records.get(j).getData_amount());
-        }
-        for(int i=0; i<line.getValues().size(); i++){
 
-            datas[i] = datas[i]+100;
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat monthonly = new SimpleDateFormat("MMM");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR,2017);
+        cal.set(Calendar.MONTH,Calendar.AUGUST);
+        int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        System.out.println(monthonly.format(cal.getTime())+" :: "+maxDay+" Days");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        ArrayList<String> dates = new ArrayList<>();
+        for (int i=0; i<maxDay; i++){
+            cal.set(Calendar.DAY_OF_MONTH,i+1);
+            String date = df.format(cal.getTime());
+            dates.add(i,date);
+        }
+
+
+        List<Records> abc = Records.getDataBy_date_n_Type("2017-08",1);
+        ArrayList<String> found_dates = new ArrayList<>();
+        for(int i=0; i<abc.size(); i++){
+            String my_date = abc.get(i).getData_created();
+            found_dates.add(i,my_date);
+        }
+
+        int month_datas[] = new int[dates.size()];
+        for(int i=0; i<dates.size(); i++){
+            boolean status = check_exists(found_dates,dates.get(i));
+            if(status == true){
+                Records reca = Records.getSingleRecordsByDate(dates.get(i));
+                //System.out.println(dates.get(i)+" : "+status);
+                //System.out.println("Amount :: "+reca.getData_amount());
+                Double d = new Double(reca.getData_amount());
+                month_datas[i] = d.intValue();
+
+            }else{
+                Double d = new Double(0.0);
+                month_datas[i] = d.intValue();
+                //System.out.println(dates.get(i)+" : "+status);
+            }
+        }
+
+        System.out.println(Arrays.toString(month_datas));
+
+//        for(int i=0; i<line.getValues().size(); i++){
+        for(int i=0; i<month_datas.length; i++){
+
+//           datas[i] = datas[i]+100;
+           datas[i] = month_datas[i];
             //System.out.println("datas[i] = "+datas[i]); = 100
         }
         int i=0;
@@ -206,7 +250,10 @@ public class LineColumn extends Fragment {
         chartTop.startDataAnimation(300);
     }
 
-
+    public boolean check_exists(ArrayList datalist,String keyword){
+        int index = datalist.indexOf(keyword);
+        return (index == -1?false:true);
+    }
 
     private class ValueTouchListener implements ColumnChartOnValueSelectListener {
 

@@ -224,4 +224,14 @@ public class Records extends Model {
         return records;
     }
 
+    public static Records getSingleRecordsByDate(String date){
+        return new Select()
+                .from(Records.class)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
+                .where("data_created = ?",date)
+                .orderBy("data_created ASC")
+                .executeSingle();
+    }
+
 }

@@ -19,6 +19,7 @@ import com.franmontiel.fullscreendialog.FullScreenDialogController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,33 +46,48 @@ public class AllRecords extends Fragment implements FullScreenDialogContent {
         gridview = (GridView)view.findViewById(R.id.gridview);
          allItems = Records.getAllRecords();
 
-        List<Records> abc = Records.getDataBy_date_n_Type("2017-08",1);
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat monthonly = new SimpleDateFormat("MMM");
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR,2017);
-        cal.set(Calendar.MONTH,Calendar.AUGUST);
-        int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        System.out.println(monthonly.format(cal.getTime())+" :: "+maxDay+" Days");
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        Calendar calendar = Calendar.getInstance();
+//        SimpleDateFormat monthonly = new SimpleDateFormat("MMM");
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.YEAR,2017);
+//        cal.set(Calendar.MONTH,Calendar.AUGUST);
+//        int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+//        System.out.println(monthonly.format(cal.getTime())+" :: "+maxDay+" Days");
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        ArrayList<String> dates = new ArrayList<>();
+//        for (int i=0; i<maxDay; i++){
+//            cal.set(Calendar.DAY_OF_MONTH,i+1);
+//            String date = df.format(cal.getTime());
+//            dates.add(i,date);
+//        }
+//
+//
+//        List<Records> abc = Records.getDataBy_date_n_Type("2017-08",1);
+//        ArrayList<String> found_dates = new ArrayList<>();
+//        for(int i=0; i<abc.size(); i++){
+//            String my_date = abc.get(i).getData_created();
+//            found_dates.add(i,my_date);
+//        }
+//
+//        double month_datas[] = new double[dates.size()];
+//        for(int i=0; i<dates.size(); i++){
+//            boolean status = check_exists(found_dates,dates.get(i));
+//            if(status == true){
+//                Records reca = Records.getSingleRecordsByDate(dates.get(i));
+//                //System.out.println(dates.get(i)+" : "+status);
+//                //System.out.println("Amount :: "+reca.getData_amount());
+//                month_datas[i] = reca.getData_amount();
+//            }else{
+//                month_datas[i] = 0.0;
+//                //System.out.println(dates.get(i)+" : "+status);
+//            }
+//        }
+//
+//        System.out.println(Arrays.toString(month_datas));
 
-        ArrayList<String> dates = new ArrayList<>();
-        for (int i=0; i<maxDay; i++){
-            cal.set(Calendar.DAY_OF_MONTH,i+1);
-            String date = df.format(cal.getTime());
-            dates.add(i,date);
-        }
 
-        ArrayList<String> found_dates = new ArrayList<>();
-        for(int i=0; i<abc.size(); i++){
-            String my_date = abc.get(i).getData_created();
-            found_dates.add(i,my_date);
-        }
 
-        for(int i=0; i<dates.size(); i++){
-            boolean status = check_exists(found_dates,dates.get(i));
-            System.out.println(dates.get(i)+" : "+status);
-        }
 
         customAdapter = new RecordAdapter(context,allItems);
         gridview.setAdapter(customAdapter);
