@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +83,8 @@ public class Main_Frag extends Fragment {
         //tabBarView.setSelected(false);
         tabBarView.resetFocusOnAllTabs();
 
+
+
         tabBarView.setOnTabClickedListener(new ExpandableBottomTabBar.OnTabClickedListener() {
             @Override
             public void onTabClicked(View view, int pos) {
@@ -93,7 +97,8 @@ public class Main_Frag extends Fragment {
                         dialogFragment = new FullScreenDialogFragment.Builder(getActivity())
                                 .setTitle("รายงาน")
                                 .setFullScreen(true)
-                                //.setConfirmButton("Confirm")
+//                                .setConfirmButton("⋮")
+                                .setConfirmButton("⋮")
                                 .setContent(Charts_Tab_Frag.class, chart_args)
                                 .build();
 

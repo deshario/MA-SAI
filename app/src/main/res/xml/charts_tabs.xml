@@ -15,4 +15,10 @@
         icon="@drawable/ic_layers_white_24dp"
         icon_pressed="@drawable/ic_layers_white_24dp"
         title="ค่าตอบแทน" />
+
+    <tab
+        id="@+id/deshario_chart"
+        icon="@drawable/ic_layers_white_24dp"
+        icon_pressed="@drawable/ic_layers_white_24dp"
+        title="demo" />
 </tabs>

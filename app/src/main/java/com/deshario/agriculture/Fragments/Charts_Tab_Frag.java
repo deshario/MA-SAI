@@ -1,5 +1,6 @@
 package com.deshario.agriculture.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,12 +10,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.deshario.agriculture.Deshario;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
 import com.deshario.agriculture.R;
@@ -28,7 +27,7 @@ public class Charts_Tab_Frag extends Fragment implements FullScreenDialogContent
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int int_items = 3 ;
+    public static int int_items = 4 ;
     public static int page;
     public static int pageno;
     MyAdapter myAdapter;
@@ -46,6 +45,7 @@ public class Charts_Tab_Frag extends Fragment implements FullScreenDialogContent
 
 
     final int[] ICONS = new int[] {
+            R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
@@ -70,24 +70,27 @@ public class Charts_Tab_Frag extends Fragment implements FullScreenDialogContent
         tabBarView = (ExpandableBottomTabBar)myview.findViewById(R.id.bottom_tabs);
         tabBarView.resetFocusOnAllTabs();
         tabBarView.setSelectedTab(0);
-        change_frag(new LineColumn());
+        change_frag(new ExpenseChart());
         tabBarView.setOnTabClickedListener(new ExpandableBottomTabBar.OnTabClickedListener() {
             @Override
             public void onTabClicked(View view, int tabPos) {
                 switch (tabPos) {
                     case 0:
-                        frag = new LineColumn();
+                        frag = new ExpenseChart();
                         //Toast.makeText(getActivity(),"Page 0",Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
-//                        frag = new LineChart();
-                        frag = new LineColumn();
+//                        frag = new IncomeChart();
+                        frag = new IncomeChart();
                         //Toast.makeText(getActivity(),"Page 1",Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
 //                        frag = new EmptyFragment();
-                        frag = new LineColumn();
+                        frag = new PreviewChart();
                         //Toast.makeText(getActivity(),"Page 2",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        aa();
                         break;
                     default:
                 }
@@ -97,6 +100,10 @@ public class Charts_Tab_Frag extends Fragment implements FullScreenDialogContent
 
 
         return myview;
+    }
+
+    public void aa(){
+        startActivity(new Intent(getActivity(), Deshario.class));
     }
 
     public void change_frag(Fragment fragment){
@@ -136,6 +143,7 @@ public class Charts_Tab_Frag extends Fragment implements FullScreenDialogContent
                 tabLayout.getTabAt(0).setIcon(ICONS[0]);
                 tabLayout.getTabAt(1).setIcon(ICONS[1]);
                 tabLayout.getTabAt(2).setIcon(ICONS[2]);
+                tabLayout.getTabAt(3).setIcon(ICONS[2]);
             }
         });
 
@@ -179,8 +187,8 @@ public class Charts_Tab_Frag extends Fragment implements FullScreenDialogContent
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new LineChart();
-                case 1 : return new LineColumn();
+                case 0 : return new IncomeChart();
+                case 1 : return new ExpenseChart();
                 case 2 : return new EmptyFragment();
 
             }
@@ -202,6 +210,8 @@ public class Charts_Tab_Frag extends Fragment implements FullScreenDialogContent
                     return "รายได้";
                 case 2 :
                     return "ค่าตอบแทน";
+                case 3:
+                    return "dem";
             }
             return null;
         }
