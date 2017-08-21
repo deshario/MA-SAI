@@ -33,6 +33,7 @@
             android:name=".AddRecords" android:configChanges="orientation|screenSize" android:launchMode="singleTop" />
         <activity android:name=".PayDebt"/>
         <activity android:name=".Deshario"/>
+        <activity android:name=".ReportsManager"/>
     </application>
 
 </manifest>

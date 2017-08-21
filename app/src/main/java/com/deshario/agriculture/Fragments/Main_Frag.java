@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Main_Tab;
 import com.deshario.agriculture.PayDebt;
+import com.deshario.agriculture.ReportsManager;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 import com.vk.dev.android.ExpandableBottomTabBar;
@@ -91,18 +92,19 @@ public class Main_Frag extends Fragment {
                 tabBarView.resetFocusOnAllTabs();
                 switch (pos){
                     case 0:
-                        final Bundle chart_args = new Bundle();
-                        chart_args.putString(Charts_Tab_Frag.EXTRA_NAME, "charts_key");
-                        FullScreenDialogFragment abs;
-                        dialogFragment = new FullScreenDialogFragment.Builder(getActivity())
-                                .setTitle("รายงาน")
-                                .setFullScreen(true)
+                        startActivity(new Intent(getActivity(), ReportsManager.class));
+//                        final Bundle chart_args = new Bundle();
+//                        chart_args.putString(Charts_Tab_Frag.EXTRA_NAME, "charts_key");
+//                        FullScreenDialogFragment abs;
+//                        dialogFragment = new FullScreenDialogFragment.Builder(getActivity())
+//                                .setTitle("รายงาน")
+//                                .setFullScreen(true)
+////                                .setConfirmButton("⋮")
 //                                .setConfirmButton("⋮")
-                                .setConfirmButton("⋮")
-                                .setContent(Charts_Tab_Frag.class, chart_args)
-                                .build();
-
-                        dialogFragment.show(getFragmentManager(), dialogTag);
+//                                .setContent(Charts_Tab_Frag.class, chart_args)
+//                                .build();
+//
+//                        dialogFragment.show(getFragmentManager(), dialogTag);
                         break;
                     case 1:
                         Intent intent = new Intent(getActivity(),AddRecords.class);
