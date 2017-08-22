@@ -11,7 +11,7 @@
         app:tabGravity="fill"
         app:tabMode="fixed"
         android:background="@color/primary_deshario"
-        app:tabIndicatorColor="@color/yellow"
+        app:tabIndicatorColor="@color/default_bootstrap"
         app:tabSelectedTextColor="@color/yellow"
         app:tabTextColor="@color/white"
         app:tabTextAppearance="@style/Mero_CustomTabText"

@@ -20,14 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-
 import com.deshario.agriculture.R;
-import com.deshario.agriculture.ReportsManager;
-import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
-import com.vk.dev.android.ExpandableBottomTabBar;
-
 import java.util.Calendar;
 
 /**
@@ -37,17 +30,12 @@ public class Reports_Tab_Frag extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int int_items = 3 ;
-    public static int page;
+    public static int int_items = 3;
     Reports_Tab_Frag.MyAdapter myAdapter;
-    public static ExpandableBottomTabBar tabBarView;
-    public static FullScreenDialogFragment dialogFragment;
-    Boolean first = true;
-    Calendar manual;
     Context context;
     Integer[] colors = null;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-
+    public static int page;
     public Reports_Tab_Frag(){}
 
     @Override
@@ -55,11 +43,8 @@ public class Reports_Tab_Frag extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reports_tab, container, false);
         context = view.getContext();
-//        System.out.println("Infalte ok");
-//        Toast.makeText(getActivity(),"Inflate Done",Toast.LENGTH_SHORT).show();
-        //((Main_Tab) getActivity()).setActionBarTitle("title");
+        // System.out.println("Infalte ok");
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         adap();
         return view;
@@ -96,7 +81,8 @@ public class Reports_Tab_Frag extends Fragment {
 
 
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(int position){
+                page = position;
 //                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
 //                switch (position){
 //                    case 0:
@@ -144,14 +130,11 @@ public class Reports_Tab_Frag extends Fragment {
     }
 
     private void setUpColors(){
-
         Integer color1 = getResources().getColor(R.color.primary_deshario);
         Integer color2 = getResources().getColor(R.color.material_red);
         Integer color3 = getResources().getColor(R.color.success_bootstrap);
-
         Integer[] colors_temp = {color1, color2, color3};
         colors = colors_temp;
-
     }
 
     class MyAdapter extends FragmentPagerAdapter {

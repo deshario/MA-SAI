@@ -1,7 +1,6 @@
 package com.deshario.agriculture.Fragments;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.deshario.agriculture.Adapters.ReportslistAdapter;
-import com.deshario.agriculture.Models.ContactInfo;
+import com.deshario.agriculture.Models.ChartsTypes;
 import com.deshario.agriculture.R;
 
 import java.util.ArrayList;
@@ -60,13 +59,14 @@ public class Charts_Income_Lists_Frag extends Fragment {
         relativeLayout.setBackgroundColor(color);
     }
 
-    private List<ContactInfo> createList() {
-        List<ContactInfo> result = new ArrayList<ContactInfo>();
+    private List<ChartsTypes> createList() {
+        List<ChartsTypes> result = new ArrayList<ChartsTypes>();
         for (int i=0; i<titles.length; i++) {
-            ContactInfo contactInfo = new ContactInfo();
-            contactInfo.setTitle(titles[i]);
-            contactInfo.setDesc(desc[i]);
-            result.add(contactInfo);
+            ChartsTypes chartsTypes = new ChartsTypes();
+            chartsTypes.setId(i+1);
+            chartsTypes.setTitle(titles[i]);
+            chartsTypes.setDesc(desc[i]);
+            result.add(chartsTypes);
         }
         return result;
     }

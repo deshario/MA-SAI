@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.View;
 
 import com.deshario.agriculture.Fragments.Charts_Tab_Frag;
 import com.deshario.agriculture.Fragments.Main_Frag;
@@ -39,8 +41,8 @@ public class ReportsManager extends AppCompatActivity {
         setContentView(R.layout.main_charts_tablayout);
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.setCustomAnimations(R.anim.enterfromleft, R.anim.exittoright, android.R.anim.slide_out_right, android.R.anim.slide_in_left);
         mFragmentTransaction.replace(R.id.containerView, new Reports_Tab_Frag());
-        mFragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.commit();
 
@@ -53,7 +55,17 @@ public class ReportsManager extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        //onResume();
+        System.out.println("backstack = "+mFragmentManager.getBackStackEntryCount());
+        super.onBackPressed();
+        //finish();
+//        if (mFragmentManager.getBackStackEntryCount() > 1){
+//            //mFragmentManager.popBackStackImmediate();
+//            getFragmentManager().popBackStack();
+//        }else{
+//            finish();
+//        }
         Main_Frag.tabBarView.resetFocusOnAllTabs();
     }
+
 }
