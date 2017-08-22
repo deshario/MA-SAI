@@ -1,18 +1,30 @@
 package com.deshario.agriculture.Fragments;
 
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.deshario.agriculture.R;
+import com.deshario.agriculture.ReportsManager;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.vk.dev.android.ExpandableBottomTabBar;
 
@@ -33,20 +45,10 @@ public class Reports_Tab_Frag extends Fragment {
     Boolean first = true;
     Calendar manual;
     Context context;
+    Integer[] colors = null;
+    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
-    final int[] ICONS = new int[] {
-//            R.mipmap.ic_launcher,
-            R.drawable.left,
-            R.drawable.latest,
-            R.drawable.predict,
-    };
-
-
-
-    public Reports_Tab_Frag() {
-        // Required empty public constructor
-    }
-
+    public Reports_Tab_Frag(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class Reports_Tab_Frag extends Fragment {
 //        Toast.makeText(getActivity(),"Inflate Done",Toast.LENGTH_SHORT).show();
         //((Main_Tab) getActivity()).setActionBarTitle("title");
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         adap();
         return view;
@@ -64,10 +67,15 @@ public class Reports_Tab_Frag extends Fragment {
 
 
     public void adap(){
+        final Drawable income_icon = setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
+        final Drawable decrease_icon = setTint(getResources().getDrawable(R.drawable.decrease),Color.WHITE);
+        final Drawable other_icon = setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
         //Set an Apater for the View Pager
         myAdapter = new MyAdapter(getChildFragmentManager());
         viewPager.setAdapter(myAdapter);
-        viewPager.setCurrentItem(1);
+        setUpColors();
+        final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
+        //viewPager.setCurrentItem(1);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -76,21 +84,38 @@ public class Reports_Tab_Frag extends Fragment {
                 //   onPageSelected(1); // default must be 0 || lefttab is 0 so...
                 //   first = false;
                 //}
+                if(position < (myAdapter.getCount() -1) && position < (colors.length - 1)) {
+                    viewPager.setBackgroundColor((Integer) argbEvaluator.evaluate(positionOffset, colors[position], colors[position + 1]));
+                    tabLayout.setBackgroundColor((Integer) argbEvaluator.evaluate(positionOffset, colors[position], colors[position + 1]));
+                    toolbar.setBackgroundColor((Integer) argbEvaluator.evaluate(positionOffset, colors[position], colors[position + 1]));
+
+                }else{
+                    viewPager.setBackgroundColor(colors[colors.length - 1]);
+                }
             }
+
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
-                    case 0:
-                        Previous_Record_Frag.btn_refresh.performClick();
-                        break;
-                    case 1:
-                        Latest_Record_Frag.btn_refresh.performClick();
-                        break;
-                    case 2:
-                        break;
-                    default:
-                }
+//                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
+//                switch (position){
+//                    case 0:
+//                        tabLayout.setBackgroundColor(getResources().getColor(R.color.primary_deshario));
+//                        toolbar.setBackgroundColor(getResources().getColor(R.color.primary_deshario));
+////                        Charts_Income_Lists_Frag.changecolor(getResources().getColor(R.color.primary_deshario));
+//                        break;
+//                    case 1:
+//                        tabLayout.setBackgroundColor(getResources().getColor(R.color.material_red));
+//                        toolbar.setBackgroundColor(getResources().getColor(R.color.material_red));
+////                        Charts_Expense_Lists_Frag.changecolor(getResources().getColor(R.color.material_red));
+//                        break;
+//                    case 2:
+//                        tabLayout.setBackgroundColor(getResources().getColor(R.color.success_bootstrap));
+//                        toolbar.setBackgroundColor(getResources().getColor(R.color.success_bootstrap));
+////                        Charts_Compensation_Lists_Frag.changecolor(getResources().getColor(R.color.success_bootstrap));
+//                        break;
+//                    default:
+//                }
             }
 
             @Override
@@ -99,18 +124,33 @@ public class Reports_Tab_Frag extends Fragment {
             }
         });
 
-
-
         // SetupWithViewPager doesn't works without the runnable
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(viewPager);
-                tabLayout.getTabAt(0).setIcon(ICONS[0]);
-                tabLayout.getTabAt(1).setIcon(ICONS[1]);
-                tabLayout.getTabAt(2).setIcon(ICONS[2]);
+                tabLayout.getTabAt(0).setIcon(income_icon);
+                tabLayout.getTabAt(1).setIcon(decrease_icon);
+                tabLayout.getTabAt(2).setIcon(other_icon);
             }
         });
+
+    }
+
+    public Drawable setTint(Drawable d, int color) {
+        Drawable wrappedDrawable = DrawableCompat.wrap(d);
+        DrawableCompat.setTint(wrappedDrawable, color);
+        return wrappedDrawable;
+    }
+
+    private void setUpColors(){
+
+        Integer color1 = getResources().getColor(R.color.primary_deshario);
+        Integer color2 = getResources().getColor(R.color.material_red);
+        Integer color3 = getResources().getColor(R.color.success_bootstrap);
+
+        Integer[] colors_temp = {color1, color2, color3};
+        colors = colors_temp;
 
     }
 

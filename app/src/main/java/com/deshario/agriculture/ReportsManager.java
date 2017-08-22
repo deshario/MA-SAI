@@ -1,6 +1,7 @@
 package com.deshario.agriculture;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -22,11 +23,20 @@ import java.util.Calendar;
 public class ReportsManager extends AppCompatActivity {
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
+    Toolbar myToolbar;
+
+    public Toolbar getMyToolbar() {
+        return myToolbar;
+    }
+
+    public void setMyToolbar(Toolbar myToolbar) {
+        this.myToolbar = myToolbar;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_tablayout);
+        setContentView(R.layout.main_charts_tablayout);
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView, new Reports_Tab_Frag());
@@ -34,10 +44,11 @@ public class ReportsManager extends AppCompatActivity {
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.commit();
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(" รายงาน");
         getSupportActionBar().setIcon(R.drawable.ic_dashboard_white_24dp);
+
     }
 
     @Override

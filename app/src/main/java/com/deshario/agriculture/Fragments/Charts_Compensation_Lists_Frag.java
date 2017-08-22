@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.deshario.agriculture.Adapters.ReportslistAdapter;
 import com.deshario.agriculture.Models.ContactInfo;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 public class Charts_Compensation_Lists_Frag extends Fragment {
 
+    public static View customview;
 
     public Charts_Compensation_Lists_Frag() {
         // Required empty public constructor
@@ -39,6 +41,7 @@ public class Charts_Compensation_Lists_Frag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_charts_list, container, false);
+        customview = view;
         RecyclerView recList = (RecyclerView)view.findViewById(R.id.cardList);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -48,6 +51,11 @@ public class Charts_Compensation_Lists_Frag extends Fragment {
         ReportslistAdapter ca = new ReportslistAdapter(createList());
         recList.setAdapter(ca);
         return view;
+    }
+
+    public static void changecolor(int color){
+        RelativeLayout relativeLayout = (RelativeLayout)customview.findViewById(R.id.chart_list);
+        relativeLayout.setBackgroundColor(color);
     }
 
     private List<ContactInfo> createList() {
