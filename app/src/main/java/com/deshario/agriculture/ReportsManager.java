@@ -9,7 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.deshario.agriculture.Fragments.Charts_Tab_Frag;
 import com.deshario.agriculture.Fragments.Main_Frag;
@@ -26,14 +28,9 @@ public class ReportsManager extends AppCompatActivity {
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     Toolbar myToolbar;
+    ImageView imgToolIcon;
 
-    public Toolbar getMyToolbar() {
-        return myToolbar;
-    }
 
-    public void setMyToolbar(Toolbar myToolbar) {
-        this.myToolbar = myToolbar;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,31 +38,48 @@ public class ReportsManager extends AppCompatActivity {
         setContentView(R.layout.main_charts_tablayout);
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.setCustomAnimations(R.anim.enterfromleft, R.anim.exittoright, android.R.anim.slide_out_right, android.R.anim.slide_in_left);
+        mFragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         mFragmentTransaction.replace(R.id.containerView, new Reports_Tab_Frag());
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.commit();
 
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(" รายงาน");
-        getSupportActionBar().setIcon(R.drawable.ic_dashboard_white_24dp);
+        imgToolIcon = (ImageView) myToolbar.findViewById(R.id.toolbar_icon);
+//        setSupportActionBar(myToolbar);
+//        getSupportActionBar().setTitle(" รายงาน");
+//        getSupportActionBar().setIcon(R.drawable.ic_dashboard_white_24dp);
+    }
 
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onBackPressed() {
-        //onResume();
-        System.out.println("backstack = "+mFragmentManager.getBackStackEntryCount());
-        super.onBackPressed();
-        //finish();
-//        if (mFragmentManager.getBackStackEntryCount() > 1){
-//            //mFragmentManager.popBackStackImmediate();
-//            getFragmentManager().popBackStack();
-//        }else{
-//            finish();
-//        }
+    public void onBackPressed(){
         Main_Frag.tabBarView.resetFocusOnAllTabs();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1){
+                 finish();
+            }else{
+                mFragmentManager.popBackStackImmediate();
+                resetTolbar();
+                Reports_Tab_Frag.tabLayout.setBackgroundColor(getResources().getColor(R.color.success_bootstrap));
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
+
+    public void resetTolbar(){
+        imgToolIcon.setImageResource(R.drawable.ic_timeline_white_24dp);
+    }
+
+
 
 }

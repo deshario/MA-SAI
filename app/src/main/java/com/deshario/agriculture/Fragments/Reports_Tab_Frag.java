@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.deshario.agriculture.R;
 import java.util.Calendar;
+import java.util.Stack;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +36,10 @@ public class Reports_Tab_Frag extends Fragment {
     Context context;
     Integer[] colors = null;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-    public static int page;
+
+    public static  Stack<Integer> stackkk = new Stack<>(); // Edited
+    public static int tabPosition = 0;
+
     public Reports_Tab_Frag(){}
 
     @Override
@@ -82,7 +86,6 @@ public class Reports_Tab_Frag extends Fragment {
 
             @Override
             public void onPageSelected(int position){
-                page = position;
 //                Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
 //                switch (position){
 //                    case 0:
@@ -121,6 +124,9 @@ public class Reports_Tab_Frag extends Fragment {
             }
         });
 
+    }
+    public static int getPage(){
+        return viewPager.getCurrentItem();
     }
 
     public Drawable setTint(Drawable d, int color) {
