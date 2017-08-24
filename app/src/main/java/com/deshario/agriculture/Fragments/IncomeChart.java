@@ -130,7 +130,7 @@ public class IncomeChart extends Fragment {
             }else{
                 Double d = new Double(0.0);
                 month_datas[c] = d.intValue();
-                //System.out.println(dates.get(i)+" : "+status);
+                System.out.println(dates.get(c)+" : "+status);
             }
         }
 

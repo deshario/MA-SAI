@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.deshario.agriculture.Fragments.Charts_Tab_Frag;
 import com.deshario.agriculture.Fragments.Main_Frag;
@@ -28,9 +29,8 @@ public class ReportsManager extends AppCompatActivity {
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     Toolbar myToolbar;
-    ImageView imgToolIcon;
-
-
+    ImageView tool_icon,opt_icon;
+    TextView title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,10 +44,10 @@ public class ReportsManager extends AppCompatActivity {
         mFragmentTransaction.commit();
 
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        imgToolIcon = (ImageView) myToolbar.findViewById(R.id.toolbar_icon);
-//        setSupportActionBar(myToolbar);
-//        getSupportActionBar().setTitle(" รายงาน");
-//        getSupportActionBar().setIcon(R.drawable.ic_dashboard_white_24dp);
+        tool_icon = (ImageView) myToolbar.findViewById(R.id.toolbar_icon);
+        opt_icon = (ImageView)myToolbar.findViewById(R.id.opt_menu);
+        title = (TextView) myToolbar.findViewById(R.id.toolbar_title);
+        opt_icon.setVisibility(View.INVISIBLE);
     }
 
 
@@ -77,7 +77,9 @@ public class ReportsManager extends AppCompatActivity {
     }
 
     public void resetTolbar(){
-        imgToolIcon.setImageResource(R.drawable.ic_timeline_white_24dp);
+        title.setText("รายงาน");
+        tool_icon.setImageResource(R.drawable.ic_timeline_white_24dp);
+        opt_icon.setVisibility(View.INVISIBLE);
     }
 
 

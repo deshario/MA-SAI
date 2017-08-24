@@ -37,17 +37,13 @@ public class Reports_Tab_Frag extends Fragment {
     Integer[] colors = null;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
-    public static  Stack<Integer> stackkk = new Stack<>(); // Edited
-    public static int tabPosition = 0;
 
     public Reports_Tab_Frag(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reports_tab, container, false);
         context = view.getContext();
-        // System.out.println("Infalte ok");
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         adap();

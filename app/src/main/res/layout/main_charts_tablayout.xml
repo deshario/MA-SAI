@@ -26,31 +26,26 @@
 
         <TextView
             android:layout_marginLeft="30dp"
-            android:id="@+id/toolbar_subtitle"
-            android:textSize="26sp"
+            android:id="@+id/toolbar_title"
+            android:textSize="24sp"
             android:text="รายงาน"
             android:textColor="@color/default_bootstrap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
 
+        <ImageView
+            android:id="@+id/opt_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit_white_24dp"
+            android:padding="8dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="right"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
 
     </android.support.v7.widget.Toolbar>
-
-
-    <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
-    <!--android:id="@+id/search_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--app:searchBackground="@color/dot_dark_screen4"-->
-    <!--app:searchSuggestionBackground="@color/dot_dark_screen4"-->
-    <!--app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"-->
-    <!--app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"-->
-    <!--app:searchSuggestionIcon="@drawable/ic_suggestion"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:textColorHint="@color/custom_text_selected"-->
-    <!--android:hint="ค้นหาอาจารย์"-->
-    <!--/>-->
 
     <FrameLayout
         android:layout_below="@+id/my_toolbar"

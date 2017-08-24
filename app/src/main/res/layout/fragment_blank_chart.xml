@@ -3,36 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/my_toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:background="@color/primary_deshario"-->
+        <!--app:titleTextColor="@android:color/white"-->
+        <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
+
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/success_bootstrap"-->
+            <!--android:text="Filter"-->
+            <!--android:textColor="@color/default_bootstrap"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"/>-->
+
+    <!--</android.support.v7.widget.Toolbar>-->
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chart1"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary_deshario"
-        app:titleTextColor="@android:color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/success_bootstrap"
-            android:text="Filter"
-            android:textColor="@color/default_bootstrap"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="right"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
-
-    </android.support.v7.widget.Toolbar>
-
-    <FrameLayout
-        android:layout_below="@+id/my_toolbar"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/containerView"
-        />
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
