@@ -3,7 +3,7 @@ package com.deshario.agriculture.Formatter;
 /**
  * Created by Deshario on 8/24/2017.
  */
-import com.deshario.agriculture.Fragments.BlankChartFragment;
+import com.deshario.agriculture.Fragments.Income_Per_Date_Frag;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class XAxisValueFormatter implements IAxisValueFormatter{
 
         ArrayList<String> my_months = new ArrayList<>();
         ArrayList<String> my_day = new ArrayList<>();
-        ArrayList<String>[] all_data = BlankChartFragment.getDate();
+        ArrayList<String>[] all_data = Income_Per_Date_Frag.getDate();
         my_months = all_data[0];
         my_day = all_data[1];
 

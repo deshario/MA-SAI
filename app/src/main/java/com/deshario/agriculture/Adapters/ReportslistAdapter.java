@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -17,14 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.deshario.agriculture.Fragments.BlankChartFragment;
-import com.deshario.agriculture.Fragments.Categories2_Frag;
+import com.deshario.agriculture.Fragments.Categories1_Frag;
 import com.deshario.agriculture.Fragments.ExpenseChart;
+import com.deshario.agriculture.Fragments.Income_Per_Date_Frag;
+import com.deshario.agriculture.Fragments.Categories2_Frag;
 import com.deshario.agriculture.Fragments.IncomeChart;
+import com.deshario.agriculture.Fragments.Income_Per_Month_Frag;
 import com.deshario.agriculture.Fragments.Reports_Tab_Frag;
 import com.deshario.agriculture.Models.ChartsTypes;
 import com.deshario.agriculture.R;
-import com.deshario.agriculture.ReportsManager;
 
 import java.util.List;
 
@@ -84,11 +83,16 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
             Bundle bundle = new Bundle();
             switch (page_no){
                 case 0:
-                    frag = new BlankChartFragment();
+                    if(id == 1)
+                        frag = new Income_Per_Date_Frag();
+                    if(id == 2)
+                        frag = new Income_Per_Month_Frag();
+                    if(id == 3)
+                        frag = new Categories2_Frag();
                     bundle.putString("title1", title);
                     break;
                 case 1:
-                    frag = new Categories2_Frag();
+                    frag = new ExpenseChart();
                     bundle.putString("title2", title);
                     break;
                 case 2:

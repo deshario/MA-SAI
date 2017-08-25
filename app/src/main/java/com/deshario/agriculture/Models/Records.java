@@ -224,14 +224,36 @@ public class Records extends Model {
         return records;
     }
 
-    public static List<Records> getLast8DaysData(String firstdate, String lastdate, int catg_type){
+
+    public static List<Records> getDataBetweenDays(String firstdate, String lastdate, int catg_type){
         List<Records> records = new ArrayList<>();
 //        String deshario = "SELECT * FROM Records JOIN Categories ON Records.category_id = Categories.Id " +
 //                "WHERE data_created BETWEEN datetime('now', '-8 days') AND datetime('now', 'localtime') " +
 //                "AND Categories.cat_type = "+catg_type;
         String deshario = "SELECT * FROM Records JOIN Categories ON Records.category_id = Categories.Id " +
                 "WHERE data_created BETWEEN '"+firstdate+"' AND '"+lastdate+"' AND Categories.cat_type = "+catg_type;
-        System.out.println("sql :: "+deshario);
+        Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
+        while(resultCursor.moveToNext()) {
+            Records found_records = new Records();
+            Category category = new Category();
+            category.setCat_topic(resultCursor.getString(resultCursor.getColumnIndexOrThrow("cat_topic")));
+            category.setCat_item(resultCursor.getString(resultCursor.getColumnIndexOrThrow("cat_item")));
+            category.setCat_type(resultCursor.getInt(resultCursor.getColumnIndexOrThrow("cat_type")));
+
+            found_records.setData_amount(resultCursor.getDouble(resultCursor.getColumnIndexOrThrow("data_amount")));
+            found_records.setShortnote(resultCursor.getString(resultCursor.getColumnIndexOrThrow("shortnote")));
+            found_records.setData_created(resultCursor.getString(resultCursor.getColumnIndexOrThrow("data_created")));
+            found_records.setCategory(category);
+            records.add(found_records);
+        }
+        return records;
+    }
+
+    public static List<Records> getDataBetweenMonths(String firstdate, String lastdate, int catg_type){
+        List<Records> records = new ArrayList<>();
+                //SELECT * FROM Records WHERE strftime('%Y-%m', data_created) between '2017-05' and '2017-07'
+        String deshario = "SELECT * FROM Records JOIN Categories ON Records.category_id = Categories.Id " +
+                "WHERE strftime('%Y-%m', data_created) BETWEEN '"+firstdate+"' AND '"+lastdate+"' AND Categories.cat_type = "+catg_type;
         Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
         while(resultCursor.moveToNext()) {
             Records found_records = new Records();

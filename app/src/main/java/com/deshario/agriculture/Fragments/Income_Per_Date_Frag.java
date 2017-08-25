@@ -1,6 +1,5 @@
 package com.deshario.agriculture.Fragments;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
-import com.deshario.agriculture.Formatter.BottomXValueFormatter;
 import com.deshario.agriculture.Formatter.XAxisValueFormatter;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
@@ -37,25 +35,14 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BlankChartFragment extends Fragment {
+public class Income_Per_Date_Frag extends Fragment {
 
     protected BarChart mChart;
     String toolbar_title;
     ImageView tool_imageView;
-
-   // int numberOfPoints;
-    Calendar cal;
-    //int maxDay;
-    int datas[] = new int[100];
-    SimpleDateFormat df;
-    int maxval;
     public static ArrayList<String> previous_8days;
 
-
-    public BlankChartFragment() {
-        // Required empty public constructor
-    }
-
+    public Income_Per_Date_Frag(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -82,19 +69,15 @@ public class BlankChartFragment extends Fragment {
 
         mChart = (BarChart)view.findViewById(R.id.chart1);
         work();
-
         return view;
     }
 
     public void work(){
-
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
-
         mChart.getDescription().setEnabled(false);
 
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
+        // if more than 60 entries are displayed in the chart, no values will be drawn
         mChart.setMaxVisibleValueCount(60);
 
         // scaling can now only be done on x- and y-axis separately
@@ -103,21 +86,13 @@ public class BlankChartFragment extends Fragment {
         mChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 
-
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         //xAxis.setTypeface(mTfLight);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(7);
-       // xAxis.setValueFormatter(xAxisFormatter);
         xAxis.setValueFormatter(new XAxisValueFormatter());
-//        xAxis.setValueFormatter(new IAxisValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                return xLabel.get((int)value);
-//            }
-//        });
 
         IAxisValueFormatter custom = new YAxisValueFormatter();
 
@@ -131,12 +106,6 @@ public class BlankChartFragment extends Fragment {
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
-//        rightAxis.setDrawGridLines(false);
-//        //rightAxis.setTypeface(mTfLight);
-//        rightAxis.setLabelCount(8, false);
-//        rightAxis.setValueFormatter(custom);
-//        rightAxis.setSpaceTop(15f);
-//        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         Legend legend = mChart.getLegend();
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
@@ -153,21 +122,63 @@ public class BlankChartFragment extends Fragment {
 //        mv.setChartView(mChart); // For bounds control
 //        mChart.setMarker(mv); // Set the marker to the chart
 
-
         dbwork();
+    }
 
-        // mChart.setDrawLegend(false);
+    private void dbwork(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        previous_8days = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        //System.out.println("today : "+sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_YEAR, -8); // get starting date
+        for(int i = 0; i<8; i++){ // loop adding one day in each iteration
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+            String date = sdf.format(cal.getTime());
+            previous_8days.add(i,date);
+        }
+
+        String first_date = previous_8days.get(0);
+        String last_date = previous_8days.get(previous_8days.size()-1);
+
+        List<Records> abc = Records.getDataBetweenDays(first_date,last_date,3);
+        ArrayList<String> found_dates = new ArrayList<>();
+        for(int a=0; a<abc.size(); a++){
+            String my_date = abc.get(a).getData_created();
+            found_dates.add(a,my_date);
+        }
+
+        System.out.println("previous_8days : "+previous_8days);
+        System.out.println("found_dates : "+found_dates);
+
+        int previous_week_data[] = new int[previous_8days.size()];
+        for(int c=0; c<previous_8days.size(); c++){
+            boolean status = check_exists(found_dates,previous_8days.get(c));
+            if(status == true){
+                Records reca = Records.getSingleRecordsByDate(previous_8days.get(c));
+                System.out.println(previous_8days.get(c)+" : "+status);
+                System.out.println("Amount :: "+reca.getData_amount());
+                Double d = new Double(reca.getData_amount());
+                previous_week_data[c] = d.intValue();
+            }else{
+                Double d = new Double(0.0);
+                previous_week_data[c] = d.intValue();
+                System.out.println(previous_8days.get(c)+" : "+status);
+            }
+        }
+
+        System.out.println("Max :: "+maxValue(previous_week_data));
+
+        System.out.println("Values are :: "+Arrays.toString(previous_week_data));
+        setData(previous_week_data);
     }
 
     private void setData(int previous_week_data[]) {
-
+        System.out.println("fafa");
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         for (int i=0; i<previous_week_data.length; i++) {
             yVals1.add(new BarEntry(i, previous_week_data[i]));
         }
-
         BarDataSet set1;
-
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(yVals1);
@@ -178,11 +189,12 @@ public class BlankChartFragment extends Fragment {
             set1.setDrawIcons(false);
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
             set1.setColors(getResources().getColor(R.color.primary_deshario));
-            set1.setValueFormatter(new BottomXValueFormatter());
+            set1.setHighlightEnabled(true);
+            set1.setHighLightColor(getResources().getColor(R.color.success_bootstrap));
+            set1.setHighLightAlpha(200);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
-
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f); // font of chart value labels
             //data.setValueTypeface(mTfLight);
@@ -232,55 +244,6 @@ public class BlankChartFragment extends Fragment {
         lists[1] = days;
 
         return lists;
-    }
-
-    private void dbwork(){
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        previous_8days = new ArrayList<>();
-        Calendar cal = Calendar.getInstance();
-        //System.out.println("today : "+sdf.format(cal.getTime()));
-        cal.add(Calendar.DAY_OF_YEAR, -8); // get starting date
-        for(int i = 0; i<8; i++){ // loop adding one day in each iteration
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            String date = sdf.format(cal.getTime());
-            previous_8days.add(i,date);
-        }
-
-       String first_date = previous_8days.get(0);
-       String last_date = previous_8days.get(previous_8days.size()-1);
-
-        List<Records> abc = Records.getLast8DaysData(first_date,last_date,3);
-        ArrayList<String> found_dates = new ArrayList<>();
-        for(int a=0; a<abc.size(); a++){
-            String my_date = abc.get(a).getData_created();
-            found_dates.add(a,my_date);
-        }
-
-        System.out.println("previous_8days : "+previous_8days);
-        System.out.println("found_dates : "+found_dates);
-
-        int previous_week_data[] = new int[previous_8days.size()];
-        for(int c=0; c<previous_8days.size(); c++){
-            boolean status = check_exists(found_dates,previous_8days.get(c));
-            if(status == true){
-                Records reca = Records.getSingleRecordsByDate(previous_8days.get(c));
-                System.out.println(previous_8days.get(c)+" : "+status);
-                System.out.println("Amount :: "+reca.getData_amount());
-                Double d = new Double(reca.getData_amount());
-                previous_week_data[c] = d.intValue();
-            }else{
-                Double d = new Double(0.0);
-                previous_week_data[c] = d.intValue();
-                System.out.println(previous_8days.get(c)+" : "+status);
-            }
-        }
-
-        maxval = maxValue(previous_week_data);
-        System.out.println("Max :: "+maxValue(previous_week_data));
-
-        System.out.println("Values are :: "+Arrays.toString(previous_week_data));
-        setData(previous_week_data);
     }
 
     public boolean check_exists(ArrayList<String> datalist,String keyword){
