@@ -8,16 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.deshario.agriculture.Formatter.DayAxisValueFormatter;
-import com.deshario.agriculture.Formatter.MyAxisValueFormatter;
-import com.deshario.agriculture.Formatter.MyXAxisValueFormatter;
+import com.deshario.agriculture.Formatter.YAxisValueFormatter;
+import com.deshario.agriculture.Formatter.BottomXValueFormatter;
+import com.deshario.agriculture.Formatter.XAxisValueFormatter;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -26,20 +24,15 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import lecho.lib.hellocharts.model.PointValue;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,10 +103,6 @@ public class BlankChartFragment extends Fragment {
         mChart.setDrawGridBackground(false);
         // mChart.setDrawYLabels(false);
 
-        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart);
-
-
-
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -122,7 +111,7 @@ public class BlankChartFragment extends Fragment {
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(7);
        // xAxis.setValueFormatter(xAxisFormatter);
-        xAxis.setValueFormatter(new MyXAxisValueFormatter());
+        xAxis.setValueFormatter(new XAxisValueFormatter());
 //        xAxis.setValueFormatter(new IAxisValueFormatter() {
 //            @Override
 //            public String getFormattedValue(float value, AxisBase axis) {
@@ -130,7 +119,7 @@ public class BlankChartFragment extends Fragment {
 //            }
 //        });
 
-        IAxisValueFormatter custom = new MyAxisValueFormatter();
+        IAxisValueFormatter custom = new YAxisValueFormatter();
 
         YAxis leftAxis = mChart.getAxisLeft();
         // leftAxis.setTypeface(mTfLight);
@@ -159,9 +148,8 @@ public class BlankChartFragment extends Fragment {
         legend.setTextSize(11f);
         legend.setXEntrySpace(4f);
 
-
 //       Comment upside
-//        XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
+//        XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter);
 //        mv.setChartView(mChart); // For bounds control
 //        mChart.setMarker(mv); // Set the marker to the chart
 
@@ -190,6 +178,7 @@ public class BlankChartFragment extends Fragment {
             set1.setDrawIcons(false);
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
             set1.setColors(getResources().getColor(R.color.primary_deshario));
+            set1.setValueFormatter(new BottomXValueFormatter());
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
@@ -202,9 +191,6 @@ public class BlankChartFragment extends Fragment {
         }
         mChart.animateXY(3000, 3000);
         mChart.setHighlightFullBarEnabled(true);
-        for (IBarDataSet set : mChart.getData().getDataSets())
-            ((BarDataSet) set).setBarBorderWidth(set.getBarBorderWidth() == 1.f ? 0.f : 1.f);
-        mChart.invalidate();
     }
 
     public static String getCalculatedDate(String dateFormat, int days) {
@@ -220,7 +206,7 @@ public class BlankChartFragment extends Fragment {
         ArrayList<String> months = new ArrayList<>();
         ArrayList<String> days = new ArrayList<>();
         Date date = null;
-        ArrayList<String> previous_8_days = BlankChartFragment.previous_8days;
+        ArrayList<String> previous_8_days = previous_8days;
         for(int i=0; i<previous_8_days.size(); i++){
             String dates = previous_8_days.get(i);
             try{
@@ -261,14 +247,17 @@ public class BlankChartFragment extends Fragment {
             previous_8days.add(i,date);
         }
 
-        List<Records> abc = Records.getLast8DaysData(3);
+       String first_date = previous_8days.get(0);
+       String last_date = previous_8days.get(previous_8days.size()-1);
+
+        List<Records> abc = Records.getLast8DaysData(first_date,last_date,3);
         ArrayList<String> found_dates = new ArrayList<>();
         for(int a=0; a<abc.size(); a++){
             String my_date = abc.get(a).getData_created();
             found_dates.add(a,my_date);
         }
 
-        System.out.println("dates : "+previous_8days);
+        System.out.println("previous_8days : "+previous_8days);
         System.out.println("found_dates : "+found_dates);
 
         int previous_week_data[] = new int[previous_8days.size()];
@@ -315,7 +304,7 @@ public class BlankChartFragment extends Fragment {
         String[] th_months = new String[] {
                 "ม.ค","ก.พ","มี.ค","เม.ย","พ.ค","มิ.ย","ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
         };
-        return th_months[month];
+        return th_months[month-1]; // index start from 0 so must -1
     }
 
 }

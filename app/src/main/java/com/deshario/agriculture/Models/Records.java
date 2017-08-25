@@ -224,11 +224,14 @@ public class Records extends Model {
         return records;
     }
 
-    public static List<Records> getLast8DaysData(int catg_type){
+    public static List<Records> getLast8DaysData(String firstdate, String lastdate, int catg_type){
         List<Records> records = new ArrayList<>();
+//        String deshario = "SELECT * FROM Records JOIN Categories ON Records.category_id = Categories.Id " +
+//                "WHERE data_created BETWEEN datetime('now', '-8 days') AND datetime('now', 'localtime') " +
+//                "AND Categories.cat_type = "+catg_type;
         String deshario = "SELECT * FROM Records JOIN Categories ON Records.category_id = Categories.Id " +
-                "WHERE data_created BETWEEN datetime('now', '-8 days') AND datetime('now', 'localtime') " +
-                "AND Categories.cat_type = "+catg_type;
+                "WHERE data_created BETWEEN '"+firstdate+"' AND '"+lastdate+"' AND Categories.cat_type = "+catg_type;
+        System.out.println("sql :: "+deshario);
         Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
         while(resultCursor.moveToNext()) {
             Records found_records = new Records();

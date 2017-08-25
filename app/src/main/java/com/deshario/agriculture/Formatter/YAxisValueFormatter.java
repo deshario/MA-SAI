@@ -8,12 +8,12 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.DecimalFormat;
 
-public class MyAxisValueFormatter implements IAxisValueFormatter
+public class YAxisValueFormatter implements IAxisValueFormatter
 {
 
     private DecimalFormat mFormat;
 
-    public MyAxisValueFormatter() {
+    public YAxisValueFormatter() {
         mFormat = new DecimalFormat("###,###,###,##0.0");
     }
 
