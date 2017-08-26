@@ -20,6 +20,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.R;
 import java.util.Calendar;
 import java.util.Stack;
@@ -52,9 +54,9 @@ public class Reports_Tab_Frag extends Fragment {
 
 
     public void adap(){
-        final Drawable income_icon = setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
-        final Drawable decrease_icon = setTint(getResources().getDrawable(R.drawable.decrease),Color.WHITE);
-        final Drawable other_icon = setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
+        final Drawable income_icon = Deshario_Functions.setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
+        final Drawable decrease_icon = Deshario_Functions.setTint(getResources().getDrawable(R.drawable.decrease),Color.WHITE);
+        final Drawable other_icon = Deshario_Functions.setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
         //Set an Apater for the View Pager
         myAdapter = new MyAdapter(getChildFragmentManager());
         viewPager.setAdapter(myAdapter);
@@ -78,7 +80,6 @@ public class Reports_Tab_Frag extends Fragment {
                     viewPager.setBackgroundColor(colors[colors.length - 1]);
                 }
             }
-
 
             @Override
             public void onPageSelected(int position){
@@ -123,12 +124,6 @@ public class Reports_Tab_Frag extends Fragment {
     }
     public static int getPage(){
         return viewPager.getCurrentItem();
-    }
-
-    public Drawable setTint(Drawable d, int color) {
-        Drawable wrappedDrawable = DrawableCompat.wrap(d);
-        DrawableCompat.setTint(wrappedDrawable, color);
-        return wrappedDrawable;
     }
 
     private void setUpColors(){

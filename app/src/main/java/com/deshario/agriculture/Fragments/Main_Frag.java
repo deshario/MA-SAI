@@ -93,18 +93,6 @@ public class Main_Frag extends Fragment {
                 switch (pos){
                     case 0:
                         startActivity(new Intent(getActivity(), ReportsManager.class));
-//                        final Bundle chart_args = new Bundle();
-//                        chart_args.putString(Charts_Tab_Frag.EXTRA_NAME, "charts_key");
-//                        FullScreenDialogFragment abs;
-//                        dialogFragment = new FullScreenDialogFragment.Builder(getActivity())
-//                                .setTitle("รายงาน")
-//                                .setFullScreen(true)
-////                                .setConfirmButton("⋮")
-//                                .setConfirmButton("⋮")
-//                                .setContent(Charts_Tab_Frag.class, chart_args)
-//                                .build();
-//
-//                        dialogFragment.show(getFragmentManager(), dialogTag);
                         break;
                     case 1:
                         Intent intent = new Intent(getActivity(),AddRecords.class);
@@ -133,8 +121,7 @@ public class Main_Frag extends Fragment {
                         dialogFragment.show(getFragmentManager(), dialogTag);
                         break;
                     case 4: // More Button
-
-
+                        tabBarView.resetFocusOnAllTabs();
                         break;
                     case 5: // paydebt
                         startActivity(new Intent(getActivity(),PayDebt.class));
@@ -156,10 +143,15 @@ public class Main_Frag extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        tabBarView.resetFocusOnAllTabs();
+        super.onResume();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
-
 
     public void adap(){
         //Set an Apater for the View Pager

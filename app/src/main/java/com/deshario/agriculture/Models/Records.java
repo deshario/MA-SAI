@@ -224,7 +224,6 @@ public class Records extends Model {
         return records;
     }
 
-
     public static List<Records> getDataBetweenDays(String firstdate, String lastdate, int catg_type){
         List<Records> records = new ArrayList<>();
 //        String deshario = "SELECT * FROM Records JOIN Categories ON Records.category_id = Categories.Id " +
@@ -269,6 +268,19 @@ public class Records extends Model {
             records.add(found_records);
         }
         return records;
+    }
+
+    public static float getSumofEachMonth(String customdate, int catg_type){
+        float totalsum = 0;
+        String deshario = "SELECT SUM(data_amount) AS summation FROM Records " +
+                "JOIN Categories ON Records.category_id = Categories.Id " +
+                "WHERE strftime('%Y-%m', data_created) = '"+customdate+"' AND Categories.cat_type = "+catg_type;
+        Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
+        while(resultCursor.moveToNext()){
+            float sum = resultCursor.getFloat(resultCursor.getColumnIndexOrThrow("summation"));
+            totalsum += sum;
+        }
+        return totalsum;
     }
 
     public static Records getSingleRecordsByDate(String date){

@@ -8,7 +8,7 @@ import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.util.ArrayList;
 
-public class XAxisValueFormatter implements IAxisValueFormatter{
+public class Day_XAxisValueFormatter implements IAxisValueFormatter{
 
     ArrayList<String> mDate = new ArrayList<>();
 

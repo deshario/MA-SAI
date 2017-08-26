@@ -13,13 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.deshario.agriculture.Fragments.Categories1_Frag;
-import com.deshario.agriculture.Fragments.ExpenseChart;
+import com.deshario.agriculture.Fragments.Income_Category_Frag;
 import com.deshario.agriculture.Fragments.Income_Per_Date_Frag;
 import com.deshario.agriculture.Fragments.Categories2_Frag;
-import com.deshario.agriculture.Fragments.IncomeChart;
 import com.deshario.agriculture.Fragments.Income_Per_Month_Frag;
 import com.deshario.agriculture.Fragments.Reports_Tab_Frag;
 import com.deshario.agriculture.Models.ChartsTypes;
@@ -36,7 +33,7 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
     Fragment frag;
     Context mContext;
     Toolbar toolbar;
-    ImageView imgToolIcon,opt_icon;
+    ImageView imgToolIcon;
 
     public ReportslistAdapter(List<ChartsTypes> contactList) {
         this.contactList = contactList;
@@ -89,14 +86,16 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
                         frag = new Income_Per_Month_Frag();
                     if(id == 3)
                         frag = new Categories2_Frag();
+                    if(id == 4)
+                        frag = new Income_Category_Frag();
                     bundle.putString("title1", title);
                     break;
                 case 1:
-                    frag = new ExpenseChart();
+                    frag = new Categories2_Frag();
                     bundle.putString("title2", title);
                     break;
                 case 2:
-                    frag = new IncomeChart();
+                    frag = new Categories2_Frag();
                     bundle.putString("title3", title);
                     break;
                 default:
@@ -117,20 +116,10 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
             toolbar = (Toolbar)((FragmentActivity)mContext).findViewById(R.id.my_toolbar);
             imgToolIcon = (ImageView) toolbar.findViewById(R.id.toolbar_icon);
             imgToolIcon.setImageResource(R.drawable.ic_arrow_back_white_24dp);
-            opt_icon = (ImageView)toolbar.findViewById(R.id.opt_menu);
-            opt_icon.setVisibility(View.VISIBLE);
-
             imgToolIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((FragmentActivity)mContext).onBackPressed();
-                }
-            });
-
-            opt_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("OPT CLICKED");
                 }
             });
         }

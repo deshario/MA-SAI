@@ -28,7 +28,8 @@ public class BottomXValueFormatter implements IValueFormatter {
         if(value > 0) {
             return "฿"+mFormat.format(value);
         } else {
-            return "฿0.00";
+            //return "฿0.00";
+            return "";
         }
     }
 }

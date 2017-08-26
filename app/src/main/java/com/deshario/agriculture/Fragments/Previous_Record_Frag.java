@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.deshario.agriculture.AddRecords;
+import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 
@@ -270,8 +271,8 @@ public class Previous_Record_Frag extends Fragment {
         int _year = Integer.valueOf(output[2]);
 
         int day_ = _day;
-        String month_ = Th_Months(_month-1,true);
-        int year_ = Th_Year(_year);
+        String month_ = Deshario_Functions.Th_Months(_month-1,true);
+        int year_ = Deshario_Functions.Th_Year(_year);
         full_thaidate = day_+" "+month_+" "+year_;
 
         return new String[]{
@@ -288,45 +289,18 @@ public class Previous_Record_Frag extends Fragment {
         int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
         int _year = Integer.valueOf(output[0]);
-        String month_ = Th_Months(_month-1,true);
-        int year_ = Th_Year(_year);
+        String month_ = Deshario_Functions.Th_Months(_month-1,true);
+        int year_ = Deshario_Functions.Th_Year(_year);
         thai_date = _day+" "+month_+" "+year_;
         return new String[]{
-                String.valueOf(AddRecords.add_zero_or_not(_day)),
+                String.valueOf(Deshario_Functions.add_zero_or_not(_day)),
                 month_,
                 String.valueOf(year_),
                 thai_date
         };
     }
 
-    public String Th_Months(int month, boolean full){
-        String[] th_months_short = new String[] {
-                "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."
-        };
-        String[] th_months_long = new String[]{
-                "มกราคม",
-                "กุมภาพันธ์",
-                "มีนาคม",
-                "เมษายน",
-                "พฤษภาคม",
-                "มิถุนายน",
-                "กรกฎาคม",
-                "สิงหาคม",
-                "กันยายน",
-                "ตุลาคม",
-                "พฤศจิกายน",
-                "ธันวาคม"
-        };
-        if(full == true){
-            return th_months_long[month];
-        }else{
-            return th_months_short[month];
-        }
-    }
 
-    public int Th_Year(int en_year){
-        return en_year+543;
-    }
 
 }
 

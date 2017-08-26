@@ -58,9 +58,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         setContentView(R.layout.add_record);
         initializtion_data();
 
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
+        Deshario_Functions.hideSoftInput(AddRecords.this);
 
         final String dialogTag = "dialog";
         if (savedInstanceState != null) {
@@ -83,9 +81,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         et_categories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Hide KeyBoard
-                hideKeyboard(AddRecords.this);
-                //
+                Deshario_Functions.hideKeyboard(AddRecords.this);
                 final Bundle args = new Bundle();
                 args.putString(Categories_Tab_Frag.EXTRA_NAME, "test");
                 dialogFragment = new FullScreenDialogFragment.Builder(AddRecords.this)
@@ -140,8 +136,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                     //System.out.println("Used Date : "+date);
                     try {
                         date = sdf.parse(used_date);
-                        AddRecords obj = new AddRecords();
-                        calendar = obj.dateToCalendar(date);
+                        calendar = Deshario_Functions.dateToCalendar(date);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -209,12 +204,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
             }
         });
 
-    }
-
-    private Calendar dateToCalendar(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar;
     }
 
     public void initializtion(){
@@ -304,19 +293,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Main_Frag.tabBarView.resetFocusOnAllTabs();
-    }
-
-    public void hideKeyboard(Context ctx) {
-        InputMethodManager inputManager = (InputMethodManager) ctx
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        // check if no view has focus:
-        View v = ((Activity) ctx).getCurrentFocus();
-        if (v == null)
-            return;
-
-        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     private String default_date(){
@@ -330,12 +306,12 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         System.out.println("SQ DATE OK : "+date_4insert);
 
         int _day = Integer.valueOf(output[2]);
-        int _month = Integer.valueOf(output[1]);
+        int _month = Integer.valueOf(output[1]); // jan = 1
         int _year = Integer.valueOf(output[0]);
 
         int day_ = _day;
-        String month_ = Th_Months(_month-1);
-        int year_ = Th_Year(_year);
+        String month_ = Deshario_Functions.Th_Months(_month);
+        int year_ = Deshario_Functions.Th_Year(_year);
         thai_date = day_+" "+month_+" "+year_;
 
         return thai_date;
@@ -343,61 +319,16 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth){
-            String month = add_zero_or_not(++monthOfYear);
-            String day = add_zero_or_not(dayOfMonth);
+            String month = Deshario_Functions.add_zero_or_not(++monthOfYear);
+            String day = Deshario_Functions.add_zero_or_not(dayOfMonth);
             String selected_date = year+"-"+month+"-"+day;
             date_4insert = selected_date;
             int sel_day = dayOfMonth;
-            String sel_month = Th_Months(monthOfYear-1);
-            int sel_year = Th_Year(year);
+            String sel_month = Deshario_Functions.Th_Months(monthOfYear);
+            int sel_year = Deshario_Functions.Th_Year(year);
             String total_date = sel_day+" "+sel_month+" "+sel_year;
             System.out.println("SQ DATE SET : "+date_4insert);
             et_date.setText(" "+total_date);
-    }
-
-    public String getThaiDate(Date date){
-        //System.out.println("transform this : "+date); //Sat Jul 29 00:00:00 GMT+07:00 2017
-        String thai_date = null;
-
-        String DATE_FORMAT_NOW = "dd-MM-yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String stringDate = sdf.format(date);
-        String[] output = stringDate.split("-");
-        //System.out.println("transformed date : "+stringDate);
-
-        int _day = Integer.valueOf(output[0]);
-        int _month = Integer.valueOf(output[1]);
-        int _year = Integer.valueOf(output[2]);
-
-        int day_ = _day;
-        String month_ = Th_Months(_month-1);
-        int year_ = Th_Year(_year);
-
-        thai_date = day_+" "+month_+" "+year_;
-
-        return thai_date;
-    }
-
-    public String Th_Months(int month){
-        String[] th_months = new String[] {
-                "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."
-        };
-        return th_months[month];
-    }
-
-    public static String add_zero_or_not(int number){
-        String num = null;
-        if(number < 10){
-            num = "0"+number;
-            return num;
-        }else{
-            num = ""+number;
-            return num;
-        }
-    }
-
-    public int Th_Year(int en_year){
-        return en_year+543;
     }
 
 }

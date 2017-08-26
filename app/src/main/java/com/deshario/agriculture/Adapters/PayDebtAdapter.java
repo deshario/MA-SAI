@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.deshario.agriculture.CustomRangeInputFilter;
+import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.R;
@@ -24,7 +25,6 @@ import com.deshario.agriculture.R;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
-
 
 public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObjectHolder> {
     private Context context;
@@ -101,8 +101,8 @@ public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObje
         int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
         int _year = Integer.valueOf(output[0]);
-        String month_ = Th_Months(_month-1);
-        int year_ = Th_Year(_year);
+        String month_ = Deshario_Functions.Th_Months(_month);
+        int year_ = Deshario_Functions.Th_Year(_year);
         thai_date = _day+" "+month_+" "+year_;
         return thai_date;
     }
@@ -190,16 +190,4 @@ public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObje
         info_dialog.show();
 
     }
-
-    public String Th_Months(int month){
-        String[] th_months = new String[] {
-                "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."
-        };
-        return th_months[month];
-    }
-
-    public int Th_Year(int en_year){
-        return en_year+543;
-    }
-
 }

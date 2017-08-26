@@ -80,6 +80,7 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -145,7 +146,7 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        manual.set(Calendar.YEAR, Th_Year(year));
+        manual.set(Calendar.YEAR, Deshario_Functions.Th_Year(year));
         manual.set(Calendar.MONTH, monthOfYear);
         manual.set(Calendar.DAY_OF_MONTH,dayOfMonth);
         DateFormat thai = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
@@ -159,11 +160,6 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
         // Toast.makeText(AddRecords.this,"Date : "+_date_,Toast.LENGTH_SHORT).show(); // use for insert
 //         Toast.makeText(Main_Tab.this,"Date : "+dateFormat.format(date),Toast.LENGTH_SHORT).show(); // use for insert
         Toasty.normal(Main_Tab.this, "วันที่ : " + thai.format(date), Toast.LENGTH_SHORT).show(); // use for insert
-        //System.out.println("Date : "+dateFormat.format(date)); //2017-06-10 19:43:39
-        //System.out.println("Date : "+date); //Sat Jun 10 19:43:39 GMT+07:00 2017
     }
 
-    public int Th_Year(int en_year){
-        return en_year+543;
-    }
 }

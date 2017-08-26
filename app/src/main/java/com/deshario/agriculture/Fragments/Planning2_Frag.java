@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
+import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.ExpensePlan;
 import com.deshario.agriculture.Models.IncomePlan;
 import com.deshario.agriculture.Models.Records;
@@ -251,8 +252,8 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String month = AddRecords.add_zero_or_not(++monthOfYear);
-        String day = AddRecords.add_zero_or_not(dayOfMonth);
+        String month = Deshario_Functions.add_zero_or_not(++monthOfYear);
+        String day = Deshario_Functions.add_zero_or_not(dayOfMonth);
         String selected_date = year+"-"+month+"-"+day;
         expensedate = selected_date;
         int sel_day = dayOfMonth;

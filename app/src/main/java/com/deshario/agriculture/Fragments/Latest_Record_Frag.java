@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.deshario.agriculture.AddRecords;
+import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 
@@ -280,7 +281,7 @@ public class Latest_Record_Frag extends Fragment {
         int year_ = Th_Year(_year);
         thai_date = _day+" "+month_+" "+year_;
         return new String[]{
-                String.valueOf(AddRecords.add_zero_or_not(_day)),
+                String.valueOf(Deshario_Functions.add_zero_or_not(_day)),
                 month_,
                 String.valueOf(year_),
                 thai_date

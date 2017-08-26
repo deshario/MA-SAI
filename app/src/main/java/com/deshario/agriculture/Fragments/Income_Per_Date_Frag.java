@@ -6,11 +6,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Formatter.BottomXValueFormatter;
+import com.deshario.agriculture.Formatter.Day_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
-import com.deshario.agriculture.Formatter.XAxisValueFormatter;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -39,8 +42,7 @@ public class Income_Per_Date_Frag extends Fragment {
 
     protected BarChart mChart;
     String toolbar_title;
-    ImageView tool_imageView;
-    public static ArrayList<String> previous_8days;
+    public static ArrayList<String> myDays;
 
     public Income_Per_Date_Frag(){}
 
@@ -50,9 +52,17 @@ public class Income_Per_Date_Frag extends Fragment {
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbar_title);
-        tool_imageView = (ImageView)toolbar.findViewById(R.id.opt_menu);
-        tool_imageView.setImageResource(R.drawable.ic_refresh_white_24dp);
-        tool_imageView.setOnClickListener(new View.OnClickListener() {
+        Bundle bundle = getArguments();
+        toolbar_title = bundle.getString("title1");
+        textView.setText(toolbar_title);
+        ImageButton img_refresh = (ImageButton)view.findViewById(R.id.my_refresh);
+        ImageButton img_settings = (ImageButton)view.findViewById(R.id.my_setting);
+        img_settings.setVisibility(View.GONE);
+        img_refresh.setImageDrawable(Deshario_Functions.setTint(
+                getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
+                getResources().getColor(R.color.primary_bootstrap))
+        );
+        img_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mChart.invalidate();
@@ -60,19 +70,66 @@ public class Income_Per_Date_Frag extends Fragment {
                 while(!mChart.isFullyZoomedOut()){
                     mChart.zoomOut();
                 }
-                mChart.animateXY(3000,3000);
+                mChart.animateXY(1000,3000);
             }
         });
-        Bundle bundle = getArguments();
-        toolbar_title = bundle.getString("title1");
-        textView.setText(toolbar_title);
 
         mChart = (BarChart)view.findViewById(R.id.chart1);
-        work();
+        dbwork();
         return view;
     }
 
-    public void work(){
+
+    private void dbwork(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<String> previous_8days = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        //System.out.println("today : "+sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_YEAR, -8); // get starting date
+        for(int i = 0; i<8; i++){ // loop adding one day in each iteration
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+            String date = sdf.format(cal.getTime());
+            previous_8days.add(i,date);
+        }
+        myDays = previous_8days;
+
+        String first_date = previous_8days.get(0);
+        String last_date = previous_8days.get(previous_8days.size()-1);
+
+        List<Records> abc = Records.getDataBetweenDays(first_date,last_date,3);
+        ArrayList<String> found_dates = new ArrayList<>();
+        for(int a=0; a<abc.size(); a++){
+            String my_date = abc.get(a).getData_created();
+            found_dates.add(a,my_date);
+        }
+
+        System.out.println("previous_8days : "+previous_8days);
+        System.out.println("found_dates : "+found_dates);
+
+        int previous_week_data[] = new int[previous_8days.size()];
+        for(int c=0; c<previous_8days.size(); c++){
+            boolean status = Deshario_Functions.check_exists(found_dates,previous_8days.get(c));
+            if(status == true){
+                Records reca = Records.getSingleRecordsByDate(previous_8days.get(c));
+                System.out.println(previous_8days.get(c)+" : "+status);
+                System.out.println("Amount :: "+reca.getData_amount());
+                Double d = new Double(reca.getData_amount());
+                previous_week_data[c] = d.intValue();
+            }else{
+                Double d = new Double(0.0);
+                previous_week_data[c] = d.intValue();
+                System.out.println(previous_8days.get(c)+" : "+status);
+            }
+        }
+
+        System.out.println("Max :: "+Deshario_Functions.maxValue(previous_week_data));
+
+        System.out.println("Values are :: "+Arrays.toString(previous_week_data));
+
+        work(previous_week_data);
+    }
+
+    public void work(int previous_week_data[]){
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
         mChart.getDescription().setEnabled(false);
@@ -92,7 +149,7 @@ public class Income_Per_Date_Frag extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(7);
-        xAxis.setValueFormatter(new XAxisValueFormatter());
+        xAxis.setValueFormatter(new Day_XAxisValueFormatter());
 
         IAxisValueFormatter custom = new YAxisValueFormatter();
 
@@ -122,58 +179,10 @@ public class Income_Per_Date_Frag extends Fragment {
 //        mv.setChartView(mChart); // For bounds control
 //        mChart.setMarker(mv); // Set the marker to the chart
 
-        dbwork();
-    }
-
-    private void dbwork(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        previous_8days = new ArrayList<>();
-        Calendar cal = Calendar.getInstance();
-        //System.out.println("today : "+sdf.format(cal.getTime()));
-        cal.add(Calendar.DAY_OF_YEAR, -8); // get starting date
-        for(int i = 0; i<8; i++){ // loop adding one day in each iteration
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            String date = sdf.format(cal.getTime());
-            previous_8days.add(i,date);
-        }
-
-        String first_date = previous_8days.get(0);
-        String last_date = previous_8days.get(previous_8days.size()-1);
-
-        List<Records> abc = Records.getDataBetweenDays(first_date,last_date,3);
-        ArrayList<String> found_dates = new ArrayList<>();
-        for(int a=0; a<abc.size(); a++){
-            String my_date = abc.get(a).getData_created();
-            found_dates.add(a,my_date);
-        }
-
-        System.out.println("previous_8days : "+previous_8days);
-        System.out.println("found_dates : "+found_dates);
-
-        int previous_week_data[] = new int[previous_8days.size()];
-        for(int c=0; c<previous_8days.size(); c++){
-            boolean status = check_exists(found_dates,previous_8days.get(c));
-            if(status == true){
-                Records reca = Records.getSingleRecordsByDate(previous_8days.get(c));
-                System.out.println(previous_8days.get(c)+" : "+status);
-                System.out.println("Amount :: "+reca.getData_amount());
-                Double d = new Double(reca.getData_amount());
-                previous_week_data[c] = d.intValue();
-            }else{
-                Double d = new Double(0.0);
-                previous_week_data[c] = d.intValue();
-                System.out.println(previous_8days.get(c)+" : "+status);
-            }
-        }
-
-        System.out.println("Max :: "+maxValue(previous_week_data));
-
-        System.out.println("Values are :: "+Arrays.toString(previous_week_data));
         setData(previous_week_data);
     }
 
     private void setData(int previous_week_data[]) {
-        System.out.println("fafa");
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         for (int i=0; i<previous_week_data.length; i++) {
             yVals1.add(new BarEntry(i, previous_week_data[i]));
@@ -187,6 +196,7 @@ public class Income_Per_Date_Frag extends Fragment {
         } else {
             set1 = new BarDataSet(yVals1, toolbar_title);
             set1.setDrawIcons(false);
+            set1.setValueFormatter(new BottomXValueFormatter());
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
             set1.setColors(getResources().getColor(R.color.primary_deshario));
             set1.setHighlightEnabled(true);
@@ -201,7 +211,7 @@ public class Income_Per_Date_Frag extends Fragment {
             data.setBarWidth(0.9f);
             mChart.setData(data);
         }
-        mChart.animateXY(3000, 3000);
+        mChart.animateXY(1000, 3000);
         mChart.setHighlightFullBarEnabled(true);
     }
 
@@ -218,7 +228,7 @@ public class Income_Per_Date_Frag extends Fragment {
         ArrayList<String> months = new ArrayList<>();
         ArrayList<String> days = new ArrayList<>();
         Date date = null;
-        ArrayList<String> previous_8_days = previous_8days;
+        ArrayList<String> previous_8_days = getPreviousDayssize();
         for(int i=0; i<previous_8_days.size(); i++){
             String dates = previous_8_days.get(i);
             try{
@@ -234,7 +244,7 @@ public class Income_Per_Date_Frag extends Fragment {
             int month = c.get(Calendar.MONTH) + 1; //Note: +1 the month for current month
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            months.add(i,Th_Months(month));
+            months.add(i,Deshario_Functions.Th_Months(month));
             days.add(i,String.valueOf(day));
 
         }
@@ -246,28 +256,9 @@ public class Income_Per_Date_Frag extends Fragment {
         return lists;
     }
 
-    public boolean check_exists(ArrayList<String> datalist,String keyword){
-        int index = datalist.indexOf(keyword);
-        if(index <= -1){
-            return false;
-        }else{
-            return true;
-        }
+    public static ArrayList<String> getPreviousDayssize(){
+        return myDays;
     }
 
-    public int maxValue(int array[]) {
-        List<Integer> list = new ArrayList<Integer>();
-        for (int i = 0; i < array.length; i++) {
-            list.add(array[i]);
-        }
-        return Collections.max(list);
-    }
-
-    public static String Th_Months(int month){
-        String[] th_months = new String[] {
-                "ม.ค","ก.พ","มี.ค","เม.ย","พ.ค","มิ.ย","ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
-        };
-        return th_months[month-1]; // index start from 0 so must -1
-    }
 
 }

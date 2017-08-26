@@ -1,16 +1,25 @@
 package com.deshario.agriculture.Fragments;
 
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Formatter.BottomXValueFormatter;
+import com.deshario.agriculture.Formatter.Month_XAxisValueFromatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
-import com.deshario.agriculture.Formatter.XAxisValueFormatter;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -26,7 +35,6 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -39,20 +47,35 @@ public class Income_Per_Month_Frag extends Fragment {
 
     protected BarChart mChart;
     String toolbar_title;
-    ImageView tool_imageView;
     public static ArrayList<String> previous_months;
+    TextView avg_text;
 
     public Income_Per_Month_Frag(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_blank_chart, container, false);
+        View view = inflater.inflate(R.layout.monthly_income_chart, container, false);
+
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbar_title);
-        tool_imageView = (ImageView)toolbar.findViewById(R.id.opt_menu);
-        tool_imageView.setImageResource(R.drawable.ic_refresh_white_24dp);
-        tool_imageView.setOnClickListener(new View.OnClickListener() {
+        Bundle bundle = getArguments();
+        toolbar_title = bundle.getString("title1");
+        textView.setText(toolbar_title);
+
+        Toolbar toolbar_chart = (Toolbar)view.findViewById(R.id.chart_toolbar);
+        ImageButton img_refresh = (ImageButton)view.findViewById(R.id.my_refresh);
+        ImageButton img_settings = (ImageButton)view.findViewById(R.id.my_setting);
+        avg_text = (TextView)toolbar_chart.findViewById(R.id.monthly_avg);
+        img_refresh.setImageDrawable(Deshario_Functions.setTint(
+                getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
+                getResources().getColor(R.color.primary_bootstrap))
+        );
+        img_settings.setImageDrawable(Deshario_Functions.setTint(
+                getResources().getDrawable(R.drawable.ic_settings_white_24dp),
+                getResources().getColor(R.color.primary_bootstrap))
+        );
+        img_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mChart.invalidate();
@@ -60,12 +83,9 @@ public class Income_Per_Month_Frag extends Fragment {
                 while(!mChart.isFullyZoomedOut()){
                     mChart.zoomOut();
                 }
-                mChart.animateXY(3000,3000);
+                mChart.animateXY(1000,3000);
             }
         });
-        Bundle bundle = getArguments();
-        toolbar_title = bundle.getString("title1");
-        textView.setText(toolbar_title);
 
         mChart = (BarChart)view.findViewById(R.id.chart1);
         work();
@@ -107,13 +127,14 @@ public class Income_Per_Month_Frag extends Fragment {
         //xAxis.setTypeface(mTfLight);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(7);
-        xAxis.setValueFormatter(new XAxisValueFormatter());
+        xAxis.setLabelCount(12);
+        xAxis.setValueFormatter(new Month_XAxisValueFromatter());
 
         IAxisValueFormatter custom = new YAxisValueFormatter();
 
         YAxis leftAxis = mChart.getAxisLeft();
-        // leftAxis.setTypeface(mTfLight);
+//        leftAxis.setEnabled(false);
+//         leftAxis.setTypeface(mTfLight);
         leftAxis.setLabelCount(8, false);
         leftAxis.setValueFormatter(custom);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
@@ -157,11 +178,11 @@ public class Income_Per_Month_Frag extends Fragment {
         String first_date = previous_months.get(0);
         String last_date = previous_months.get(previous_months.size()-1);
 
-        System.out.println("FirstDate :: "+first_date); // 2017-08
-        System.out.println("LastDate :: "+last_date); // 2017-01
+//        System.out.println("FirstDate :: "+first_date); // 2017-08
+//        System.out.println("LastDate :: "+last_date); // 2017-01
 
-        List<Records> abc = Records.getDataBetweenMonths(first_date,last_date,3);
-        System.out.println("Size :: "+abc.size());
+       // setData(new int[]{10,20,30,40,50,60,70,80,90,100,110,120});
+       setData(previous_months);
 
         // Next thing to do is get sum of each month
 
@@ -197,12 +218,21 @@ public class Income_Per_Month_Frag extends Fragment {
 //        setData(previous_week_data);
     }
 
-    private void setData(int previous_week_data[]) {
-        System.out.println("fafa");
+    private void setData(ArrayList<String> cur_month) {
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-        for (int i=0; i<previous_week_data.length; i++) {
-            yVals1.add(new BarEntry(i, previous_week_data[i]));
+        float total_summation = 0;
+        for(int i=0; i<cur_month.size(); i++){
+            String date = cur_month.get(i);
+            float summation  = Records.getSumofEachMonth(date,3);
+            total_summation += summation;
+            //System.out.println(date+" == "+summation);
+            yVals1.add(new BarEntry(i,summation));
         }
+        System.out.println("month size :: "+cur_month.size());
+        System.out.println("total_summation :: "+total_summation);
+        System.out.println("total_summation Average :: "+total_summation/cur_month.size());
+        avg_text.append(" ฿"+total_summation/cur_month.size());
+
         BarDataSet set1;
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
@@ -210,8 +240,9 @@ public class Income_Per_Month_Frag extends Fragment {
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, toolbar_title);
+            set1 = new BarDataSet(yVals1,"รายได้ต่อแต่ละเดือน");
             set1.setDrawIcons(false);
+            set1.setValueFormatter(new BottomXValueFormatter());
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
             set1.setColors(getResources().getColor(R.color.primary_deshario));
             set1.setHighlightEnabled(true);
@@ -226,7 +257,7 @@ public class Income_Per_Month_Frag extends Fragment {
             data.setBarWidth(0.9f);
             mChart.setData(data);
         }
-        mChart.animateXY(3000, 3000);
+        mChart.animateXY(1000, 3000);
         mChart.setHighlightFullBarEnabled(true);
     }
 
@@ -259,7 +290,7 @@ public class Income_Per_Month_Frag extends Fragment {
             int month = c.get(Calendar.MONTH) + 1; //Note: +1 the month for current month
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            months.add(i,Th_Months(month));
+            months.add(i,Deshario_Functions.Th_Months(month));
             days.add(i,String.valueOf(day));
 
         }
@@ -271,28 +302,5 @@ public class Income_Per_Month_Frag extends Fragment {
         return lists;
     }
 
-    public boolean check_exists(ArrayList<String> datalist,String keyword){
-        int index = datalist.indexOf(keyword);
-        if(index <= -1){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    public int maxValue(int array[]) {
-        List<Integer> list = new ArrayList<Integer>();
-        for (int i = 0; i < array.length; i++) {
-            list.add(array[i]);
-        }
-        return Collections.max(list);
-    }
-
-    public static String Th_Months(int month){
-        String[] th_months = new String[] {
-                "ม.ค","ก.พ","มี.ค","เม.ย","พ.ค","มิ.ย","ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
-        };
-        return th_months[month-1]; // index start from 0 so must -1
-    }
 
 }
