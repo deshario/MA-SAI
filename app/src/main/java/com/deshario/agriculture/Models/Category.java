@@ -27,9 +27,6 @@ public class Category extends Model {
     @Column(name = "cat_type")
     public int cat_type;
 
-    @Column(name="record_model")
-    public Records records;
-
     public String getCat_topic() {
         return cat_topic;
     }
@@ -52,14 +49,6 @@ public class Category extends Model {
 
     public void setCat_type(int cat_type) {
         this.cat_type = cat_type;
-    }
-
-    public Records getRecords() {
-        return records;
-    }
-
-    public void setRecords(Records records) {
-        this.records = records;
     }
 
     public Category(){

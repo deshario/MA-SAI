@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/col2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/decrease"/>
+
+        <TextView
+            android:id="@+id/itemname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Product Name"
+            android:layout_toRightOf="@id/icon"
+            android:textColor="@color/default_bootstrap"/>
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/itemname"
+            android:gravity="right"
+            android:text="$100"
+            android:textColor="@color/default_bootstrap"
+            android:textSize="18sp" />
+
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/itemname"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/icon"
+            app:rcBackgroundColor="@color/primary_bootstrap"
+            app:rcBackgroundPadding="2dp"
+            app:rcMax="100"
+            app:rcProgress="50"
+            app:rcProgressColor="@color/default_bootstrap"
+            app:rcRadius="20dp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/default_bootstrap" />
+
+</LinearLayout>

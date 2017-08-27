@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -122,6 +123,16 @@ public class Deshario_Functions {
         }else{
             return true;
         }
+    }
+
+    public static double getPercentFromTotal(double myvalue,double total){
+        return (myvalue/total)*100;
+    }
+
+    public static double getDecimalFormat(double data){
+        DecimalFormat desharioformat = new DecimalFormat();
+        desharioformat.applyPattern("0.00");
+        return Double.valueOf(desharioformat.format(data));
     }
 
 }

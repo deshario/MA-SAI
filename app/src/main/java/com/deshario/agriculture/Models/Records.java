@@ -29,9 +29,6 @@ public class Records extends Model {
     @Column(name = "data_created")
     private String data_created;
 
-    @Column(name = "data_updated")
-    private String data_updated;
-
     @Column(name = "shortnote")
     private String shortnote;
 
@@ -44,7 +41,6 @@ public class Records extends Model {
         this.data_amount = data_amount;
         this.category = category;
         this.data_created = data_created;
-        this.data_updated = data_updated;
         this.shortnote = shortnote;
     }
 
@@ -70,14 +66,6 @@ public class Records extends Model {
 
     public void setData_created(String data_created) {
         this.data_created = data_created;
-    }
-
-    public String getData_updated() {
-        return data_updated;
-    }
-
-    public void setData_updated(String data_updated) {
-        this.data_updated = data_updated;
     }
 
     public String getShortnote() {
@@ -281,6 +269,29 @@ public class Records extends Model {
             totalsum += sum;
         }
         return totalsum;
+    }
+
+    public static List<Records> getSumofEachCatItem(String customdate, int catg_type){
+        List<Records> records = new ArrayList<>();
+        String deshario = "SELECT SUM(data_amount) AS total_amount,cat_item,cat_type FROM Records "+
+                "JOIN Categories ON Records.category_id = Categories.Id "+
+                "WHERE strftime('%Y-%m', data_created) = '"+customdate+"' AND Categories.cat_type = "+catg_type+
+                " GROUP BY cat_item";
+        Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
+        while(resultCursor.moveToNext()){
+            Records found_records = new Records();
+            Category category = new Category();
+            category.setCat_topic(null);
+            category.setCat_item(resultCursor.getString(resultCursor.getColumnIndexOrThrow("cat_item")));
+            category.setCat_type(resultCursor.getInt(resultCursor.getColumnIndexOrThrow("cat_type")));
+
+            found_records.setData_amount(resultCursor.getDouble(resultCursor.getColumnIndexOrThrow("total_amount")));
+            found_records.setShortnote(null);
+            found_records.setData_created(null);
+            found_records.setCategory(category);
+            records.add(found_records);
+        }
+        return records;
     }
 
     public static Records getSingleRecordsByDate(String date){
