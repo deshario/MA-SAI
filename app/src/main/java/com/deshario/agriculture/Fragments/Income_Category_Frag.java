@@ -2,7 +2,11 @@ package com.deshario.agriculture.Fragments;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,10 +23,12 @@ import android.widget.TextView;
 import com.deshario.agriculture.Adapters.IncomeCategoryAdapter;
 import com.deshario.agriculture.Adapters.PayDebtAdapter;
 import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -33,8 +39,15 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,14 +57,14 @@ public class Income_Category_Frag extends Fragment{
     String toolbar_title;
     Context context;
     double totalvalue = 0.0;
+    List<Integer> mycolors = new ArrayList<>();
 
     private PieChart mChart;
-    protected String[] mParties = new String[] {
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
+    RecyclerView mRecyclerView;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+
+    View line1;
 
     public Income_Category_Frag() {}
 
@@ -67,46 +80,81 @@ public class Income_Category_Frag extends Fragment{
         toolbar_title = bundle.getString("title1");
         textView.setText(toolbar_title);
 
-        List<Records> records = Records.getSumofEachCatItem("2017-08",1);
-        double total = 0.0;
-        for(int i=0; i<records.size(); i++){
-            Records myrecords = records.get(i);
-            total += myrecords.getData_amount();
-        }
-
-        // Random colors from size of Records
-        System.out.println("Size :: "+records.size());
-
-        totalvalue = total;
-        ArrayList<Double> percents = new ArrayList<>();
-        for(int i=0; i<records.size(); i++){
-            Records myrecords = records.get(i);
-            double amount = myrecords.getData_amount();
-            String item = myrecords.getCategory().getCat_item();
-            int type = myrecords.getCategory().getCat_type();
-            double percent = Deshario_Functions.getPercentFromTotal(amount,total);
-            System.out.println("I"+i+" : "+item+" = "+amount+" = "+ Deshario_Functions.getDecimalFormat(percent)+"%");
-            percents.add(Deshario_Functions.getDecimalFormat(percent));
-        }
-
         mChart = (PieChart)view.findViewById(R.id.chart1);
-        work();
-
-        RecyclerView mRecyclerView;
-        RecyclerView.Adapter mAdapter;
-        RecyclerView.LayoutManager mLayoutManager;
-
+        line1 = (View)view.findViewById(R.id.lineafterchart);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.income_category_list);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new IncomeCategoryAdapter(records,percents,getActivity());
-        mRecyclerView.setAdapter(mAdapter);
+
+        manage();
 
         return view;
     }
 
-    public void work(){
+    private void Error_404(){
+        String no_data = "ไม่พบข้อมูล";
+        mChart.setNoDataText(no_data);
+        mChart.setNoDataTextColor(context.getResources().getColor(R.color.default_bootstrap));
+        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/bangna-new.ttf");
+        Paint p = mChart.getPaint(Chart.PAINT_INFO);
+        p.setTextSize(80);
+        //p.setTypeface(typeface);
+        line1.setVisibility(View.INVISIBLE);
+    }
+
+    public void manage(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        String current_month = sdf.format(calendar.getTime());
+
+        List<Records> records = Records.getSumofEachCatItem(current_month,3);
+        double total = 0.0;
+        List<Integer> colors = new ArrayList<>();
+        List<Integer> all_colors = Deshario_Functions.getRandomColors();
+
+        for(int i=0; i<records.size(); i++){
+            /* ################# Find Total Start ################# */
+            Records myrecords = records.get(i);
+            total += myrecords.getData_amount();
+            /* ################# Find Total End ################### */
+
+            /* ################# Colors Start ################# */
+            if(all_colors.size() > records.size()){
+                colors.add(i,all_colors.get(i));
+            }else{
+                System.out.println("Lack of colors");
+                colors.add(i,context.getResources().getColor(R.color.default_bootstrap));
+            }
+            /* ################# Colors End ################# */
+        }
+
+        mycolors = colors;
+        totalvalue = total;
+
+        ArrayList<Double> percents = new ArrayList<>();
+        for(int i=0; i<records.size(); i++){ // Get Percents
+            Records myrecords = records.get(i);
+            double amount = myrecords.getData_amount();
+            double percent = Deshario_Functions.getPercentFromTotal(amount,total);
+            //String item = myrecords.getCategory().getCat_item();
+            //int type = myrecords.getCategory().getCat_type();
+            //System.out.println("I"+i+" : "+item+" = "+amount+" = "+ Deshario_Functions.getDecimalFormat(percent)+"%");
+            percents.add(Deshario_Functions.getDecimalFormat(percent));
+        }
+
+        if(records.size() != 0 && records.size()> 0){
+            work(percents);
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mAdapter = new IncomeCategoryAdapter(records,colors,percents,getActivity());
+            mRecyclerView.setAdapter(mAdapter);
+        }else{
+            System.out.println("Records Size :: "+records.size());
+            System.out.println("No Data Found");
+            Error_404();
+        }
+    }
+
+    public void work(ArrayList<Double> percents_set){
         mChart.setUsePercentValues(true);
         mChart.getDescription().setEnabled(false);
         mChart.setExtraOffsets(5, 10, 5, 5);
@@ -126,13 +174,13 @@ public class Income_Category_Frag extends Fragment{
         mChart.setRotationEnabled(true);
         mChart.setHighlightPerTapEnabled(true);
 
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
+//         mChart.setUnit(" €");
+//         mChart.setDrawUnitsInChart(true);
 
         // add a selection listener
         //mChart.setOnChartValueSelectedListener(this);
 
-        setData(4, 100);
+        setData(percents_set);
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
@@ -150,61 +198,31 @@ public class Income_Category_Frag extends Fragment{
 
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
-//        mChart.setEntryLabelTypeface(mTfRegular);
+        //mChart.setEntryLabelTypeface(mTfRegular);
         mChart.setEntryLabelTextSize(12f);
-
-        mChart.setDrawEntryLabels(!mChart.isDrawEntryLabelsEnabled());
-        for (IDataSet<?> set : mChart.getData().getDataSets())
-            set.setDrawValues(!set.isDrawValuesEnabled());
-
-        mChart.invalidate();
+        mChart.getData().setDrawValues(false);
     }
 
-    private void setData(int count, float range) {
-
-        float mult = range;
+    private void setData(ArrayList<Double> my_percents) {
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count ; i++) {
-            entries.add(new PieEntry(100));
-//            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
-////                    mParties[i % mParties.length],
-//                    getResources().getDrawable(R.drawable.star)));
+        for (int i=0; i<my_percents.size(); i++) {
+            float data_amount = Deshario_Functions.getfloatValue(my_percents.get(i));
+            entries.add(new PieEntry(data_amount));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
 
         dataSet.setDrawIcons(false);
 
-        dataSet.setSliceSpace(3f);
+        dataSet.setSliceSpace(2f);
         dataSet.setIconsOffset(new MPPointF(0, 40));
         dataSet.setSelectionShift(5f);
 
-        // add a lot of colors
-
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        dataSet.setColors(colors);
+        dataSet.setColors(mycolors);
         //dataSet.setSelectionShift(0f);
 
         PieData data = new PieData(dataSet);
@@ -243,7 +261,5 @@ public class Income_Category_Frag extends Fragment{
 
         return s;
     }
-
-
 
 }

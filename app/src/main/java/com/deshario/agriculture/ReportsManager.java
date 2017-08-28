@@ -1,5 +1,6 @@
 package com.deshario.agriculture;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -49,6 +50,7 @@ public class ReportsManager extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onBackPressed(){
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
@@ -69,7 +71,5 @@ public class ReportsManager extends AppCompatActivity {
         tool_icon.setImageResource(R.drawable.ic_timeline_white_24dp);
         tool_icon.setOnClickListener(null);
     }
-
-
 
 }

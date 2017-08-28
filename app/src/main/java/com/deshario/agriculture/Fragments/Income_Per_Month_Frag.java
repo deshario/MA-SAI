@@ -1,24 +1,17 @@
 package com.deshario.agriculture.Fragments;
 
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
-import com.deshario.agriculture.Formatter.Month_XAxisValueFromatter;
+import com.deshario.agriculture.Formatter.Month_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
@@ -36,9 +29,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,7 +46,6 @@ public class Income_Per_Month_Frag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.monthly_income_chart, container, false);
-
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbar_title);
@@ -89,7 +79,6 @@ public class Income_Per_Month_Frag extends Fragment {
 
         mChart = (BarChart)view.findViewById(R.id.chart1);
         work();
-//        getPreviousMonths();
         return view;
     }
 
@@ -128,15 +117,14 @@ public class Income_Per_Month_Frag extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(12);
-        xAxis.setValueFormatter(new Month_XAxisValueFromatter());
+        xAxis.setValueFormatter(new Month_XAxisValueFormatter());
 
-        IAxisValueFormatter custom = new YAxisValueFormatter();
 
         YAxis leftAxis = mChart.getAxisLeft();
-//        leftAxis.setEnabled(false);
-//         leftAxis.setTypeface(mTfLight);
+        //leftAxis.setEnabled(false);
+        //leftAxis.setTypeface(mTfLight);
         leftAxis.setLabelCount(8, false);
-        leftAxis.setValueFormatter(custom);
+        leftAxis.setValueFormatter(new YAxisValueFormatter());
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
@@ -174,48 +162,7 @@ public class Income_Per_Month_Frag extends Fragment {
             cal.add(Calendar.MONTH,1);
             previous_months.add(i,date);
         }
-
-        String first_date = previous_months.get(0);
-        String last_date = previous_months.get(previous_months.size()-1);
-
-//        System.out.println("FirstDate :: "+first_date); // 2017-08
-//        System.out.println("LastDate :: "+last_date); // 2017-01
-
-       // setData(new int[]{10,20,30,40,50,60,70,80,90,100,110,120});
        setData(previous_months);
-
-        // Next thing to do is get sum of each month
-
-
-//        ArrayList<String> found_dates = new ArrayList<>();
-//        for(int a=0; a<abc.size(); a++){
-//            String my_date = abc.get(a).getData_created();
-//            found_dates.add(a,my_date);
-//        }
-//
-//        System.out.println("previous_months : "+ previous_months);
-//        System.out.println("found_dates : "+found_dates);
-//
-//        int previous_week_data[] = new int[previous_months.size()];
-//        for(int c = 0; c< previous_months.size(); c++){
-//            boolean status = check_exists(found_dates, previous_months.get(c));
-//            if(status == true){
-//                Records reca = Records.getSingleRecordsByDate(previous_months.get(c));
-//                System.out.println(previous_months.get(c)+" : "+status);
-//                System.out.println("Amount :: "+reca.getData_amount());
-//                Double d = new Double(reca.getData_amount());
-//                previous_week_data[c] = d.intValue();
-//            }else{
-//                Double d = new Double(0.0);
-//                previous_week_data[c] = d.intValue();
-//                System.out.println(previous_months.get(c)+" : "+status);
-//            }
-//        }
-//
-//        System.out.println("Max :: "+maxValue(previous_week_data));
-//
-//        System.out.println("Values are :: "+Arrays.toString(previous_week_data));
-//        setData(previous_week_data);
     }
 
     private void setData(ArrayList<String> cur_month) {
@@ -228,10 +175,12 @@ public class Income_Per_Month_Frag extends Fragment {
             //System.out.println(date+" == "+summation);
             yVals1.add(new BarEntry(i,summation));
         }
-        System.out.println("month size :: "+cur_month.size());
-        System.out.println("total_summation :: "+total_summation);
-        System.out.println("total_summation Average :: "+total_summation/cur_month.size());
-        avg_text.append(" ฿"+total_summation/cur_month.size());
+        double average = Deshario_Functions.getDecimalFormat(total_summation/cur_month.size());
+        //System.out.println("Months Size :: "+cur_month.size());
+        //System.out.println("Months :: "+cur_month);
+        //System.out.println("8 Months Summation :: "+total_summation);
+        //System.out.println("8 Months Average :: "+average);
+        avg_text.append(" ฿"+average);
 
         BarDataSet set1;
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
@@ -260,47 +209,5 @@ public class Income_Per_Month_Frag extends Fragment {
         mChart.animateXY(1000, 3000);
         mChart.setHighlightFullBarEnabled(true);
     }
-
-    public static String getCalculatedDate(String dateFormat, int days) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat s = new SimpleDateFormat(dateFormat);
-        cal.add(Calendar.DAY_OF_YEAR, days);
-        return s.format(new Date(cal.getTimeInMillis()));
-        //String ha = getCalculatedDate("yyyy-MM-dd", -7);
-        //System.out.println("ha :: "+ha);
-    }
-
-    public static ArrayList<String>[] getDate(){
-        ArrayList<String> months = new ArrayList<>();
-        ArrayList<String> days = new ArrayList<>();
-        Date date = null;
-        ArrayList<String> previous_8_days = previous_months;
-        for(int i=0; i<previous_8_days.size(); i++){
-            String dates = previous_8_days.get(i);
-            try{
-                DateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
-                date = (Date) parser.parse(dates);
-            }catch (Exception e){
-                System.out.println("Error : "+e);
-            }
-
-            Calendar c = Calendar.getInstance();
-            c.setTime(date);
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH) + 1; //Note: +1 the month for current month
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            months.add(i,Deshario_Functions.Th_Months(month));
-            days.add(i,String.valueOf(day));
-
-        }
-
-        ArrayList<String>[] lists = (ArrayList<String>[])new ArrayList[2];
-        lists[0] = months;
-        lists[1] = days;
-
-        return lists;
-    }
-
 
 }

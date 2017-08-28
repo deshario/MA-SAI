@@ -260,10 +260,10 @@ public class Records extends Model {
 
     public static float getSumofEachMonth(String customdate, int catg_type){
         float totalsum = 0;
-        String deshario = "SELECT SUM(data_amount) AS summation FROM Records " +
+        String sql = "SELECT SUM(data_amount) AS summation FROM Records " +
                 "JOIN Categories ON Records.category_id = Categories.Id " +
                 "WHERE strftime('%Y-%m', data_created) = '"+customdate+"' AND Categories.cat_type = "+catg_type;
-        Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
+        Cursor resultCursor = Cache.openDatabase().rawQuery(sql, null);
         while(resultCursor.moveToNext()){
             float sum = resultCursor.getFloat(resultCursor.getColumnIndexOrThrow("summation"));
             totalsum += sum;
@@ -271,13 +271,26 @@ public class Records extends Model {
         return totalsum;
     }
 
+    public static double getSumofEachYear(String custom_year, int catg_type){
+        double totalsum = 0;
+        String sql = "SELECT SUM(data_amount) AS year_summation FROM Records " +
+                "JOIN Categories ON Records.category_id = Categories.Id " +
+                "WHERE strftime('%Y', data_created) = '"+custom_year+"' AND Categories.cat_type = "+catg_type;
+        Cursor resultCursor = Cache.openDatabase().rawQuery(sql, null);
+        while(resultCursor.moveToNext()){
+            double sum = resultCursor.getFloat(resultCursor.getColumnIndexOrThrow("year_summation"));
+            totalsum += sum;
+        }
+        return totalsum;
+    }
+
     public static List<Records> getSumofEachCatItem(String customdate, int catg_type){
         List<Records> records = new ArrayList<>();
-        String deshario = "SELECT SUM(data_amount) AS total_amount,cat_item,cat_type FROM Records "+
+        String sql = "SELECT SUM(data_amount) AS total_amount,cat_item,cat_type FROM Records "+
                 "JOIN Categories ON Records.category_id = Categories.Id "+
                 "WHERE strftime('%Y-%m', data_created) = '"+customdate+"' AND Categories.cat_type = "+catg_type+
                 " GROUP BY cat_item";
-        Cursor resultCursor = Cache.openDatabase().rawQuery(deshario, null);
+        Cursor resultCursor = Cache.openDatabase().rawQuery(sql, null);
         while(resultCursor.moveToNext()){
             Records found_records = new Records();
             Category category = new Category();

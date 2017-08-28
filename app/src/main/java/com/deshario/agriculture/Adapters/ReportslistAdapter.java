@@ -18,6 +18,7 @@ import com.deshario.agriculture.Fragments.Income_Category_Frag;
 import com.deshario.agriculture.Fragments.Income_Per_Date_Frag;
 import com.deshario.agriculture.Fragments.Categories2_Frag;
 import com.deshario.agriculture.Fragments.Income_Per_Month_Frag;
+import com.deshario.agriculture.Fragments.Income_Per_Year_Frag;
 import com.deshario.agriculture.Fragments.Reports_Tab_Frag;
 import com.deshario.agriculture.Models.ChartsTypes;
 import com.deshario.agriculture.R;
@@ -85,7 +86,7 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
                     if(id == 2)
                         frag = new Income_Per_Month_Frag();
                     if(id == 3)
-                        frag = new Categories2_Frag();
+                        frag = new Income_Per_Year_Frag();
                     if(id == 4)
                         frag = new Income_Category_Frag();
                     bundle.putString("title1", title);
