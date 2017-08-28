@@ -73,6 +73,10 @@ public class Income_Category_Frag extends Fragment{
             Records myrecords = records.get(i);
             total += myrecords.getData_amount();
         }
+
+        // Random colors from size of Records
+        System.out.println("Size :: "+records.size());
+
         totalvalue = total;
         ArrayList<Double> percents = new ArrayList<>();
         for(int i=0; i<records.size(); i++){

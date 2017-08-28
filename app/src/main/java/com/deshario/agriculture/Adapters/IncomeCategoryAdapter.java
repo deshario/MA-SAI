@@ -5,6 +5,8 @@ package com.deshario.agriculture.Adapters;
         import android.support.annotation.NonNull;
         import android.support.v7.widget.RecyclerView;
         import android.text.InputFilter;
+        import android.text.TextUtils;
+        import android.text.method.ScrollingMovementMethod;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -50,7 +52,6 @@ public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAd
             item_amount = (TextView) itemView.findViewById(R.id.amount);
             roundCornerProgressBar = (RoundCornerProgressBar) itemView.findViewById(R.id.progressbar);
             roundCornerProgressBar.setMax(100);
-            //itemView.setOnClickListener(this);
         }
 
         @Override
@@ -77,8 +78,9 @@ public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAd
         holder.item_icon.setImageDrawable(context.getResources().getDrawable(R.drawable.income));
         holder.item_name.setText(mDataset.get(position).getCategory().getCat_item()+" ("+mpercent.get(position)+"%)");
         holder.item_amount.setText(thb+mDataset.get(position).getData_amount());
+        //holder.roundCornerProgressBar.setProgressColor(context.getResources().getColor(R.color.success_bootstrap));
         animateProgress(holder.roundCornerProgressBar,mpercent.get(position).floatValue());
-//        holder.roundCornerProgressBar.setProgress(mpercent.get(position).floatValue());
+        //holder.roundCornerProgressBar.setProgress(mpercent.get(position).floatValue());
     }
 
     public Records getItem(int position) {
