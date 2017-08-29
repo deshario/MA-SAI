@@ -20,5 +20,7 @@
         <item>นางสาว</item>
     </string-array>
 
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae dicta doloremque eaque, enim illum incidunt ipsum magni, modi molestias nemo possimus quasi unde? Distinctio ducimus itaque iusto, saepe sint unde!</string>
+
 
 </resources>

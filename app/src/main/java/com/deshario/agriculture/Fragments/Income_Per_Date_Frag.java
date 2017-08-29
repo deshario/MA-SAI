@@ -13,6 +13,7 @@ import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
 import com.deshario.agriculture.Formatter.Day_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
+import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -58,11 +59,11 @@ public class Income_Per_Date_Frag extends Fragment {
         //img_settings.setVisibility(View.GONE);
         img_refresh.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
-                getResources().getColor(R.color.primary_bootstrap))
+                getResources().getColor(R.color.primary_deshario))
         );
         img_settings.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_settings_white_24dp),
-                getResources().getColor(R.color.primary_bootstrap))
+                getResources().getColor(R.color.primary_deshario))
         );
         img_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +73,7 @@ public class Income_Per_Date_Frag extends Fragment {
                 while(!mChart.isFullyZoomedOut()){
                     mChart.zoomOut();
                 }
-                mChart.animateXY(1000,3000);
+                mChart.animateXY(1000,2000);
             }
         });
 
@@ -97,7 +98,8 @@ public class Income_Per_Date_Frag extends Fragment {
         String first_date = previous_8days.get(0);
         String last_date = previous_8days.get(previous_8days.size()-1);
 
-        List<Records> abc = Records.getDataBetweenDays(first_date,last_date,3);
+        List<Records> abc = Records.getDataBetweenDays(first_date,last_date, Category.CATEGORY_INCOME);
+        System.out.println(""+Category.CATEGORY_INCOME);
         ArrayList<String> found_dates = new ArrayList<>();
         for(int a=0; a<abc.size(); a++){
             String my_date = abc.get(a).getData_created();
@@ -208,7 +210,7 @@ public class Income_Per_Date_Frag extends Fragment {
             data.setBarWidth(0.9f);
             mChart.setData(data);
         }
-        mChart.animateXY(1000, 3000);
+        mChart.animateXY(1000, 2000);
         mChart.setHighlightFullBarEnabled(true);
     }
 

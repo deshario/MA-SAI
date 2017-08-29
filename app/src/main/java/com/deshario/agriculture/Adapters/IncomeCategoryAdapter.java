@@ -17,11 +17,10 @@ package com.deshario.agriculture.Adapters;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import com.afollestad.materialdialogs.DialogAction;
-        import com.afollestad.materialdialogs.MaterialDialog;
         import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
         import com.deshario.agriculture.CustomRangeInputFilter;
         import com.deshario.agriculture.Deshario_Functions;
+        import com.deshario.agriculture.Models.Category;
         import com.deshario.agriculture.Models.Records;
         import com.deshario.agriculture.PayDebt;
         import com.deshario.agriculture.R;
@@ -37,7 +36,7 @@ public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAd
     private List<Double> mpercent;
     private List<Integer> mColors;
     private String thb = "\u0E3F";
-
+    private int catg_type = 0;
 
     public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView item_icon;
@@ -62,10 +61,11 @@ public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAd
         }
     }
 
-    public IncomeCategoryAdapter(List<Records> myDataset, List<Integer> colors, List<Double> percents, Context context) {
+    public IncomeCategoryAdapter(List<Records> myDataset, List<Integer> colors, int type, List<Double> percents, Context context) {
         mDataset = myDataset;
         mpercent = percents;
         mColors = colors;
+        catg_type = type;
     }
 
     @Override
@@ -80,7 +80,11 @@ public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAd
         holder.item_icon.setImageDrawable(context.getResources().getDrawable(R.drawable.coins));
         holder.item_name.setText(mDataset.get(position).getCategory().getCat_item()+" ("+mpercent.get(position)+"%)");
         holder.item_amount.setText(thb+mDataset.get(position).getData_amount());
-        //holder.roundCornerProgressBar.setProgressColor(context.getResources().getColor(R.color.success_bootstrap));
+        if(catg_type == Category.CATEGORY_INCOME)
+            holder.roundCornerProgressBar.setProgressBackgroundColor(context.getResources().getColor(R.color.primary_bootstrap));
+        if(catg_type == Category.CATEGORY_EXPENSE)
+            holder.roundCornerProgressBar.setProgressBackgroundColor(context.getResources().getColor(R.color.orange));
+
         fillcolor(holder.roundCornerProgressBar,mColors.get(position));
         animateProgress(holder.roundCornerProgressBar,mpercent.get(position).floatValue());
         //holder.roundCornerProgressBar.setProgress(mpercent.get(position).floatValue());

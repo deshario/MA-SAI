@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.deshario.agriculture.Fragments.Expense_Category_Frag;
+import com.deshario.agriculture.Fragments.Expense_Per_Date_Frag;
+import com.deshario.agriculture.Fragments.Expense_Per_Month_Frag;
+import com.deshario.agriculture.Fragments.Expense_Per_Year_Frag;
 import com.deshario.agriculture.Fragments.Income_Category_Frag;
 import com.deshario.agriculture.Fragments.Income_Per_Date_Frag;
 import com.deshario.agriculture.Fragments.Categories2_Frag;
@@ -92,7 +96,14 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
                     bundle.putString("title1", title);
                     break;
                 case 1:
-                    frag = new Categories2_Frag();
+                    if(id == 1)
+                        frag = new Expense_Per_Date_Frag();
+                    if(id == 2)
+                        frag = new Expense_Per_Month_Frag();
+                    if(id == 3)
+                        frag = new Expense_Per_Year_Frag();
+                    if(id == 4)
+                        frag = new Expense_Category_Frag();
                     bundle.putString("title2", title);
                     break;
                 case 2:

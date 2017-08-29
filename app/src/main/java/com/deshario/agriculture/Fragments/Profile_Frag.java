@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
@@ -258,60 +257,60 @@ public class Profile_Frag extends Fragment implements FullScreenDialogContent,
 
 
     public void modify_profile(){
-        //add_weekselect = null; // Very Important  to clear value when reload dialog
-        boolean wrapInScrollView = true;
-        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
-                .title("ข้อมูลส่วนตัว")
-                .customView(R.layout.profile_form, true)
-                .backgroundColorRes(R.color.custom_background_disabled)
-                .titleColorRes(R.color.primary_bootstrap)
-                .positiveText("ตกลง")
-                .negativeText("ยกเลิก")
-                .canceledOnTouchOutside(true)
-                .cancelable(true)
-                .build();
-
-      //  spinner = (Spinner)dialog.getCustomView().findViewById(R.id.spinner);
-        materialDesignSpinner = (MaterialBetterSpinner)dialog.getCustomView().findViewById(R.id.spin);
-        prefix_spinner = (MaterialBetterSpinner)dialog.getCustomView().findViewById(R.id.prefix);
-        et_birth = (EditText) dialog.getCustomView().findViewById(R.id.birthdate);
-
-        String[] prefixs = getResources().getStringArray(R.array.prefix_names);
-        String[] list = getResources().getStringArray(R.array.martial_status);
-
-        adapter_prefix = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line, prefixs);
-        adapter_arr = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line, list);
-
-       // spinner.setAdapter(adapter);
-
-        prefix_spinner.setAdapter(adapter_prefix);
-        materialDesignSpinner.setAdapter(adapter_arr);
-
-        et_birth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendar = Calendar.getInstance();
-                FragmentManager manager = ((AppCompatActivity)mcontext).getFragmentManager();
-                DatePickerDialog dpd = DatePickerDialog.newInstance(
-                        Profile_Frag.this,
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH)
-                );
-                dpd.show(manager, "Datepickerdialog");
-                dpd.setCancelText("ยกเลิก");
-                dpd.setOkText("เลือก");
-            }
-        });
-
-
-
-        dialog.show();
-        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-        lp.dimAmount = 0.7f;
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        //super.onBackPressed();
+//        //add_weekselect = null; // Very Important  to clear value when reload dialog
+//        boolean wrapInScrollView = true;
+//        MaterialDialog dialog = new MaterialDialog.Builder(getContext())
+//                .title("ข้อมูลส่วนตัว")
+//                .customView(R.layout.profile_form, true)
+//                .backgroundColorRes(R.color.custom_background_disabled)
+//                .titleColorRes(R.color.primary_bootstrap)
+//                .positiveText("ตกลง")
+//                .negativeText("ยกเลิก")
+//                .canceledOnTouchOutside(true)
+//                .cancelable(true)
+//                .build();
+//
+//      //  spinner = (Spinner)dialog.getCustomView().findViewById(R.id.spinner);
+//        materialDesignSpinner = (MaterialBetterSpinner)dialog.getCustomView().findViewById(R.id.spin);
+//        prefix_spinner = (MaterialBetterSpinner)dialog.getCustomView().findViewById(R.id.prefix);
+//        et_birth = (EditText) dialog.getCustomView().findViewById(R.id.birthdate);
+//
+//        String[] prefixs = getResources().getStringArray(R.array.prefix_names);
+//        String[] list = getResources().getStringArray(R.array.martial_status);
+//
+//        adapter_prefix = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line, prefixs);
+//        adapter_arr = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line, list);
+//
+//       // spinner.setAdapter(adapter);
+//
+//        prefix_spinner.setAdapter(adapter_prefix);
+//        materialDesignSpinner.setAdapter(adapter_arr);
+//
+//        et_birth.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                calendar = Calendar.getInstance();
+//                FragmentManager manager = ((AppCompatActivity)mcontext).getFragmentManager();
+//                DatePickerDialog dpd = DatePickerDialog.newInstance(
+//                        Profile_Frag.this,
+//                        calendar.get(Calendar.YEAR),
+//                        calendar.get(Calendar.MONTH),
+//                        calendar.get(Calendar.DAY_OF_MONTH)
+//                );
+//                dpd.show(manager, "Datepickerdialog");
+//                dpd.setCancelText("ยกเลิก");
+//                dpd.setOkText("เลือก");
+//            }
+//        });
+//
+//
+//
+//        dialog.show();
+//        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+//        lp.dimAmount = 0.7f;
+//        dialog.getWindow().setAttributes(lp);
+//        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+//        //super.onBackPressed();
     }
 
 

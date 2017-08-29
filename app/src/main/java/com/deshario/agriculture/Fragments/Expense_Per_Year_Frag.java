@@ -37,13 +37,13 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Income_Per_Year_Frag extends Fragment {
+public class Expense_Per_Year_Frag extends Fragment {
 
     protected BarChart mChart;
     String toolbar_title;
     TextView avg_text;
 
-    public Income_Per_Year_Frag(){}
+    public Expense_Per_Year_Frag(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -52,20 +52,22 @@ public class Income_Per_Year_Frag extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbar_title);
         Bundle bundle = getArguments();
-        toolbar_title = bundle.getString("title1");
+        toolbar_title = bundle.getString("title2");
         textView.setText(toolbar_title);
 
         Toolbar toolbar_chart = (Toolbar)view.findViewById(R.id.chart_toolbar);
+        toolbar_chart.setBackgroundColor(getResources().getColor(R.color.deep_orange));
+
         ImageButton img_refresh = (ImageButton)view.findViewById(R.id.my_refresh);
         ImageButton img_settings = (ImageButton)view.findViewById(R.id.my_setting);
         avg_text = (TextView)toolbar_chart.findViewById(R.id.yearly_avg);
         img_refresh.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
-                getResources().getColor(R.color.primary_bootstrap))
+                getResources().getColor(R.color.deep_orange))
         );
         img_settings.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_settings_white_24dp),
-                getResources().getColor(R.color.primary_bootstrap))
+                getResources().getColor(R.color.deep_orange))
         );
         img_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +156,7 @@ public class Income_Per_Year_Frag extends Fragment {
         float total_summation = 0;
         for(int i=0; i<previous_7years.size(); i++){
             String year = previous_7years.get(i);
-            double total = Records.getSumofEachYear(year, Category.CATEGORY_INCOME);
+            double total = Records.getSumofEachYear(year, Category.CATEGORY_EXPENSE);
             total_summation += total;
             System.out.println(year+" == "+total);
             yVals1.add(new BarEntry(i,Deshario_Functions.getfloatValue(total)));
@@ -177,9 +179,9 @@ public class Income_Per_Year_Frag extends Fragment {
             set1.setDrawIcons(false);
             set1.setValueFormatter(new BottomXValueFormatter());
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
-            set1.setColors(getResources().getColor(R.color.primary_deshario));
+            set1.setColors(getResources().getColor(R.color.deep_orange));
             set1.setHighlightEnabled(true);
-            set1.setHighLightColor(getResources().getColor(R.color.success_bootstrap));
+            set1.setHighLightColor(getResources().getColor(R.color.orange));
             set1.setHighLightAlpha(200);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();

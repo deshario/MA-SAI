@@ -18,6 +18,7 @@ import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.deshario.agriculture.Adapters.IncomeCategoryAdapter;
@@ -52,7 +53,7 @@ import java.util.Random;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Income_Category_Frag extends Fragment{
+public class Expense_Category_Frag extends Fragment{
 
     String toolbar_title;
     Context context;
@@ -66,7 +67,7 @@ public class Income_Category_Frag extends Fragment{
 
     View line1;
 
-    public Income_Category_Frag() {}
+    public Expense_Category_Frag() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -77,8 +78,11 @@ public class Income_Category_Frag extends Fragment{
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbar_title);
         Bundle bundle = getArguments();
-        toolbar_title = bundle.getString("title1");
+        toolbar_title = bundle.getString("title2");
         textView.setText(toolbar_title);
+
+        LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.main_layout);
+        linearLayout.setBackgroundColor(getResources().getColor(R.color.deep_orange));
 
         mChart = (PieChart)view.findViewById(R.id.chart1);
         line1 = (View)view.findViewById(R.id.lineafterchart);
@@ -105,7 +109,7 @@ public class Income_Category_Frag extends Fragment{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         String current_month = sdf.format(calendar.getTime());
 
-        List<Records> records = Records.getSumofEachCatItem(current_month,Category.CATEGORY_INCOME);
+        List<Records> records = Records.getSumofEachCatItem(current_month,Category.CATEGORY_EXPENSE);
         double total = 0.0;
         List<Integer> colors = new ArrayList<>();
         List<Integer> all_colors = Deshario_Functions.getRandomColors();
@@ -145,7 +149,7 @@ public class Income_Category_Frag extends Fragment{
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
-            mAdapter = new IncomeCategoryAdapter(records,colors,Category.CATEGORY_INCOME,percents,getActivity());
+            mAdapter = new IncomeCategoryAdapter(records,colors,Category.CATEGORY_EXPENSE,percents,getActivity());
             mRecyclerView.setAdapter(mAdapter);
         }else{
             System.out.println("Records Size :: "+records.size());
@@ -251,7 +255,7 @@ public class Income_Category_Frag extends Fragment{
 //        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
 //        return s;
         // 14 ร้ายได้ทั้งหมด
-        String word = "ร้ายได้ทั้งหมด";
+        String word = "ค่าใช้จ่ายทั้งหมด";
         String thb = "\u0E3F";
         SpannableString s = new SpannableString(word+"\n"+thb+totalvalue);
         s.setSpan(new RelativeSizeSpan(1.8f), 0, word.length(), 0);

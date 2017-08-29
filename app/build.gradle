@@ -44,7 +44,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'in.arjsna:passcodeview:1.2.1'
     compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
+    //compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
     compile 'com.github.franmontiel:FullScreenDialog:1.0.1'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
     compile 'com.layer-net:thai-datetimepicker:1.0.3'

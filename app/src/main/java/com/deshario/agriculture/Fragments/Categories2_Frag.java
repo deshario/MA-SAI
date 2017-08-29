@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
@@ -80,91 +78,91 @@ public class Categories2_Frag extends Fragment {
     }
 
     private void onClickEvent(View view) {
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Get the selected position
-                //adapter.getSelectedItem();
-                int pageno = Categories_Tab_Frag.pageno;
-                final String title = Categories_Tab_Frag.getTitle(pageno);
-                //Toast.makeText(getActivity(),"Add Data pageno "+pageno,Toast.LENGTH_SHORT).show();
-                new MaterialDialog.Builder(getActivity())
-                        .title("หมวดหมู่ : "+title)
-                        .content("หัวข้อ")
-                        .positiveText("เพิ่ม")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("กรุณาป้อนชือ", "", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                new_item = String.valueOf(input);
-                                if(new_item == null || new_item.isEmpty()){
-                                    Toasty.info(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
-                                }else{
-                                    if(new_item.length() <=5 ){
-                                        Toasty.info(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        boolean validate = Category.check_exists(new_item);
-                                        if(validate == true){
-                                            Toasty.info(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
-                                        }else{
-                                            //Toast.makeText(getActivity(),new_item+" : "+title,Toast.LENGTH_SHORT).show();
-                                            Category category = new Category();
-                                            category.setCat_topic(title);
-                                            category.setCat_item(new_item);
-                                            category.setCat_type(2);
-                                            category.save();
-
-                                            boolean status = Category.check_exists(new_item);
-                                            if(status == true){
-                                                Toasty.success(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-                                            }
-                                            resetdata();
-                                        }
-                                    }
-                                }
-
-                            }
-                        }).show();
-            }
-        });
-        btn_del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int pos = adapter.getCurrent();
-                if(pos != -1){ // Valid Position
-                    Object object = adapter.getItem(pos);
-                    String cat = String.valueOf(object);
-                    Category category = new Category();
-                    category = Category.getSingleCategory(cat);
-                    //System.out.println("ID : "+category.getId());
-
-                    final Category inner_category = category;
-                    MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-                            .title("รายการ : "+category.getCat_item())
-                            .content("คุณแน่ใจหรือไม่ที่จะลบรายการนี้ ?")
-                            .positiveText("ฉันแน่ใจ")
-                            .negativeText("ฉันไม่แน่ใจ")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    delete(inner_category.getId());
-                                    dialog.dismiss();
-                                }
-                            })
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                    MaterialDialog dialog = builder.build();
-                    dialog.show();
-                }
-
-            }
-        });
-
+//        btn_add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //Get the selected position
+//                //adapter.getSelectedItem();
+//                int pageno = Categories_Tab_Frag.pageno;
+//                final String title = Categories_Tab_Frag.getTitle(pageno);
+//                //Toast.makeText(getActivity(),"Add Data pageno "+pageno,Toast.LENGTH_SHORT).show();
+//                new MaterialDialog.Builder(getActivity())
+//                        .title("หมวดหมู่ : "+title)
+//                        .content("หัวข้อ")
+//                        .positiveText("เพิ่ม")
+//                        .inputType(InputType.TYPE_CLASS_TEXT)
+//                        .input("กรุณาป้อนชือ", "", new MaterialDialog.InputCallback() {
+//                            @Override
+//                            public void onInput(MaterialDialog dialog, CharSequence input) {
+//                                new_item = String.valueOf(input);
+//                                if(new_item == null || new_item.isEmpty()){
+//                                    Toasty.info(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+//                                }else{
+//                                    if(new_item.length() <=5 ){
+//                                        Toasty.info(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
+//                                    }else{
+//                                        boolean validate = Category.check_exists(new_item);
+//                                        if(validate == true){
+//                                            Toasty.info(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
+//                                        }else{
+//                                            //Toast.makeText(getActivity(),new_item+" : "+title,Toast.LENGTH_SHORT).show();
+//                                            Category category = new Category();
+//                                            category.setCat_topic(title);
+//                                            category.setCat_item(new_item);
+//                                            category.setCat_type(2);
+//                                            category.save();
+//
+//                                            boolean status = Category.check_exists(new_item);
+//                                            if(status == true){
+//                                                Toasty.success(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+//                                            }
+//                                            resetdata();
+//                                        }
+//                                    }
+//                                }
+//
+//                            }
+//                        }).show();
+//            }
+//        });
+//        btn_del.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int pos = adapter.getCurrent();
+//                if(pos != -1){ // Valid Position
+//                    Object object = adapter.getItem(pos);
+//                    String cat = String.valueOf(object);
+//                    Category category = new Category();
+//                    category = Category.getSingleCategory(cat);
+//                    //System.out.println("ID : "+category.getId());
+//
+//                    final Category inner_category = category;
+//                    MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
+//                            .title("รายการ : "+category.getCat_item())
+//                            .content("คุณแน่ใจหรือไม่ที่จะลบรายการนี้ ?")
+//                            .positiveText("ฉันแน่ใจ")
+//                            .negativeText("ฉันไม่แน่ใจ")
+//                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                                @Override
+//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                                    delete(inner_category.getId());
+//                                    dialog.dismiss();
+//                                }
+//                            })
+//                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+//                                @Override
+//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//
+//                    MaterialDialog dialog = builder.build();
+//                    dialog.show();
+//                }
+//
+//            }
+//        });
+//
     }
 
     public void delete(long id){

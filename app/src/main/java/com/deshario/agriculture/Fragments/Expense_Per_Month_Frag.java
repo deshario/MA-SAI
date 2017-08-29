@@ -1,6 +1,5 @@
 package com.deshario.agriculture.Fragments;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +13,6 @@ import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
 import com.deshario.agriculture.Formatter.Month_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
-import com.deshario.agriculture.Formatter.Years_XAxisValueFormatter;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
@@ -28,44 +26,47 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Income_Per_Year_Frag extends Fragment {
+public class Expense_Per_Month_Frag extends Fragment {
 
     protected BarChart mChart;
     String toolbar_title;
+    public static ArrayList<String> previous_months;
     TextView avg_text;
 
-    public Income_Per_Year_Frag(){}
+    public Expense_Per_Month_Frag(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.yearly_income_chart, container, false);
+        View view = inflater.inflate(R.layout.monthly_income_chart, container, false);
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_toolbar);
         TextView textView = (TextView)toolbar.findViewById(R.id.toolbar_title);
         Bundle bundle = getArguments();
-        toolbar_title = bundle.getString("title1");
+        toolbar_title = bundle.getString("title2");
         textView.setText(toolbar_title);
 
         Toolbar toolbar_chart = (Toolbar)view.findViewById(R.id.chart_toolbar);
+        toolbar_chart.setBackgroundColor(getResources().getColor(R.color.deep_orange));
+
         ImageButton img_refresh = (ImageButton)view.findViewById(R.id.my_refresh);
         ImageButton img_settings = (ImageButton)view.findViewById(R.id.my_setting);
-        avg_text = (TextView)toolbar_chart.findViewById(R.id.yearly_avg);
+        avg_text = (TextView)toolbar_chart.findViewById(R.id.monthly_avg);
         img_refresh.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
-                getResources().getColor(R.color.primary_bootstrap))
+                getResources().getColor(R.color.deep_orange))
         );
         img_settings.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_settings_white_24dp),
-                getResources().getColor(R.color.primary_bootstrap))
+                getResources().getColor(R.color.deep_orange))
         );
         img_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +79,7 @@ public class Income_Per_Year_Frag extends Fragment {
                 mChart.animateXY(1000,2000);
             }
         });
+
         mChart = (BarChart)view.findViewById(R.id.chart1);
         work();
         return view;
@@ -103,7 +105,8 @@ public class Income_Per_Year_Frag extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(12);
-        xAxis.setValueFormatter(new Years_XAxisValueFormatter());
+        xAxis.setValueFormatter(new Month_XAxisValueFormatter());
+
 
         YAxis leftAxis = mChart.getAxisLeft();
         //leftAxis.setEnabled(false);
@@ -136,34 +139,35 @@ public class Income_Per_Year_Frag extends Fragment {
     }
 
     private void dbwork(){
-        ArrayList<String> previous_7years = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        //System.out.println("Current year :: "+sdf.format(calendar.getTime()));
-        calendar.add(Calendar.YEAR,-7); // 7 years ago
-        for(int i=0; i<7; i++){
-            calendar.add(Calendar.YEAR,1);
-            String date = sdf.format(calendar.getTime());
-            previous_7years.add(i,date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        previous_months = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        String today = sdf.format(cal.getTime());
+        int current_month_index = Calendar.getInstance().get(Calendar.MONTH)+1; // August = 7
+        cal.set(Calendar.MONTH,Calendar.JANUARY);
+        for(int i=0; i<current_month_index; i++){ // loop adding one day in each iteration
+            String date = sdf.format(cal.getTime());
+            cal.add(Calendar.MONTH,1);
+            previous_months.add(i,date);
         }
-        setData(previous_7years);
+        setData(previous_months);
     }
 
-    private void setData(ArrayList<String> previous_7years) {
+    private void setData(ArrayList<String> cur_month) {
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         float total_summation = 0;
-        for(int i=0; i<previous_7years.size(); i++){
-            String year = previous_7years.get(i);
-            double total = Records.getSumofEachYear(year, Category.CATEGORY_INCOME);
-            total_summation += total;
-            System.out.println(year+" == "+total);
-            yVals1.add(new BarEntry(i,Deshario_Functions.getfloatValue(total)));
+        for(int i=0; i<cur_month.size(); i++){
+            String date = cur_month.get(i);
+            float summation  = Records.getSumofEachMonth(date,Category.CATEGORY_EXPENSE);
+            total_summation += summation;
+            //System.out.println(date+" == "+summation);
+            yVals1.add(new BarEntry(i,summation));
         }
-        double average = Deshario_Functions.getDecimalFormat(total_summation/previous_7years.size());
-        //System.out.println("Years size :: "+previous_7years.size());
-        System.out.println("Years :: "+previous_7years);
-        //System.out.println("7 Year Summation :: "+total_summation);
-        //System.out.println("7 Year Average :: "+average);
+        double average = Deshario_Functions.getDecimalFormat(total_summation/cur_month.size());
+        //System.out.println("Months Size :: "+cur_month.size());
+        //System.out.println("Months :: "+cur_month);
+        //System.out.println("8 Months Summation :: "+total_summation);
+        //System.out.println("8 Months Average :: "+average);
         avg_text.append(" ฿"+average);
 
         BarDataSet set1;
@@ -173,13 +177,13 @@ public class Income_Per_Year_Frag extends Fragment {
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1,"รายได้ต่อแต่ละปี");
+            set1 = new BarDataSet(yVals1,"ค่าใช้จ่ายต่อแต่ละเดือน");
             set1.setDrawIcons(false);
             set1.setValueFormatter(new BottomXValueFormatter());
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
-            set1.setColors(getResources().getColor(R.color.primary_deshario));
+            set1.setColors(getResources().getColor(R.color.deep_orange));
             set1.setHighlightEnabled(true);
-            set1.setHighLightColor(getResources().getColor(R.color.success_bootstrap));
+            set1.setHighLightColor(getResources().getColor(R.color.orange));
             set1.setHighLightAlpha(200);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();

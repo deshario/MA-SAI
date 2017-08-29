@@ -27,6 +27,10 @@ public class Category extends Model {
     @Column(name = "cat_type")
     public int cat_type;
 
+    public static int CATEGORY_DEBTS = 1;
+    public static int CATEGORY_EXPENSE = 2;
+    public static int CATEGORY_INCOME = 3;
+
     public String getCat_topic() {
         return cat_topic;
     }

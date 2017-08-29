@@ -2,6 +2,7 @@ package com.deshario.agriculture.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
@@ -14,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.deshario.agriculture.CustomRangeInputFilter;
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.Records;
@@ -53,6 +52,7 @@ public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObje
             dateTime = (TextView) itemView.findViewById(R.id.date);
             pay_btn = (ImageButton) itemView.findViewById(R.id.pay);
             pay_btn.setOnClickListener(this);
+             label.setSelected(true);
             //itemView.setOnClickListener(this);
         }
 
@@ -107,53 +107,67 @@ public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObje
         return thai_date;
     }
 
-    public void paydebt(final Records record){
-        boolean wrapInScrollView = true;
-        MaterialDialog debt_dialog = new MaterialDialog.Builder(context)
-                .customView(R.layout.pay_debt,wrapInScrollView)
-                .positiveText("ชำระ")
-                .negativeText("ยกเลิก")
-                .backgroundColorRes(R.color.default_bootstrap)
-                .positiveColorRes(R.color.primary_bootstrap)
-                .negativeColorRes(R.color.primary_bootstrap)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        String cash = amount2pay.getText().toString();
-                        if(cash.isEmpty()){
-                            Toasty.info(context,"การชำระหนี้ล้มเหลว",Toast.LENGTH_SHORT).show();
-                        }else{
-                            double amount = Double.parseDouble(cash);
-                            update_debt(record,amount);
-                        }
-                    }
-                })
-                .build();
+    public void paydebt(Records in){
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.pay_debt, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setView(view);
+        alert.setCancelable(false);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setDimAmount(0.8f);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation_2;
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        positiveAction = debt_dialog.getActionButton(DialogAction.POSITIVE);
-        item_name = (TextView)debt_dialog.getCustomView().findViewById(R.id.itemname);
-        item_amount = (TextView)debt_dialog.getCustomView().findViewById(R.id.debt_amount);
-        item_date = (TextView)debt_dialog.getCustomView().findViewById(R.id.debt_date);
-
-        item_name.setText(record.getCategory().getCat_item());
-        item_amount.setText("จำนวนเงิน : "+thb+record.getData_amount());
-        item_date.setText("วันที่กู้ : "+getThaiDate(record.getData_created()));
-
-        amount2pay = (EditText) debt_dialog.getCustomView().findViewById(R.id.pay_debt);
-        amount2pay.setFilters(new InputFilter[]{new CustomRangeInputFilter(1, record.getData_amount())});
-
-        WindowManager.LayoutParams lp = debt_dialog.getWindow().getAttributes();
-        lp.dimAmount=0.5f;
-        debt_dialog.getWindow().setAttributes(lp);
-        debt_dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        debt_dialog.show();
     }
+
+//    public void paydebt(final Records record){
+//        boolean wrapInScrollView = true;
+//        MaterialDialog debt_dialog = new MaterialDialog.Builder(context)
+//                .customView(R.layout.pay_debt,wrapInScrollView)
+//                .positiveText("ชำระ")
+//                .negativeText("ยกเลิก")
+//                .backgroundColorRes(R.color.default_bootstrap)
+//                .positiveColorRes(R.color.primary_bootstrap)
+//                .negativeColorRes(R.color.primary_bootstrap)
+//                .onNegative(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                        String cash = amount2pay.getText().toString();
+//                        if(cash.isEmpty()){
+//                            Toasty.info(context,"การชำระหนี้ล้มเหลว",Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            double amount = Double.parseDouble(cash);
+//                            update_debt(record,amount);
+//                        }
+//                    }
+//                })
+//                .build();
+//
+//        positiveAction = debt_dialog.getActionButton(DialogAction.POSITIVE);
+//        item_name = (TextView)debt_dialog.getCustomView().findViewById(R.id.itemname);
+//        item_amount = (TextView)debt_dialog.getCustomView().findViewById(R.id.debt_amount);
+//        item_date = (TextView)debt_dialog.getCustomView().findViewById(R.id.debt_date);
+//
+//        item_name.setText(record.getCategory().getCat_item());
+//        item_amount.setText("จำนวนเงิน : "+thb+record.getData_amount());
+//        item_date.setText("วันที่กู้ : "+getThaiDate(record.getData_created()));
+//
+//        amount2pay = (EditText) debt_dialog.getCustomView().findViewById(R.id.pay_debt);
+//        amount2pay.setFilters(new InputFilter[]{new CustomRangeInputFilter(1, record.getData_amount())});
+//
+//        WindowManager.LayoutParams lp = debt_dialog.getWindow().getAttributes();
+//        lp.dimAmount=0.5f;
+//        debt_dialog.getWindow().setAttributes(lp);
+//        debt_dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+//        debt_dialog.show();
+//    }
 
     public void update_debt(Records record, double amount){
         double remain_debt = record.getData_amount()-amount; // Ex : 500-200 = remain:400
@@ -173,21 +187,21 @@ public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObje
 
         }
 
-        MaterialDialog info_dialog = new MaterialDialog.Builder(context)
-                .customView(R.layout.debt_payed_inform,true)
-                .positiveText("ตกลง")
-                .backgroundColorRes(R.color.default_bootstrap)
-                .positiveColorRes(R.color.primary_bootstrap)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .build();
-        TextView inform = (TextView)info_dialog.getCustomView().findViewById(R.id.info_item);
-        inform.setText(data);
-        info_dialog.show();
+//        MaterialDialog info_dialog = new MaterialDialog.Builder(context)
+//                .customView(R.layout.debt_payed_inform,true)
+//                .positiveText("ตกลง")
+//                .backgroundColorRes(R.color.default_bootstrap)
+//                .positiveColorRes(R.color.primary_bootstrap)
+//                .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .build();
+//        TextView inform = (TextView)info_dialog.getCustomView().findViewById(R.id.info_item);
+//        inform.setText(data);
+//        info_dialog.show();
 
     }
 }

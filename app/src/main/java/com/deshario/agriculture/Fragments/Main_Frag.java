@@ -1,7 +1,10 @@
 package com.deshario.agriculture.Fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,14 +12,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
+import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Main_Tab;
 import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.ReportsManager;
@@ -127,10 +137,9 @@ public class Main_Frag extends Fragment {
                         startActivity(new Intent(getActivity(),PayDebt.class));
                         break;
                     case 6: // calendar
-                        Toasty.normal(context, "Custom Date", Toast.LENGTH_SHORT).show();
                         break;
                     case 7:
-                        Toasty.normal(context,"About",Toast.LENGTH_SHORT).show();
+                        about_application();
                         break;
                     case 8:
                         getActivity().finish();
@@ -145,7 +154,39 @@ public class Main_Frag extends Fragment {
     @Override
     public void onResume() {
         tabBarView.resetFocusOnAllTabs();
+        Deshario_Functions.setTint(
+                getResources().getDrawable(R.drawable.ic_settings_white_24dp),
+                getResources().getColor(R.color.default_bootstrap));
         super.onResume();
+    }
+
+    public void about_application(){
+// api 16
+//        Dialog alertDialog = new Dialog(context);
+//        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        alertDialog.setContentView(R.layout.about_app);
+//        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        alertDialog.show();
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.about_app, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setView(view);
+        alert.setCancelable(false);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setDimAmount(0.8f);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation_2;
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ImageButton imageButton = (ImageButton)view.findViewById(R.id.close_modal);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                tabBarView.resetFocusOnAllTabs();
+            }
+        });
     }
 
     @Override

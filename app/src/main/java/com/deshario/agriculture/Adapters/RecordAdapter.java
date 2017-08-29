@@ -16,8 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
@@ -136,112 +134,112 @@ public class RecordAdapter extends BaseAdapter {
     }
 
     public void view_data(final Records record){
-        MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .title("ตัวเลือก")
-                .items(R.array.crud_options)
-                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        int position = which;
-                        switch (position){
-                            case -1:
-                                Toasty.info(context,"select atleast one!",Toast.LENGTH_SHORT).show();
-                                break;
-                            case 0:
-                                do_view(record);
-                                break;
-                            case 1:
-                                do_update(record);
-                                break;
-                            case 2:
-                                do_delete(record);
-                                break;
-                            default:
-                        }
-                        return true;
-                    }
-                })
-                .positiveText("เลือก")
-                .build();
-
-        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-        lp.dimAmount=0.5f;
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        dialog.show();
+//        MaterialDialog dialog = new MaterialDialog.Builder(context)
+//                .title("ตัวเลือก")
+//                .items(R.array.crud_options)
+//                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+//                    @Override
+//                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+//                        int position = which;
+//                        switch (position){
+//                            case -1:
+//                                Toasty.info(context,"select atleast one!",Toast.LENGTH_SHORT).show();
+//                                break;
+//                            case 0:
+//                                do_view(record);
+//                                break;
+//                            case 1:
+//                                do_update(record);
+//                                break;
+//                            case 2:
+//                                do_delete(record);
+//                                break;
+//                            default:
+//                        }
+//                        return true;
+//                    }
+//                })
+//                .positiveText("เลือก")
+//                .build();
+//
+//        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+//        lp.dimAmount=0.5f;
+//        dialog.getWindow().setAttributes(lp);
+//        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+//        dialog.show();
     }
 
     public void do_view(Records record){
-        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
-        String rec_date = "วันที่ : "+getThaiDate(record.getData_created());
-        String note = "บันทึกย่อ : "+record.getShortnote();
-        String category_topic = "หมวดหมู่ : "+record.getCategory().getCat_topic();
-        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
-        boolean wrapInScrollView = true;
-        MaterialDialog viewer_dialog = new MaterialDialog.Builder(context)
-                .customView(R.layout.view_records,wrapInScrollView)
-                .positiveText("ตกลง")
-                .backgroundColorRes(R.color.default_bootstrap)
-                .positiveColorRes(R.color.primary_bootstrap)
-                .negativeColorRes(R.color.primary_bootstrap)
-                .build();
-        txt_cattopic = (TextView)viewer_dialog.getCustomView().findViewById(R.id.cat_topic);
-        txt_amount = (TextView)viewer_dialog.getCustomView().findViewById(R.id.data_amount);
-        txt_date = (TextView)viewer_dialog.getCustomView().findViewById(R.id.data_date);
-        txt_note = (TextView)viewer_dialog.getCustomView().findViewById(R.id.note);
-        txt_catitem = (TextView)viewer_dialog.getCustomView().findViewById(R.id.category);
-
-        txt_cattopic.setText(category_topic);
-        txt_amount.setText(amount);
-        txt_date.setText(rec_date);
-        txt_note.setText(note);
-        txt_catitem.setText(category_item);
-
-        WindowManager.LayoutParams lp = viewer_dialog.getWindow().getAttributes();
-        lp.dimAmount=1f;
-        viewer_dialog.getWindow().setAttributes(lp);
-        viewer_dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        viewer_dialog.show();
-        viewer_dialog.show();
+//        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
+//        String rec_date = "วันที่ : "+getThaiDate(record.getData_created());
+//        String note = "บันทึกย่อ : "+record.getShortnote();
+//        String category_topic = "หมวดหมู่ : "+record.getCategory().getCat_topic();
+//        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
+//        boolean wrapInScrollView = true;
+//        MaterialDialog viewer_dialog = new MaterialDialog.Builder(context)
+//                .customView(R.layout.view_records,wrapInScrollView)
+//                .positiveText("ตกลง")
+//                .backgroundColorRes(R.color.default_bootstrap)
+//                .positiveColorRes(R.color.primary_bootstrap)
+//                .negativeColorRes(R.color.primary_bootstrap)
+//                .build();
+//        txt_cattopic = (TextView)viewer_dialog.getCustomView().findViewById(R.id.cat_topic);
+//        txt_amount = (TextView)viewer_dialog.getCustomView().findViewById(R.id.data_amount);
+//        txt_date = (TextView)viewer_dialog.getCustomView().findViewById(R.id.data_date);
+//        txt_note = (TextView)viewer_dialog.getCustomView().findViewById(R.id.note);
+//        txt_catitem = (TextView)viewer_dialog.getCustomView().findViewById(R.id.category);
+//
+//        txt_cattopic.setText(category_topic);
+//        txt_amount.setText(amount);
+//        txt_date.setText(rec_date);
+//        txt_note.setText(note);
+//        txt_catitem.setText(category_item);
+//
+//        WindowManager.LayoutParams lp = viewer_dialog.getWindow().getAttributes();
+//        lp.dimAmount=1f;
+//        viewer_dialog.getWindow().setAttributes(lp);
+//        viewer_dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+//        viewer_dialog.show();
+//        viewer_dialog.show();
     }
 
     public void do_update(final Records record){
-        boolean wrapInScrollView = true;
-        MaterialDialog update_dialog = new MaterialDialog.Builder(context)
-                .customView(R.layout.update_records,wrapInScrollView)
-                .positiveText("ปรับปรุง")
-                .negativeText("ยกเลิก")
-                .backgroundColorRes(R.color.default_bootstrap)
-                .positiveColorRes(R.color.primary_bootstrap)
-                .negativeColorRes(R.color.primary_bootstrap)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which){
-                        str_amount = et_amount.getText().toString();
-                        str_note = et_note.getText().toString();
-                        if(str_amount.isEmpty() || str_note.isEmpty()){
-                            Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
-                        }else{
-                            double amount = Double.parseDouble(str_amount);
-                            String note = str_note;
-                            verify_update(record,amount,note);
-                        }
-                    }
-                })
-                .build();
-
-        positive_button = update_dialog.getActionButton(DialogAction.POSITIVE);
-        //positive_button.setEnabled(false);
-
-        name_category = (TextView)update_dialog.getCustomView().findViewById(R.id.category_name);
-        et_amount = (EditText)update_dialog.getCustomView().findViewById(R.id.update_amount);
-        et_note = (EditText)update_dialog.getCustomView().findViewById(R.id.update_note);
-
-        name_category.setText(record.getCategory().getCat_item());
-        et_amount.setText(""+record.getData_amount());
-        et_note.setText(record.getShortnote());
-
-        update_dialog.show();
+//        boolean wrapInScrollView = true;
+//        MaterialDialog update_dialog = new MaterialDialog.Builder(context)
+//                .customView(R.layout.update_records,wrapInScrollView)
+//                .positiveText("ปรับปรุง")
+//                .negativeText("ยกเลิก")
+//                .backgroundColorRes(R.color.default_bootstrap)
+//                .positiveColorRes(R.color.primary_bootstrap)
+//                .negativeColorRes(R.color.primary_bootstrap)
+//                .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which){
+//                        str_amount = et_amount.getText().toString();
+//                        str_note = et_note.getText().toString();
+//                        if(str_amount.isEmpty() || str_note.isEmpty()){
+//                            Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            double amount = Double.parseDouble(str_amount);
+//                            String note = str_note;
+//                            verify_update(record,amount,note);
+//                        }
+//                    }
+//                })
+//                .build();
+//
+//        positive_button = update_dialog.getActionButton(DialogAction.POSITIVE);
+//        //positive_button.setEnabled(false);
+//
+//        name_category = (TextView)update_dialog.getCustomView().findViewById(R.id.category_name);
+//        et_amount = (EditText)update_dialog.getCustomView().findViewById(R.id.update_amount);
+//        et_note = (EditText)update_dialog.getCustomView().findViewById(R.id.update_note);
+//
+//        name_category.setText(record.getCategory().getCat_item());
+//        et_amount.setText(""+record.getData_amount());
+//        et_note.setText(record.getShortnote());
+//
+//        update_dialog.show();
     }
 
     public void verify_update(Records record, double new_amount, String new_note){
@@ -259,28 +257,28 @@ public class RecordAdapter extends BaseAdapter {
     }
 
     public void do_delete(final Records record){
-        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
-        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
-        boolean wrapInScrollView = true;
-        MaterialDialog delete_dialog = new MaterialDialog.Builder(context)
-                .customView(R.layout.delete_information,wrapInScrollView)
-                .positiveText("ลบ")
-                .negativeText("ยกเลิก")
-                .backgroundColorRes(R.color.default_bootstrap)
-                .positiveColorRes(R.color.danger_bootstrap)
-                .negativeColorRes(R.color.primary_bootstrap)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which){
-                        verify_delete(record);
-                    }
-                })
-                .build();
-        txt_amount = (TextView)delete_dialog.getCustomView().findViewById(R.id.data_amount);
-        txt_catitem = (TextView)delete_dialog.getCustomView().findViewById(R.id.category);
-        txt_amount.setText(amount);
-        txt_catitem.setText(category_item);
-        delete_dialog.show();
+//        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
+//        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
+//        boolean wrapInScrollView = true;
+//        MaterialDialog delete_dialog = new MaterialDialog.Builder(context)
+//                .customView(R.layout.delete_information,wrapInScrollView)
+//                .positiveText("ลบ")
+//                .negativeText("ยกเลิก")
+//                .backgroundColorRes(R.color.default_bootstrap)
+//                .positiveColorRes(R.color.danger_bootstrap)
+//                .negativeColorRes(R.color.primary_bootstrap)
+//                .onPositive(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which){
+//                        verify_delete(record);
+//                    }
+//                })
+//                .build();
+//        txt_amount = (TextView)delete_dialog.getCustomView().findViewById(R.id.data_amount);
+//        txt_catitem = (TextView)delete_dialog.getCustomView().findViewById(R.id.category);
+//        txt_amount.setText(amount);
+//        txt_catitem.setText(category_item);
+//        delete_dialog.show();
 
     }
 

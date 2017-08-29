@@ -128,8 +128,8 @@ public class Reports_Tab_Frag extends Fragment {
 
     private void setUpColors(){
         Integer color1 = getResources().getColor(R.color.primary_deshario);
-        Integer color2 = getResources().getColor(R.color.material_red);
-        Integer color3 = getResources().getColor(R.color.success_bootstrap);
+        Integer color2 = getResources().getColor(R.color.deep_orange);
+        Integer color3 = getResources().getColor(R.color.light_success);
         Integer[] colors_temp = {color1, color2, color3};
         colors = colors_temp;
     }

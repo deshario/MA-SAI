@@ -13,6 +13,7 @@ import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
 import com.deshario.agriculture.Formatter.Month_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
+import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -73,7 +74,7 @@ public class Income_Per_Month_Frag extends Fragment {
                 while(!mChart.isFullyZoomedOut()){
                     mChart.zoomOut();
                 }
-                mChart.animateXY(1000,3000);
+                mChart.animateXY(1000,2000);
             }
         });
 
@@ -170,7 +171,7 @@ public class Income_Per_Month_Frag extends Fragment {
         float total_summation = 0;
         for(int i=0; i<cur_month.size(); i++){
             String date = cur_month.get(i);
-            float summation  = Records.getSumofEachMonth(date,3);
+            float summation  = Records.getSumofEachMonth(date,Category.CATEGORY_INCOME);
             total_summation += summation;
             //System.out.println(date+" == "+summation);
             yVals1.add(new BarEntry(i,summation));
@@ -206,7 +207,7 @@ public class Income_Per_Month_Frag extends Fragment {
             data.setBarWidth(0.9f);
             mChart.setData(data);
         }
-        mChart.animateXY(1000, 3000);
+        mChart.animateXY(1000, 2000);
         mChart.setHighlightFullBarEnabled(true);
     }
 
