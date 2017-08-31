@@ -33,16 +33,18 @@
     <color name="img_viewer_bg">#009CD8</color>
 
 
+    <color name="my_gray">#B1BCBE</color>
     <color name="dark_gray">#E5E5E5</color>
     <color name="dark_gray_dark">#808080</color>
-    <color name="primary_deshario">#2396F1</color>
 
     <color name="custom_primary">#736EFE</color>
     <color name="pink_modified">#9e79a6</color>
     <color name="blue_modified">#7c97cd</color>
 
     <color name="material_purple">#9b59b6</color>
-    <color name="material_red">#FF5252</color>
+    <color name="material_danger">#FF5252</color>
+    <color name="material_primary">#2396F1</color>
+    <color name="material_success">#2ecc71</color>
 
 
     <!-- Screens background color-->

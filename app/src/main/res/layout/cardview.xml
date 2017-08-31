@@ -1,23 +1,22 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     card_view:cardBackgroundColor="@color/default_bootstrap"
-    card_view:cardCornerRadius="10dp"
+    card_view:cardCornerRadius="4dp"
     card_view:cardElevation="0dp"
     card_view:cardMaxElevation="0dp"
     card_view:cardUseCompatPadding="true">
-
 
     <LinearLayout
         android:id="@+id/linear_border"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
-
-        <!-- image - android:scaleType="centerCrop"-->
+        android:background="@drawable/cardview_border_success">
 
         <TextView
             android:id="@+id/item_title"
@@ -27,7 +26,7 @@
             android:textColor="@color/default_bootstrap"
             android:padding="10sp"
             android:textSize="18sp"
-            android:background="@color/orange"/>
+            android:background="@color/light_success"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +41,6 @@
                 android:layout_height="80dp"
                 android:contentDescription="@string/app_name"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/one"
                 android:layout_centerHorizontal="true"/>
 
 

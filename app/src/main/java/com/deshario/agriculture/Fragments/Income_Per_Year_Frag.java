@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
-import com.deshario.agriculture.Formatter.Month_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
 import com.deshario.agriculture.Formatter.Years_XAxisValueFormatter;
 import com.deshario.agriculture.Models.Category;
@@ -25,13 +24,11 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
@@ -177,7 +174,7 @@ public class Income_Per_Year_Frag extends Fragment {
             set1.setDrawIcons(false);
             set1.setValueFormatter(new BottomXValueFormatter());
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
-            set1.setColors(getResources().getColor(R.color.primary_deshario));
+            set1.setColors(getResources().getColor(R.color.material_primary));
             set1.setHighlightEnabled(true);
             set1.setHighLightColor(getResources().getColor(R.color.success_bootstrap));
             set1.setHighLightAlpha(200);

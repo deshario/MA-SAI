@@ -1,10 +1,7 @@
 package com.deshario.agriculture.Fragments;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,31 +10,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Deshario_Functions;
-import com.deshario.agriculture.Main_Tab;
 import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.ReportsManager;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
-import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 import com.vk.dev.android.ExpandableBottomTabBar;
 import com.deshario.agriculture.R;
 
 import java.util.Calendar;
-
-import es.dmoral.toasty.Toasty;
 
 /**
  * Created by Deshario on 4/17/2017.
@@ -175,7 +161,7 @@ public class Main_Frag extends Fragment {
         alert.setCancelable(false);
         final AlertDialog dialog = alert.create();
         dialog.getWindow().setDimAmount(0.8f);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation_2;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
         dialog.show();
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 

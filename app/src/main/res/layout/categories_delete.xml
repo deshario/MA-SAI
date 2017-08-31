@@ -1,6 +1,6 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,23 +13,23 @@
     <LinearLayout
         android:id="@+id/linear_border"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
-        android:background="@drawable/cardview_border_primary">
+        android:background="@drawable/cardview_border_orange">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/material_primary">
+            android:background="@color/orange">
 
             <TextView
-                android:id="@+id/img_title"
+                android:id="@+id/info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10sp"
-                android:text=" เกี่ยวกับแอพ"
-                android:drawableLeft="@drawable/ic_settings_white_24dp"
+                android:text="Title"
                 android:textColor="@color/default_bootstrap"
                 android:textSize="22sp" />
 
@@ -40,7 +40,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/close_modal"
+                android:id="@+id/et_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -50,36 +50,50 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/data_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:gravity="center">
+            android:padding="8dp">
 
-            <ScrollView
+            <TextView
+                android:id="@+id/info_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbarThumbVertical="@android:color/transparent">
+                android:text=""
+                android:textSize="18sp"
+                android:padding="8dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/delete_btn"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_weight="1"
+                    android:background="@color/light_success"
+                    android:text="ยกเลิก"
+                    android:textSize="18sp"
+                    android:textColor="@color/default_bootstrap"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lorem" />
+                <Button
+                    android:id="@+id/save_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/orange"
+                    android:text="ยืนยันลบ"
+                    android:textSize="18sp"
+                    android:textColor="@color/default_bootstrap"/>
 
-
-                </LinearLayout>
-
-            </ScrollView>
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 </android.support.v7.widget.CardView>

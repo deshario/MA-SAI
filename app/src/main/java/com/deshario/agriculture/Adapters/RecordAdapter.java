@@ -1,21 +1,23 @@
 package com.deshario.agriculture.Adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
@@ -32,13 +34,11 @@ public class RecordAdapter extends BaseAdapter {
     private List<Records> listStorage;
     private Context context;
     private String thb = "\u0E3F";
-    private TextView txt_amount,txt_date,txt_note,txt_cattopic,txt_catitem;
-    private EditText et_amount,et_note;
-    private TextView name_category;
     private FullScreenDialogFragment dialogFragment;
     private String str_amount=null, str_note=null;
     int data_position;
     View positive_button;
+    private static int sel_position = -1;
 
     public RecordAdapter(Context context, List<Records> customizedListView) {
         this.context = context;
@@ -96,24 +96,24 @@ public class RecordAdapter extends BaseAdapter {
         switch (type){
             case 1: // debt
                 listViewHolder.title.setText("หนี้สิน");
-                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.danger_bootstrap));
+                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.material_danger));
                 listViewHolder.img.setImageResource(R.drawable.debt);
-                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.linear_danger_border));
-                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.danger_bootstrap));
+                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.cardview_border_material_danger));
+                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.material_danger));
                 break;
             case 2: // expense
                 listViewHolder.title.setText("ค่าใช้จ่าย");
-                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.primary_deshario));
+                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.material_primary));
                 listViewHolder.img.setImageResource(R.drawable.refund);
-                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.linear_primary_border));
-                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.primary_deshario));
+                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.cardview_border_primary));
+                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.material_primary));
                 break;
             case 3: // income
                 listViewHolder.title.setText("รายได้");
-                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.success_bootstrap));
+                listViewHolder.title.setBackgroundColor(ContextCompat.getColor(context,R.color.material_success));
                 listViewHolder.img.setImageResource(R.drawable.wallet);
-                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.linear_success_border));
-                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.success_bootstrap));
+                listViewHolder.ln.setBackground(ContextCompat.getDrawable(context,R.drawable.cardview_border_material_sucess));
+                listViewHolder.line.setBackgroundColor(ContextCompat.getColor(context,R.color.material_success));
                 break;
             default:
         }
@@ -126,160 +126,219 @@ public class RecordAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Records record = getItem(row.getId());
                 data_position = row.getId();
-                view_data(record);
+                view_options(record);
             }
         });
 
         return row;
     }
 
-    public void view_data(final Records record){
-//        MaterialDialog dialog = new MaterialDialog.Builder(context)
-//                .title("ตัวเลือก")
-//                .items(R.array.crud_options)
-//                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-//                    @Override
-//                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-//                        int position = which;
-//                        switch (position){
-//                            case -1:
-//                                Toasty.info(context,"select atleast one!",Toast.LENGTH_SHORT).show();
-//                                break;
-//                            case 0:
-//                                do_view(record);
-//                                break;
-//                            case 1:
-//                                do_update(record);
-//                                break;
-//                            case 2:
-//                                do_delete(record);
-//                                break;
-//                            default:
-//                        }
-//                        return true;
-//                    }
-//                })
-//                .positiveText("เลือก")
-//                .build();
-//
-//        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-//        lp.dimAmount=0.5f;
-//        dialog.getWindow().setAttributes(lp);
-//        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-//        dialog.show();
+    public void view_options(final Records record){
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle("ตัวเลือก");
+        alert.setCancelable(false);
+        alert.setSingleChoiceItems(R.array.crud_options, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sel_position = which;
+            }
+        });
+        alert.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                select(sel_position,record);
+                sel_position = -1; // Reset
+            }
+        });
+        alert.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sel_position = -1; // Reset
+                dialog.dismiss();
+            }
+        });
+
+        final AlertDialog dialog = alert.create();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.dimAmount=0.5f;
+        dialog.getWindow().setDimAmount(0.5f);
+        //dialog.getWindow().getAttributes().windowAnimations = R.style.FadeAnimation;
+        dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        dialog.show();
+    }
+
+    public void select(int position, Records record){
+        switch (position){
+            case -1:
+                Toasty.info(context,"กรุณาเลือกรายการใดรายการหนึ่ง",Toast.LENGTH_SHORT).show();
+                break;
+            case 0:
+                do_view(record);
+                break;
+            case 1:
+                do_update(record);
+                break;
+            case 2:
+                do_delete(record);
+                break;
+            default:
+        }
     }
 
     public void do_view(Records record){
-//        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
-//        String rec_date = "วันที่ : "+getThaiDate(record.getData_created());
-//        String note = "บันทึกย่อ : "+record.getShortnote();
-//        String category_topic = "หมวดหมู่ : "+record.getCategory().getCat_topic();
-//        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
-//        boolean wrapInScrollView = true;
-//        MaterialDialog viewer_dialog = new MaterialDialog.Builder(context)
-//                .customView(R.layout.view_records,wrapInScrollView)
-//                .positiveText("ตกลง")
-//                .backgroundColorRes(R.color.default_bootstrap)
-//                .positiveColorRes(R.color.primary_bootstrap)
-//                .negativeColorRes(R.color.primary_bootstrap)
-//                .build();
-//        txt_cattopic = (TextView)viewer_dialog.getCustomView().findViewById(R.id.cat_topic);
-//        txt_amount = (TextView)viewer_dialog.getCustomView().findViewById(R.id.data_amount);
-//        txt_date = (TextView)viewer_dialog.getCustomView().findViewById(R.id.data_date);
-//        txt_note = (TextView)viewer_dialog.getCustomView().findViewById(R.id.note);
-//        txt_catitem = (TextView)viewer_dialog.getCustomView().findViewById(R.id.category);
-//
-//        txt_cattopic.setText(category_topic);
-//        txt_amount.setText(amount);
-//        txt_date.setText(rec_date);
-//        txt_note.setText(note);
-//        txt_catitem.setText(category_item);
-//
-//        WindowManager.LayoutParams lp = viewer_dialog.getWindow().getAttributes();
-//        lp.dimAmount=1f;
-//        viewer_dialog.getWindow().setAttributes(lp);
-//        viewer_dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-//        viewer_dialog.show();
-//        viewer_dialog.show();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.view_records, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setView(view);
+        alert.setCancelable(false);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setDimAmount(0.8f);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
+        String rec_date = "วันที่ : "+getThaiDate(record.getData_created());
+        String note = "บันทึกย่อ : "+record.getShortnote();
+        String category_topic = "หมวดหมู่ : "+record.getCategory().getCat_topic();
+        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
+
+        ImageButton close_btn = (ImageButton)view.findViewById(R.id.close_btn);
+        TextView txt_amount = (TextView)view.findViewById(R.id.data_amount);
+        TextView txt_date = (TextView)view.findViewById(R.id.data_date);
+        TextView txt_note = (TextView)view.findViewById(R.id.data_note);
+        TextView txt_category_topic = (TextView)view.findViewById(R.id.cat_topic);
+        TextView txt_category_item = (TextView)view.findViewById(R.id.data_category);
+
+        txt_amount.setText(amount);
+        txt_date.setText(rec_date);
+        txt_note.setText(note);
+        txt_category_topic.setText(category_topic);
+        txt_category_item.setText(category_item);
+
+        close_btn.setImageDrawable(Deshario_Functions.setTint(
+                context.getResources().getDrawable(R.drawable.ic_close_white_36dp),
+                context.getResources().getColor(R.color.my_gray)
+        ));
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
     public void do_update(final Records record){
-//        boolean wrapInScrollView = true;
-//        MaterialDialog update_dialog = new MaterialDialog.Builder(context)
-//                .customView(R.layout.update_records,wrapInScrollView)
-//                .positiveText("ปรับปรุง")
-//                .negativeText("ยกเลิก")
-//                .backgroundColorRes(R.color.default_bootstrap)
-//                .positiveColorRes(R.color.primary_bootstrap)
-//                .negativeColorRes(R.color.primary_bootstrap)
-//                .onPositive(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which){
-//                        str_amount = et_amount.getText().toString();
-//                        str_note = et_note.getText().toString();
-//                        if(str_amount.isEmpty() || str_note.isEmpty()){
-//                            Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            double amount = Double.parseDouble(str_amount);
-//                            String note = str_note;
-//                            verify_update(record,amount,note);
-//                        }
-//                    }
-//                })
-//                .build();
-//
-//        positive_button = update_dialog.getActionButton(DialogAction.POSITIVE);
-//        //positive_button.setEnabled(false);
-//
-//        name_category = (TextView)update_dialog.getCustomView().findViewById(R.id.category_name);
-//        et_amount = (EditText)update_dialog.getCustomView().findViewById(R.id.update_amount);
-//        et_note = (EditText)update_dialog.getCustomView().findViewById(R.id.update_note);
-//
-//        name_category.setText(record.getCategory().getCat_item());
-//        et_amount.setText(""+record.getData_amount());
-//        et_note.setText(record.getShortnote());
-//
-//        update_dialog.show();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View myview = inflater.inflate(R.layout.update_records, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setView(myview);
+        alert.setCancelable(false);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setDimAmount(0.8f);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ImageButton close_btn = (ImageButton)myview.findViewById(R.id.close_btn);
+        TextView name_category = (TextView)myview.findViewById(R.id.category_name);
+        final EditText et_amount = (EditText)myview.findViewById(R.id.update_amount);
+        final EditText et_note = (EditText)myview.findViewById(R.id.update_note);
+        Button update_btn = (Button)myview.findViewById(R.id.update_btn);
+
+        name_category.setSelected(true);
+
+        name_category.setText(record.getCategory().getCat_item());
+        et_amount.setText(""+record.getData_amount());
+        et_note.setText(record.getShortnote());
+
+        close_btn.setImageDrawable(Deshario_Functions.setTint(
+                context.getResources().getDrawable(R.drawable.ic_close_white_36dp),
+                context.getResources().getColor(R.color.my_gray)
+        ));
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        update_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                str_amount = et_amount.getText().toString();
+                str_note = et_note.getText().toString();
+                if(str_amount.isEmpty() || str_note.isEmpty()){
+                    Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                }else{
+                    dialog.dismiss();
+                    double amount = Double.parseDouble(str_amount);
+                    String note = str_note;
+                    verify_update(record,amount,note);
+                }
+            }
+        });
     }
 
     public void verify_update(Records record, double new_amount, String new_note){
         double amount = new_amount;
         String note = new_note;
         Date today = Calendar.getInstance().getTime();
-
         Records records = Records.load(Records.class,record.getId());
         records.setData_amount(amount);
         record.setShortnote(note);
-       // record.setData_updated(today);
         records.save();
         notifyDataSetChanged();
         Toasty.success(context,"รายการของคุณปรับปรุงสำเร็จ",Toast.LENGTH_SHORT).show();
     }
 
     public void do_delete(final Records record){
-//        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
-//        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
-//        boolean wrapInScrollView = true;
-//        MaterialDialog delete_dialog = new MaterialDialog.Builder(context)
-//                .customView(R.layout.delete_information,wrapInScrollView)
-//                .positiveText("ลบ")
-//                .negativeText("ยกเลิก")
-//                .backgroundColorRes(R.color.default_bootstrap)
-//                .positiveColorRes(R.color.danger_bootstrap)
-//                .negativeColorRes(R.color.primary_bootstrap)
-//                .onPositive(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which){
-//                        verify_delete(record);
-//                    }
-//                })
-//                .build();
-//        txt_amount = (TextView)delete_dialog.getCustomView().findViewById(R.id.data_amount);
-//        txt_catitem = (TextView)delete_dialog.getCustomView().findViewById(R.id.category);
-//        txt_amount.setText(amount);
-//        txt_catitem.setText(category_item);
-//        delete_dialog.show();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View my_view = inflater.inflate(R.layout.delete_information, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setView(my_view);
+        alert.setCancelable(false);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setDimAmount(0.8f);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
+        String category_item = "ชือรายการ : "+record.getCategory().getCat_item();
+        String amount = "จำนวนเงิน : "+thb+record.getData_amount();
+        TextView txt_item = (TextView)my_view.findViewById(R.id.item1);
+        TextView txt_amount = (TextView)my_view.findViewById(R.id.item2);
+        Button cancel_btn = (Button)my_view.findViewById(R.id.btn_cancel);
+        Button delete_btn = (Button)my_view.findViewById(R.id.btn_delete);
+        ImageButton dismiss_btn = (ImageButton)my_view.findViewById(R.id.close_btn);
+        txt_item.setText(category_item);
+        txt_amount.setText(amount);
+        dismiss_btn.setImageDrawable(Deshario_Functions.setTint(
+                context.getResources().getDrawable(R.drawable.ic_close_white_36dp),
+                context.getResources().getColor(R.color.my_gray)
+        ));
+        dismiss_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                verify_delete(record);
+            }
+        });
     }
 
     public void verify_delete(Records record){

@@ -42,9 +42,9 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
     Boolean first = true;
 
     final int[] ICONS = new int[] {
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
+            R.drawable.debt,
+            R.drawable.decrease,
+            R.drawable.income_icon
     };
 
 

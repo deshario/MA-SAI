@@ -4,18 +4,13 @@ package com.deshario.agriculture.Fragments;
 import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +18,6 @@ import android.view.ViewGroup;
 
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.R;
-import java.util.Calendar;
-import java.util.Stack;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -127,7 +120,7 @@ public class Reports_Tab_Frag extends Fragment {
     }
 
     private void setUpColors(){
-        Integer color1 = getResources().getColor(R.color.primary_deshario);
+        Integer color1 = getResources().getColor(R.color.material_primary);
         Integer color2 = getResources().getColor(R.color.deep_orange);
         Integer color3 = getResources().getColor(R.color.light_success);
         Integer[] colors_temp = {color1, color2, color3};

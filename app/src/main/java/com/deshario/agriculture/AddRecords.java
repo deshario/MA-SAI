@@ -70,7 +70,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("รายการใหม่");
         myToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-
         initializtion();
 
         Locale locale = getResources().getConfiguration().locale;

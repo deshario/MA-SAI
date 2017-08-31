@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@color/default_bootstrap">
+    android:background="@drawable/linear_border_gray">
 
      <LinearLayout
          android:id="@+id/topbar"
@@ -19,16 +19,29 @@
               android:layout_marginLeft="5dp"
               android:padding="10dp"
               android:text="ยืนยันการลบ"
-              android:textSize="20sp"
+              android:textSize="22sp"
               android:textStyle="normal"
-              android:textColor="@color/primary_bootstrap"/>
+              android:textColor="@color/material_primary"/>
+
+          <View
+              android:layout_width="0dp"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              />
+
+          <ImageButton
+              android:id="@+id/close_btn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_margin="5dp"
+              android:src="@drawable/ic_close_white_36dp"
+              android:background="@android:color/transparent"/>
 
      </LinearLayout>
 
      <View
          android:layout_width="match_parent"
          android:layout_height="2dp"
-         android:layout_marginTop="5dp"
          android:background="@color/dark_gray" />
 
 
@@ -36,8 +49,6 @@
          android:id="@+id/scroller"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
-         android:layout_alignParentTop="true"
-         android:layout_centerHorizontal="true"
          android:scrollbarThumbVertical="@android:color/transparent">
 
           <LinearLayout
@@ -46,10 +57,11 @@
               android:orientation="vertical">
 
                <LinearLayout
-                   android:id="@+id/col1"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:padding="12dp"
+                   android:layout_marginTop="-5dp"
+                   android:layout_marginBottom="-5dp"
                    android:gravity="center_vertical">
 
                     <ImageView
@@ -59,54 +71,83 @@
                         android:src="@drawable/coins"/>
 
                     <TextView
-                        android:id="@+id/data_amount"
+                        android:id="@+id/item1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:textSize="18sp"
-                        android:text="Amount : $500"
+                        android:text="text"
                         android:textColor="@color/dark_gray_dark"/>
-
 
                </LinearLayout>
 
                <View
                    android:layout_width="match_parent"
                    android:layout_height="2dp"
-                   android:layout_marginTop="-5dp"
                    android:background="@color/dark_gray" />
 
-
                <LinearLayout
-                   android:id="@+id/col4"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:padding="12dp"
+                   android:layout_marginTop="-5dp"
+                   android:layout_marginBottom="-5dp"
                    android:gravity="center_vertical">
 
                     <ImageView
-                        android:id="@+id/icon4"
+                        android:id="@+id/icon2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/tag"/>
+                        android:src="@drawable/coins"/>
 
                     <TextView
-                        android:id="@+id/category"
+                        android:id="@+id/item2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:textSize="18sp"
-                        android:text="Category : name"
+                        android:text="text"
                         android:textColor="@color/dark_gray_dark"/>
-
 
                </LinearLayout>
 
                <View
                    android:layout_width="match_parent"
                    android:layout_height="2dp"
-                   android:layout_marginTop="-5dp"
                    android:background="@color/dark_gray" />
+
+               <LinearLayout
+                   android:id="@+id/col_button"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:padding="6dp"
+                   android:layout_marginTop="5dp"
+                   android:gravity="center_vertical"
+                   android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_cancel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/light_success"
+                        android:text="ยกเลิก"
+                        android:textSize="18sp"
+                        android:textColor="@color/default_bootstrap"/>
+
+                    <Button
+                        android:id="@+id/btn_delete"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:background="@color/deep_orange"
+                        android:text="ลบ"
+                        android:textSize="18sp"
+                        android:textColor="@color/default_bootstrap"/>
+
+               </LinearLayout>
+
 
           </LinearLayout>
 

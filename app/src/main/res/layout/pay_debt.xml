@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@color/default_bootstrap">
+    android:background="@drawable/linear_border_gray">
 
 <LinearLayout
     android:id="@+id/topbar"
@@ -20,6 +20,19 @@
         android:layout_marginLeft="5dp"
         android:textSize="18sp"
         android:padding="10dp"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ImageButton
+        android:id="@+id/close_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_close_white_36dp"
+        android:background="@android:color/transparent"/>
 
 </LinearLayout>
 
@@ -119,11 +132,39 @@
 
         </RelativeLayout>
 
-        <View
+        <LinearLayout
+            android:id="@+id/col_buttons"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="-5dp"
-            android:background="@color/dark_gray" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp">
+
+            <Button
+                android:id="@+id/cancel_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/my_gray"
+                android:text="ยกเลิก"
+                android:textSize="18sp"
+                android:textColor="@color/default_bootstrap"/>
+
+            <Button
+                android:id="@+id/pay_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/light_success"
+                android:layout_marginLeft="10dp"
+                android:text="ชำระ"
+                android:textSize="18sp"
+                android:textColor="@color/default_bootstrap"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

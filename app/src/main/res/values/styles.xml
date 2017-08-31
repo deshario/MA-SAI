@@ -23,14 +23,20 @@
     <!--</style>-->
 
     <style name="FullScreenDialogToolbar">
-        <item name="android:background">@color/success_bootstrap</item>
+        <item name="android:background">@color/light_success</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
     </style>
 
-    <style name="DialogAnimation_2">
+    <style name="SlideUpDownAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
+
+    <style name="FadeAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
 
     <!--<style name="CustomFullScreen">-->
         <!--<item name="android:background">@color/danger_bootstrap</item>-->

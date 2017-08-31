@@ -183,7 +183,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/default_bootstrap"
                         android:id="@+id/saveexpense"
-                        android:background="@color/primary_deshario"
+                        android:background="@color/material_primary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="บันทึกข้อมูล" />

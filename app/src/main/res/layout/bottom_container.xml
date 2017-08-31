@@ -4,31 +4,31 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:background="@color/primary_bootstrap">
+    android:background="@android:color/transparent"
+    android:padding="8dp">
 
     <Button
-        android:layout_alignParentBottom="true"
-        android:textSize="14sp"
-        android:textColor="@color/default_bootstrap"
         android:id="@+id/show_button"
-        android:background="@color/success_bootstrap"
-        android:layout_width="match_parent"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="เพิ่มรายการใหม่" />
+        android:background="@color/light_success"
+        android:layout_alignParentBottom="true"
+        android:text="เพิ่มรายการใหม่"
+        android:textSize="18sp"
+        android:textColor="@color/default_bootstrap"
+        />
 
     <Button
-        android:layout_alignParentBottom="true"
-        android:textSize="14sp"
-        android:textColor="@color/default_bootstrap"
         android:id="@+id/delete_button"
-        android:background="@color/danger_bootstrap"
-        android:layout_width="match_parent"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="ลบรายการ" />
-
-
-
+        android:background="@color/orange"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentBottom="true"
+        android:text="ลบรายการ"
+        android:textSize="18sp"
+        android:textColor="@color/default_bootstrap" />
 
 </LinearLayout>

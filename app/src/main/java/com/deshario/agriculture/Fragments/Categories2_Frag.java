@@ -1,16 +1,20 @@
 package com.deshario.agriculture.Fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.deshario.agriculture.Models.Category;
@@ -78,91 +82,121 @@ public class Categories2_Frag extends Fragment {
     }
 
     private void onClickEvent(View view) {
-//        btn_add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //Get the selected position
-//                //adapter.getSelectedItem();
-//                int pageno = Categories_Tab_Frag.pageno;
-//                final String title = Categories_Tab_Frag.getTitle(pageno);
-//                //Toast.makeText(getActivity(),"Add Data pageno "+pageno,Toast.LENGTH_SHORT).show();
-//                new MaterialDialog.Builder(getActivity())
-//                        .title("หมวดหมู่ : "+title)
-//                        .content("หัวข้อ")
-//                        .positiveText("เพิ่ม")
-//                        .inputType(InputType.TYPE_CLASS_TEXT)
-//                        .input("กรุณาป้อนชือ", "", new MaterialDialog.InputCallback() {
-//                            @Override
-//                            public void onInput(MaterialDialog dialog, CharSequence input) {
-//                                new_item = String.valueOf(input);
-//                                if(new_item == null || new_item.isEmpty()){
-//                                    Toasty.info(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
-//                                }else{
-//                                    if(new_item.length() <=5 ){
-//                                        Toasty.info(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
-//                                    }else{
-//                                        boolean validate = Category.check_exists(new_item);
-//                                        if(validate == true){
-//                                            Toasty.info(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
-//                                        }else{
-//                                            //Toast.makeText(getActivity(),new_item+" : "+title,Toast.LENGTH_SHORT).show();
-//                                            Category category = new Category();
-//                                            category.setCat_topic(title);
-//                                            category.setCat_item(new_item);
-//                                            category.setCat_type(2);
-//                                            category.save();
-//
-//                                            boolean status = Category.check_exists(new_item);
-//                                            if(status == true){
-//                                                Toasty.success(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-//                                            }
-//                                            resetdata();
-//                                        }
-//                                    }
-//                                }
-//
-//                            }
-//                        }).show();
-//            }
-//        });
-//        btn_del.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                int pos = adapter.getCurrent();
-//                if(pos != -1){ // Valid Position
-//                    Object object = adapter.getItem(pos);
-//                    String cat = String.valueOf(object);
-//                    Category category = new Category();
-//                    category = Category.getSingleCategory(cat);
-//                    //System.out.println("ID : "+category.getId());
-//
-//                    final Category inner_category = category;
-//                    MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
-//                            .title("รายการ : "+category.getCat_item())
-//                            .content("คุณแน่ใจหรือไม่ที่จะลบรายการนี้ ?")
-//                            .positiveText("ฉันแน่ใจ")
-//                            .negativeText("ฉันไม่แน่ใจ")
-//                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-//                                @Override
-//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                                    delete(inner_category.getId());
-//                                    dialog.dismiss();
-//                                }
-//                            })
-//                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-//                                @Override
-//                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                                    dialog.dismiss();
-//                                }
-//                            });
-//
-//                    MaterialDialog dialog = builder.build();
-//                    dialog.show();
-//                }
-//
-//            }
-//        });
-//
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View myview) {
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View view = inflater.inflate(R.layout.categories_input, null);
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                alert.setView(view);
+                alert.setCancelable(false);
+                final AlertDialog dialog = alert.create();
+                dialog.getWindow().setDimAmount(0.5f);
+                dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
+                dialog.show();
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                final TextView my_title = (TextView)view.findViewById(R.id.item_title);
+                final EditText et_topic = (EditText)view.findViewById(R.id.input_title);
+
+                int pageno = Categories_Tab_Frag.pageno;
+                final String title = Categories_Tab_Frag.getTitle(pageno);
+                my_title.setText("หมวดหมู่ : "+title);
+
+                final Button btn_save = (Button)view.findViewById(R.id.save_btn);
+                final ImageButton btn_close = (ImageButton)view.findViewById(R.id.close_modal);
+                btn_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                btn_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String new_item = et_topic.getText().toString();
+                        if(new_item == null || new_item.isEmpty()){
+                            Toasty.info(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(new_item.length() <=5 ){
+                                Toasty.info(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
+                            }else{
+                                boolean validate = Category.check_exists(new_item);
+                                if(validate == true){
+                                    Toasty.info(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Category category = new Category();
+                                    category.setCat_topic(title);
+                                    category.setCat_item(new_item);
+                                    category.setCat_type(Category.CATEGORY_EXPENSE);
+                                    category.save();
+
+                                    boolean status = Category.check_exists(new_item);
+                                    if(status == true){
+                                        Toasty.success(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                                    }
+                                    resetdata();
+                                    dialog.dismiss();
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        btn_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = adapter.getCurrent();
+                if(pos != -1){ // Valid Position
+                    Object object = adapter.getItem(pos);
+                    String cat = String.valueOf(object); // This is Itemname
+                    Category category = new Category();
+                    category = Category.getSingleCategory(cat);
+                    //System.out.println("ID : "+category.getId());
+
+                    final Category inner_category = category;
+
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
+                    View myview = inflater.inflate(R.layout.categories_delete, null);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setView(myview);
+                    alert.setCancelable(false);
+                    final AlertDialog dialog = alert.create();
+                    dialog.getWindow().setDimAmount(0.5f);
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
+                    dialog.show();
+                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+                    final TextView et_title = (TextView)myview.findViewById(R.id.info_title);
+                    final TextView et_message = (TextView)myview.findViewById(R.id.info_message);
+                    final Button et_save = (Button)myview.findViewById(R.id.save_btn);
+                    final Button et_delete = (Button)myview.findViewById(R.id.delete_btn);
+                    final ImageButton et_close = (ImageButton)myview.findViewById(R.id.et_close);
+                    et_title.setText("ลบรายการ ");
+                    et_message.setText("รายการ : "+category.getCat_item());
+                    et_close.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    et_save.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            delete(inner_category.getId());
+                            dialog.dismiss();
+                        }
+                    });
+                    et_delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void delete(long id){
@@ -170,7 +204,7 @@ public class Categories2_Frag extends Fragment {
         List<Records> records = Records.getSpecificRecordsByItem(category);
         int count = records.size();
         if(count >= 1){
-            Toasty.warning(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
+            Toasty.info(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
         }else{
             category.delete();
             resetdata();

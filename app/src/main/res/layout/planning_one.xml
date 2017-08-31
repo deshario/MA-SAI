@@ -183,7 +183,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/default_bootstrap"
                         android:id="@+id/saveincome"
-                        android:background="@color/success_bootstrap"
+                        android:background="@color/light_success"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="บันทึกข้อมูล" />
