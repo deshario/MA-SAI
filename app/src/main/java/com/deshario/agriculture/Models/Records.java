@@ -84,16 +84,28 @@ public class Records extends Model {
         return new Select().from(Records.class).execute();
     }
 
+    public static List<Records> getAllRecordsFromCatType(int catg_type) {
+        return new Select()
+                .from(Records.class)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
+                .where("Categories.cat_type = ?",catg_type)
+                .execute();
+    }
+
     public static boolean records_exists() {
         return new Select()
                 .from(Records.class)
                 .exists();
     }
 
-    public static boolean records_exists(String date) {
+    public static boolean isExists_From_Category(String date,int cat_type) {
         return new Select()
                 .from(Records.class)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
                 .where("data_created = ?",date)
+                .where("Categories.cat_type = ?",cat_type)
                 .exists();
     }
 
@@ -307,12 +319,13 @@ public class Records extends Model {
         return records;
     }
 
-    public static Records getSingleRecordsByDate(String date){
+    public static Records getSingleRecordsByDate(String date,int catg_type){
         return new Select()
                 .from(Records.class)
                 .innerJoin(Category.class)
                 .on("Records.category_id = Categories.Id")
                 .where("data_created = ?",date)
+                .where("Categories.cat_type = ?",catg_type)
                 .orderBy("data_created ASC")
                 .executeSingle();
     }

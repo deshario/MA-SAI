@@ -112,7 +112,7 @@ public class Income_Per_Date_Frag extends Fragment {
         for(int c=0; c<previous_8days.size(); c++){
             boolean status = Deshario_Functions.check_exists(found_dates,previous_8days.get(c));
             if(status == true){
-                Records reca = Records.getSingleRecordsByDate(previous_8days.get(c));
+                Records reca = Records.getSingleRecordsByDate(previous_8days.get(c),Category.CATEGORY_INCOME);
                 System.out.println(previous_8days.get(c)+" : "+reca.getData_amount());
                 Double d = new Double(reca.getData_amount());
                 previous_week_data[c] = d.intValue();

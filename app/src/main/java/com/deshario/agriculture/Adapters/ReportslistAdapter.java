@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.deshario.agriculture.Fragments.Compensation_Per_Date_Frag;
 import com.deshario.agriculture.Fragments.Expense_Category_Frag;
 import com.deshario.agriculture.Fragments.Expense_Per_Date_Frag;
 import com.deshario.agriculture.Fragments.Expense_Per_Month_Frag;
@@ -107,7 +108,7 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
                     bundle.putString("title2", title);
                     break;
                 case 2:
-                    frag = new Categories2_Frag();
+                    frag = new Compensation_Per_Date_Frag();
                     bundle.putString("title3", title);
                     break;
                 default:
@@ -131,6 +132,7 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
             imgToolIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println("clicked hai apss");
                     ((FragmentActivity)mContext).onBackPressed();
                 }
             });

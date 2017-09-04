@@ -48,7 +48,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
     public Button cls_btn,save_btn;
     private FullScreenDialogFragment dialogFragment;
     Calendar now;
-    int item_id;
+    int catg_id,item_id;
     String date_4insert;
     String SQLITE_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -76,6 +76,8 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         Locale.setDefault(locale);
 
         et_date.setText(" "+default_date());
+        et_date.setEnabled(false);
+        et_date.setFocusable(false);
 
         et_categories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,10 +92,13 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                             @Override
                             public void onConfirm(@Nullable Bundle result) {
                                 String res = result.getString(Categories_Tab_Frag.SELECTED_ANS);
-                                int catg = result.getInt(Categories_Tab_Frag.SELECTED_CATG);
+                                catg_id = result.getInt(Categories_Tab_Frag.SELECTED_CATG); // cat id
                                 item_id = result.getInt(Categories_Tab_Frag.ITEM_ID);
-                                //Toast.makeText(AddRecords.this,res+" : "+catg+"\n item_id : "+item_id,Toast.LENGTH_SHORT).show();
-                                et_categories.setText(" "+res+" : "+ Categories_Tab_Frag.getTitle(catg));
+                                //Toasty.info(AddRecords.this,res+" : "+catg_id+"\n item_id : "+item_id,Toast.LENGTH_SHORT).show();
+                                et_categories.setText(" "+res+" : "+ Categories_Tab_Frag.getTitle(catg_id));
+
+                                et_date.setEnabled(true);
+                                et_date.setFocusable(true);
                             }
                         })
                         .setOnDiscardListener(new FullScreenDialogFragment.OnDiscardListener() {
@@ -124,7 +129,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 dpd.setOkText("เลือก");
 
                 // Disable Specific Dates in Calendar
-                List<Records> allRecords = Records.getAllRecords();
+                List<Records> allRecords = Records.getAllRecordsFromCatType(catg_id+1);
                 Calendar calendar = null;
                 SimpleDateFormat sdf = new SimpleDateFormat(SQLITE_DATE_FORMAT);
                 List<Calendar> dates = new ArrayList<>();
@@ -158,7 +163,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 et_categories.setText("");
                 et_amount.setText("");
                 et_shortnote.setText("");
-               // et_date.setText(default_date());
+                // et_date.setText(default_date());
 
             }
         });
@@ -177,8 +182,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 }else{
                     Double amount = Double.parseDouble(_amount);
                     String selected_date = date_4insert;
-
-                    boolean date_taken = Records.records_exists(selected_date);
+                    boolean date_taken = Records.isExists_From_Category(selected_date,catg_id+1);
                     if(date_taken == true){
                         Toasty.warning(AddRecords.this," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
                     }else{
@@ -188,6 +192,14 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                         records.setData_amount(amount);
                         records.setData_created(selected_date);
                         records.setShortnote(shortnote);
+
+//                        System.out.println("getCat_topic :: "+records.getCategory().getCat_topic());
+//                        System.out.println("getCat_item :: "+records.getCategory().getCat_item());
+//                        System.out.println("getCat_type :: "+records.getCategory().getCat_type());
+//                        System.out.println("getData_amount :: "+records.getData_amount());
+//                        System.out.println("getData_created :: "+records.getData_created());
+//                        System.out.println("getShortnote :: "+records.getShortnote());
+
                         records.save();
 
                         //boolean status = Records.check_exists();
@@ -318,16 +330,16 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth){
-            String month = Deshario_Functions.add_zero_or_not(++monthOfYear);
-            String day = Deshario_Functions.add_zero_or_not(dayOfMonth);
-            String selected_date = year+"-"+month+"-"+day;
-            date_4insert = selected_date;
-            int sel_day = dayOfMonth;
-            String sel_month = Deshario_Functions.Th_Months(monthOfYear);
-            int sel_year = Deshario_Functions.Th_Year(year);
-            String total_date = sel_day+" "+sel_month+" "+sel_year;
-            System.out.println("SQ DATE SET : "+date_4insert);
-            et_date.setText(" "+total_date);
+        String month = Deshario_Functions.add_zero_or_not(++monthOfYear);
+        String day = Deshario_Functions.add_zero_or_not(dayOfMonth);
+        String selected_date = year+"-"+month+"-"+day;
+        date_4insert = selected_date;
+        int sel_day = dayOfMonth;
+        String sel_month = Deshario_Functions.Th_Months(monthOfYear);
+        int sel_year = Deshario_Functions.Th_Year(year);
+        String total_date = sel_day+" "+sel_month+" "+sel_year;
+        System.out.println("SQ DATE SET : "+date_4insert);
+        et_date.setText(" "+total_date);
     }
 
 }

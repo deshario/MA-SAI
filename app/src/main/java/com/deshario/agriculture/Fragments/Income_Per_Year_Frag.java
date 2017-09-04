@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
@@ -25,6 +26,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +75,12 @@ public class Income_Per_Year_Frag extends Fragment {
                     mChart.zoomOut();
                 }
                 mChart.animateXY(1000,2000);
+            }
+        });
+        img_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         mChart = (BarChart)view.findViewById(R.id.chart1);
