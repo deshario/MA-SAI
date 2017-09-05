@@ -163,6 +163,8 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 et_categories.setText("");
                 et_amount.setText("");
                 et_shortnote.setText("");
+                et_date.setEnabled(false);
+                et_date.setFocusable(false);
                 // et_date.setText(default_date());
 
             }
@@ -321,7 +323,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         int _year = Integer.valueOf(output[0]);
 
         int day_ = _day;
-        String month_ = Deshario_Functions.Th_Months(_month);
+        String month_ = Deshario_Functions.Th_Months(_month,false);
         int year_ = Deshario_Functions.Th_Year(_year);
         thai_date = day_+" "+month_+" "+year_;
 
@@ -335,7 +337,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
         String selected_date = year+"-"+month+"-"+day;
         date_4insert = selected_date;
         int sel_day = dayOfMonth;
-        String sel_month = Deshario_Functions.Th_Months(monthOfYear);
+        String sel_month = Deshario_Functions.Th_Months(monthOfYear,false);
         int sel_year = Deshario_Functions.Th_Year(year);
         String total_date = sel_day+" "+sel_month+" "+sel_year;
         System.out.println("SQ DATE SET : "+date_4insert);

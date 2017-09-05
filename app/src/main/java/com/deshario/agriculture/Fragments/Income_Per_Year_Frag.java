@@ -1,14 +1,21 @@
 package com.deshario.agriculture.Fragments;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Deshario_Functions;
@@ -28,20 +35,25 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 
+import org.w3c.dom.Text;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
+import es.dmoral.toasty.Toasty;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Income_Per_Year_Frag extends Fragment {
+public class Income_Per_Year_Frag extends Fragment{
 
     protected BarChart mChart;
     String toolbar_title;
     TextView avg_text;
-
     public Income_Per_Year_Frag(){}
 
     @Override
@@ -75,12 +87,6 @@ public class Income_Per_Year_Frag extends Fragment {
                     mChart.zoomOut();
                 }
                 mChart.animateXY(1000,2000);
-            }
-        });
-        img_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
         mChart = (BarChart)view.findViewById(R.id.chart1);

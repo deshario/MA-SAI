@@ -95,7 +95,7 @@ public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObje
         int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
         int _year = Integer.valueOf(output[0]);
-        String month_ = Deshario_Functions.Th_Months(_month);
+        String month_ = Deshario_Functions.Th_Months(_month,false);
         int year_ = Deshario_Functions.Th_Year(_year);
         thai_date = _day+" "+month_+" "+year_;
         return thai_date;

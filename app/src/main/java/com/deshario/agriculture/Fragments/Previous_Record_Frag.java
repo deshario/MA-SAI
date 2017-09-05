@@ -271,7 +271,7 @@ public class Previous_Record_Frag extends Fragment {
         int _year = Integer.valueOf(output[2]);
 
         int day_ = _day;
-        String month_ = Deshario_Functions.Th_Months(_month-1,true);
+        String month_ = Deshario_Functions.Th_Months(_month,true);
         int year_ = Deshario_Functions.Th_Year(_year);
         full_thaidate = day_+" "+month_+" "+year_;
 
@@ -289,7 +289,7 @@ public class Previous_Record_Frag extends Fragment {
         int _day = Integer.valueOf(output[2]);
         int _month = Integer.valueOf(output[1]);
         int _year = Integer.valueOf(output[0]);
-        String month_ = Deshario_Functions.Th_Months(_month-1,true);
+        String month_ = Deshario_Functions.Th_Months(_month,true);
         int year_ = Deshario_Functions.Th_Year(_year);
         thai_date = _day+" "+month_+" "+year_;
         return new String[]{

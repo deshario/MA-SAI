@@ -68,16 +68,16 @@ public class Deshario_Functions {
     * 2. Convert Normal Year To Buddhist Year
     * */
 
-    public static String Th_Months(int month){
-        String[] th_months = new String[]{ //index start from 0
-                "ม.ค","ก.พ","มี.ค","เม.ย","พ.ค","มิ.ย","ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
-        };
-        return th_months[month-1];
-    }
+//    public static String Th_Months(int month){
+//        String[] th_months = new String[]{ //index start from 0
+//                "ม.ค","ก.พ","มี.ค","เม.ย","พ.ค","มิ.ย","ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+//        };
+//        return th_months[month-1];
+//    }
 
     public static String Th_Months(int month, boolean full){
         String[] th_months_short = new String[] {
-                "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."
+                "ม.ค","ก.พ","มี.ค","เม.ย","พ.ค","มิ.ย","ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
         };
         String[] th_months_long = new String[]{
                 "มกราคม",
@@ -94,9 +94,9 @@ public class Deshario_Functions {
                 "ธันวาคม"
         };
         if(full == true){
-            return th_months_long[month];
+            return th_months_long[month-1];
         }else{
-            return th_months_short[month];
+            return th_months_short[month-1];
         }
     }
 

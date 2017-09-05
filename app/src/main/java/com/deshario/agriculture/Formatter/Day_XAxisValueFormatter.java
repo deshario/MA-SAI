@@ -76,7 +76,7 @@ public class Day_XAxisValueFormatter implements IAxisValueFormatter{
             int month = c.get(Calendar.MONTH) + 1; //Note: +1 the month for current month
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            months.add(i, Deshario_Functions.Th_Months(month));
+            months.add(i, Deshario_Functions.Th_Months(month,false));
             days.add(i,String.valueOf(day));
 
         }
