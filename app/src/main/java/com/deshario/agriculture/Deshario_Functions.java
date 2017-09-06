@@ -75,6 +75,38 @@ public class Deshario_Functions {
 //        return th_months[month-1];
 //    }
 
+    public static String[] getThaiDate(String date){
+        String thai_date = date;
+        String[] output = thai_date.split("-");
+        int _day = Integer.valueOf(output[2]);
+        int _month = Integer.valueOf(output[1]);
+        int _year = Integer.valueOf(output[0]);
+        String month_ = Th_Months(_month,false);
+        int year_ = Th_Year(_year);
+        thai_date = _day+" "+month_+" "+year_;
+        return new String[]{
+                String.valueOf(add_zero_or_not(_day)),
+                month_,
+                String.valueOf(year_),
+                thai_date
+        };
+    }
+
+    public static String[] getCustomThaiDate(String date){
+        String thai_date = date;
+        String[] output = thai_date.split("-");
+        int _month = Integer.valueOf(output[1]);
+        int _year = Integer.valueOf(output[0]);
+        String month_ = Th_Months(_month,true);
+        int year_ = Th_Year(_year);
+        thai_date = month_+" "+year_;
+        return new String[]{
+                month_,
+                String.valueOf(year_),
+                thai_date
+        };
+    }
+
     public static String Th_Months(int month, boolean full){
         String[] th_months_short = new String[] {
                 "ม.ค","ก.พ","มี.ค","เม.ย","พ.ค","มิ.ย","ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"

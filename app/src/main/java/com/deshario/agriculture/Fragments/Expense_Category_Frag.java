@@ -2,13 +2,13 @@ package com.deshario.agriculture.Fragments;
 
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,15 +18,18 @@ import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.deshario.agriculture.Adapters.IncomeCategoryAdapter;
-import com.deshario.agriculture.Adapters.PayDebtAdapter;
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
-import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
@@ -36,28 +39,37 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Expense_Category_Frag extends Fragment{
+public class Expense_Category_Frag extends Fragment implements DatePickerDialog.OnDateSetListener{
 
     String toolbar_title;
     Context context;
     double totalvalue = 0.0;
+
+    EditText date_1,date_2;
+    String tag_date_1 = "tag_date_1";
+    String tag_date_2 = "tag_date_2";
+    Calendar _cal_date1 = Calendar.getInstance();;
+    Calendar _cal_date2 = Calendar.getInstance();
+    ImageView close2;
+    String daterange1,daterange2;
+
+    PieDataSet dataSet;
+
     List<Integer> mycolors = new ArrayList<>();
 
     private PieChart mChart;
@@ -66,6 +78,7 @@ public class Expense_Category_Frag extends Fragment{
     RecyclerView.LayoutManager mLayoutManager;
 
     View line1;
+    TextView tool_title;
 
     public Expense_Category_Frag() {}
 
@@ -84,13 +97,154 @@ public class Expense_Category_Frag extends Fragment{
         LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.main_layout);
         linearLayout.setBackgroundColor(getResources().getColor(R.color.deep_orange));
 
+        Toolbar expense_toolbar = (Toolbar)view.findViewById(R.id.chart_toolbar);
+        expense_toolbar.setBackgroundColor(getResources().getColor(R.color.deep_orange));
+
         mChart = (PieChart)view.findViewById(R.id.chart1);
         line1 = (View)view.findViewById(R.id.lineafterchart);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.income_category_list);
 
-        manage();
+        tool_title = (TextView)view.findViewById(R.id.daily_category__title);
+        ImageButton img_settings = (ImageButton)view.findViewById(R.id.category_settings);
+        img_settings.setImageDrawable(Deshario_Functions.setTint(
+                getResources().getDrawable(R.drawable.ic_settings_white_24dp),
+                getResources().getColor(R.color.deep_orange))
+        );
+        img_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settings();
+            }
+        });
+
+        dbwork();
 
         return view;
+    }
+
+    private void settings(){
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.calendar_range, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setView(view);
+        alert.setCancelable(false);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setDimAmount(0.7f);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        TextView header = (TextView)view.findViewById(R.id.title);
+        Drawable img = Deshario_Functions.setTint(
+                getResources().getDrawable(R.drawable.ic_date_range_white_24dp),
+                getResources().getColor(R.color.default_bootstrap)
+        );
+        header.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
+
+        LinearLayout l_border = (LinearLayout)view.findViewById(R.id.linear_border);
+        LinearLayout l_title = (LinearLayout)view.findViewById(R.id.dialog_title);
+        LinearLayout l_bottoms = (LinearLayout)view.findViewById(R.id.bottom_buttons);
+        l_border.setBackground(getResources().getDrawable(R.drawable.cardview_border_material_orange));
+        l_title.setBackgroundColor(getResources().getColor(R.color.deep_orange));
+
+        int left = (int)getResources().getDimension(R.dimen.linear_left);
+        int top = (int)getResources().getDimension(R.dimen.linear_top);
+        int right = (int)getResources().getDimension(R.dimen.linear_right);
+        int bottom = (int)getResources().getDimension(R.dimen.linear_bottom);
+        l_bottoms.setPadding(left, top, right, bottom);
+
+        ImageButton cid = (ImageButton)view.findViewById(R.id.dismiss_btn);
+        cid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        close2 = (ImageView)view.findViewById(R.id.close2);
+        date_1 = (EditText)view.findViewById(R.id.date1);
+        date_2 = (EditText)view.findViewById(R.id.date2);
+        date_2.setEnabled(false);
+        date_2.setFocusable(false);
+        final Button btn_clear = (Button)view.findViewById(R.id.clear_btn);
+        Button btn_save = (Button)view.findViewById(R.id.save_btn);
+        btn_save.setBackgroundColor(getResources().getColor(R.color.deep_orange));
+        date_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _cal_date1 = Calendar.getInstance();
+                DatePickerDialog dpd1= DatePickerDialog.newInstance(
+                        Expense_Category_Frag.this,
+                        _cal_date1.get(Calendar.YEAR),
+                        _cal_date1.get(Calendar.MONTH),
+                        _cal_date1.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd1.show(getActivity().getFragmentManager(), tag_date_1);
+                dpd1.setCancelText("ยกเลิก");
+                dpd1.setOkText("เลือก");
+            }
+        });
+        date_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _cal_date2 = Calendar.getInstance();
+                DatePickerDialog dpd2 = DatePickerDialog.newInstance(
+                        Expense_Category_Frag.this,
+                        _cal_date2.get(Calendar.YEAR),
+                        _cal_date2.get(Calendar.MONTH),
+                        _cal_date2.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd2.show(getActivity().getFragmentManager(), tag_date_2);
+                dpd2.setCancelText("ยกเลิก");
+                dpd2.setOkText("เลือก");
+                _cal_date1.add(Calendar.DAY_OF_YEAR, 1);
+                dpd2.setMinDate(_cal_date1);
+            }
+        });
+        close2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                date_2.setText("");
+                _cal_date2.clear();
+            }
+        });
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(daterange1 == null || daterange2 == null){
+                    Toasty.info(getActivity(),"วันที่ผิดพลาด", Toast.LENGTH_SHORT).show();
+                }else{
+                    dialog.dismiss();
+                    search(daterange1,daterange2);
+                    btn_clear.performClick();
+                }
+            }
+        });
+        btn_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                date_1.setText("");
+                date_2.setText("");
+                date_2.setEnabled(false);
+                date_2.setFocusable(false);
+                _cal_date1.clear();
+                _cal_date2.clear();
+                daterange1 = null;
+                daterange2 = null;
+                close2.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    public void search(String daterange1, String daterange2){
+        String dates1[] = Deshario_Functions.getThaiDate(daterange1);
+        String dates2[] = Deshario_Functions.getThaiDate(daterange2);
+        String day1 = dates1[3];
+        String day2 = dates2[3];
+        tool_title.setText(day1+" ถึง "+day2);
+        List<Records> records = Records.getSumofEachCatItemBYRange(daterange1,daterange2,Category.CATEGORY_EXPENSE);
+        manage(records);
     }
 
     private void Error_404(){
@@ -104,12 +258,17 @@ public class Expense_Category_Frag extends Fragment{
         line1.setVisibility(View.INVISIBLE);
     }
 
-    public void manage(){
+    public void dbwork(){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         String current_month = sdf.format(calendar.getTime());
-
+        String _current_month[] = Deshario_Functions.getCustomThaiDate(current_month);
+        tool_title.setText(_current_month[2]);
         List<Records> records = Records.getSumofEachCatItem(current_month,Category.CATEGORY_EXPENSE);
+        manage(records);
+    }
+
+    public void manage(List<Records> records){
         double total = 0.0;
         List<Integer> colors = new ArrayList<>();
         List<Integer> all_colors = Deshario_Functions.getRandomColors();
@@ -138,24 +297,21 @@ public class Expense_Category_Frag extends Fragment{
             Records myrecords = records.get(i);
             double amount = myrecords.getData_amount();
             double percent = Deshario_Functions.getPercentFromTotal(amount,total);
-            //String item = myrecords.getCategory().getCat_item();
-            //int type = myrecords.getCategory().getCat_type();
-            //System.out.println("I"+i+" : "+item+" = "+amount+" = "+ Deshario_Functions.getDecimalFormat(percent)+"%");
             percents.add(Deshario_Functions.getDecimalFormat(percent));
         }
 
-        if(records.size() != 0 && records.size()> 0){
-            work(percents);
-            mRecyclerView.setHasFixedSize(true);
-            mLayoutManager = new LinearLayoutManager(getActivity());
-            mRecyclerView.setLayoutManager(mLayoutManager);
-            mAdapter = new IncomeCategoryAdapter(records,colors,Category.CATEGORY_EXPENSE,percents,getActivity());
-            mRecyclerView.setAdapter(mAdapter);
-        }else{
-            System.out.println("Records Size :: "+records.size());
+        work(percents);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new IncomeCategoryAdapter(records,colors,Category.CATEGORY_EXPENSE,percents,getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+
+        if(records.size() == 0){
             System.out.println("No Data Found");
             Error_404();
         }
+
     }
 
     public void work(ArrayList<Double> percents_set){
@@ -164,7 +320,11 @@ public class Expense_Category_Frag extends Fragment{
         mChart.setExtraOffsets(5, 10, 5, 5);
         mChart.setDragDecelerationFrictionCoef(0.95f);
         //mChart.setCenterTextTypeface(mTfLight);
-        mChart.setCenterText(generateCenterSpannableText());
+        if(percents_set.size() != 0){
+            mChart.setCenterText(generateCenterSpannableText());
+        }else{
+            mChart.setCenterText(generateNoDataText());
+        }
         mChart.setDrawHoleEnabled(true);
         mChart.setHoleColor(Color.TRANSPARENT);
         mChart.setTransparentCircleColor(Color.WHITE);
@@ -188,7 +348,6 @@ public class Expense_Category_Frag extends Fragment{
 
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
-
 
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -218,7 +377,7 @@ public class Expense_Category_Frag extends Fragment{
             entries.add(new PieEntry(data_amount));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet = new PieDataSet(entries, "");
 
         dataSet.setDrawIcons(false);
 
@@ -243,27 +402,51 @@ public class Expense_Category_Frag extends Fragment{
     }
 
     private SpannableString generateCenterSpannableText() {
-//        String word = "รายได้ทั้งหมด";
-//        SpannableString s = new SpannableString(word+"\n฿"+mytotla);
-//        SpannableString s = new SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda");
-//        System.out.println("S Length :: "+s.length());
-//        s.setSpan(new RelativeSizeSpan(1.6f), 0, word.length(), 0);
-//        s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length(), 0);
-//        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, s.length() - 15, 0);
-//        s.setSpan(new RelativeSizeSpan(1.7f), 14, s.length(), 0);
-//        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
-//        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
-//        return s;
-        // 14 ร้ายได้ทั้งหมด
         String word = "ค่าใช้จ่ายทั้งหมด";
         String thb = "\u0E3F";
         SpannableString s = new SpannableString(word+"\n"+thb+totalvalue);
         s.setSpan(new RelativeSizeSpan(1.8f), 0, word.length(), 0);
         s.setSpan(new RelativeSizeSpan(1.7f), word.length(), s.length(), 0);
         s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s.length(), 0);
-//        s.setSpan(new RelativeSizeSpan(1.4f), word.length()+1, word.length()+2, 0);
-
+        //s.setSpan(new RelativeSizeSpan(1.4f), word.length()+1, word.length()+2, 0);
         return s;
     }
 
+    private SpannableString generateNoDataText() {
+        String word = "ไม่พบข้อมูล";
+        SpannableString s = new SpannableString(word);
+        s.setSpan(new RelativeSizeSpan(2.8f), 0, word.length(), 0);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, s.length(), 0);
+        return s;
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String mytag = view.getTag().toString();
+        String month = Deshario_Functions.add_zero_or_not(++monthOfYear);
+        String day = Deshario_Functions.add_zero_or_not(dayOfMonth);
+        String selected_date = year+"-"+month+"-"+day;
+        String sel_month = Deshario_Functions.Th_Months(monthOfYear,true);
+        int sel_year = Deshario_Functions.Th_Year(year);
+        int sel_day = dayOfMonth;
+        String total_date = sel_day+" "+sel_month+" "+sel_year;
+        if(mytag == tag_date_1){
+            daterange1 = selected_date;
+            date_1.setText(total_date);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = dateFormat.parse(selected_date);
+                _cal_date1.setTime(date);
+            }catch (ParseException e){e.printStackTrace();}
+            date_2.setText("");
+            date_2.setEnabled(true);
+            date_2.setFocusable(true);
+            close2.setVisibility(View.INVISIBLE);
+        }
+        if(mytag == tag_date_2){
+            daterange2 = selected_date;
+            date_2.setText(total_date);
+            close2.setVisibility(View.VISIBLE);
+        }
+    }
 }

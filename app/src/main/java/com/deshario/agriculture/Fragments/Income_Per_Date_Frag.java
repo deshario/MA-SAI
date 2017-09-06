@@ -54,14 +54,8 @@ public class Income_Per_Date_Frag extends Fragment {
         toolbar_title = bundle.getString("title1");
         textView.setText(toolbar_title);
         ImageButton img_refresh = (ImageButton)view.findViewById(R.id.my_refresh);
-        ImageButton img_settings = (ImageButton)view.findViewById(R.id.my_setting);
-        //img_settings.setVisibility(View.GONE);
         img_refresh.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
-                getResources().getColor(R.color.material_primary))
-        );
-        img_settings.setImageDrawable(Deshario_Functions.setTint(
-                getResources().getDrawable(R.drawable.ic_settings_white_24dp),
                 getResources().getColor(R.color.material_primary))
         );
         img_refresh.setOnClickListener(new View.OnClickListener() {

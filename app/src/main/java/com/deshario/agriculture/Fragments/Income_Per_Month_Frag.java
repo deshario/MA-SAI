@@ -53,14 +53,9 @@ public class Income_Per_Month_Frag extends Fragment {
 
         Toolbar toolbar_chart = (Toolbar)view.findViewById(R.id.chart_toolbar);
         ImageButton img_refresh = (ImageButton)view.findViewById(R.id.my_refresh);
-        ImageButton img_settings = (ImageButton)view.findViewById(R.id.my_setting);
         avg_text = (TextView)toolbar_chart.findViewById(R.id.monthly_avg);
         img_refresh.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
-                getResources().getColor(R.color.primary_bootstrap))
-        );
-        img_settings.setImageDrawable(Deshario_Functions.setTint(
-                getResources().getDrawable(R.drawable.ic_settings_white_24dp),
                 getResources().getColor(R.color.primary_bootstrap))
         );
         img_refresh.setOnClickListener(new View.OnClickListener() {

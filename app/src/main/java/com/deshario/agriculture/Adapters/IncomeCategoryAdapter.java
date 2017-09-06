@@ -32,6 +32,10 @@ package com.deshario.agriculture.Adapters;
 
 public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAdapter.DataObjectHolder> {
     private Context context;
+
+    public IncomeCategoryAdapter() {
+    }
+
     private List<Records> mDataset;
     private List<Double> mpercent;
     private List<Integer> mColors;
@@ -113,6 +117,5 @@ public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAd
     public void fillcolor(RoundCornerProgressBar progressBar, int color){
         progressBar.setProgressColor(color);
     }
-
 
 }

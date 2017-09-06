@@ -319,6 +319,30 @@ public class Records extends Model {
         return records;
     }
 
+    public static List<Records> getSumofEachCatItemBYRange(String first_date, String second_date, int catg_type){
+        List<Records> records = new ArrayList<>();
+        String sql = "SELECT SUM(data_amount) AS total_amount,cat_item,cat_type FROM Records "+
+                "JOIN Categories ON Records.category_id = Categories.Id "+
+                "WHERE strftime('%Y-%m-%d', data_created) BETWEEN '"+first_date+"' AND '"+second_date+
+                "' AND Categories.cat_type = "+catg_type+
+                " GROUP BY cat_item";
+        Cursor resultCursor = Cache.openDatabase().rawQuery(sql, null);
+        while(resultCursor.moveToNext()){
+            Records found_records = new Records();
+            Category category = new Category();
+            category.setCat_topic(null);
+            category.setCat_item(resultCursor.getString(resultCursor.getColumnIndexOrThrow("cat_item")));
+            category.setCat_type(resultCursor.getInt(resultCursor.getColumnIndexOrThrow("cat_type")));
+
+            found_records.setData_amount(resultCursor.getDouble(resultCursor.getColumnIndexOrThrow("total_amount")));
+            found_records.setShortnote(null);
+            found_records.setData_created(null);
+            found_records.setCategory(category);
+            records.add(found_records);
+        }
+        return records;
+    }
+
     public static Records getSingleRecordsByDate(String date,int catg_type){
         return new Select()
                 .from(Records.class)

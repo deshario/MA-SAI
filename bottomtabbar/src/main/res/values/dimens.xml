@@ -3,4 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="bb_height">56dp</dimen>
+
+    <dimen name="linear_left">16dp</dimen>
+    <dimen name="linear_right">16dp</dimen>
+    <dimen name="linear_top">0dp</dimen>
+    <dimen name="linear_bottom">10dp</dimen>
+
 </resources>

@@ -20,6 +20,7 @@
         android:background="@drawable/cardview_border_primary">
 
         <LinearLayout
+            android:id="@+id/dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -189,6 +190,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bottom_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

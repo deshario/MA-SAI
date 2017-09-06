@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:background="@color/material_primary"
     android:id="@+id/main_layout">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/chart_toolbar"
         android:layout_width="match_parent"
@@ -16,12 +17,12 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <TextView
-            android:id="@+id/daily_title"
+            android:id="@+id/daily_category__title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MonthName :: "
             android:textColor="@color/default_bootstrap"
-            android:textStyle="bold"/>
+            android:textSize="20sp"/>
 
         <ImageButton
             android:id="@+id/category_settings"
@@ -33,7 +34,6 @@
             android:layout_marginRight="8dp"
             android:layout_gravity="right"
             />
-
 
     </android.support.v7.widget.Toolbar>
 

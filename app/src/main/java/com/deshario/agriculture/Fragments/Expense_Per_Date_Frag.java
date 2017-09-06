@@ -60,14 +60,8 @@ public class Expense_Per_Date_Frag extends Fragment {
         frag_toolbar.setBackgroundColor(getResources().getColor(R.color.deep_orange));
 
         ImageButton img_refresh = (ImageButton)view.findViewById(R.id.my_refresh);
-        ImageButton img_settings = (ImageButton)view.findViewById(R.id.my_setting);
-        //img_settings.setVisibility(View.GONE);
         img_refresh.setImageDrawable(Deshario_Functions.setTint(
                 getResources().getDrawable(R.drawable.ic_refresh_white_24dp),
-                getResources().getColor(R.color.deep_orange))
-        );
-        img_settings.setImageDrawable(Deshario_Functions.setTint(
-                getResources().getDrawable(R.drawable.ic_settings_white_24dp),
                 getResources().getColor(R.color.deep_orange))
         );
         img_refresh.setOnClickListener(new View.OnClickListener() {
