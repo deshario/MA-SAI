@@ -59,7 +59,7 @@ public class ReportsManager extends AppCompatActivity {
             }else{
                 mFragmentManager.popBackStackImmediate();
                 resetTolbar();
-                Reports_Tab_Frag.tabLayout.setBackgroundColor(getResources().getColor(R.color.success_bootstrap));
+                Reports_Tab_Frag.tabLayout.setBackgroundColor(getResources().getColor(R.color.light_success));
             }
         } else {
             super.onBackPressed();

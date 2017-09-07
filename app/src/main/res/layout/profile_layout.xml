@@ -1,327 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/custom_background_disabled">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
     <LinearLayout
-        android:id="@+id/mainbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/light_success"
+        android:padding="8dp">
 
-        <ScrollView
-            android:id="@+id/scroller"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/user_profile"
+            android:background="@drawable/rounded_textview"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deshario"
+            android:textSize="26sp"
+            android:layout_marginTop="10dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:background="@color/colorFormMasterDivider" />
-
-                    <!--<LinearLayout-->
-                    <!--android:background="@color/colorFormMasterHeaderBackground"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:paddingTop="20dp"-->
-                    <!--android:paddingBottom="16dp"-->
-                    <!--android:paddingLeft="16dp"-->
-                    <!--android:paddingRight="16dp">-->
-
-                    <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:id="@+id/formElementTitle"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:text="ข้อมูลส่วนตัว"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textColor="@color/colorPrimaryDark"/>-->
-
-                    <!--</LinearLayout>-->
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/profile_pic"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
-                            android:src="@drawable/user_profile"
-                            android:background="@drawable/img_frame"/>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/databox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="2"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/name"
-                                android:text="ชื่อสกุล"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:textColor="@color/success_bootstrap"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="wrap_content"
-                                android:text="นาย .............."
-                                android:gravity="right"
-                                android:id="@+id/name_value"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:maxLines="1"
-                                android:textStyle="italic"
-                                android:textColor="@color/info_bootstrap"/>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="2"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/email"
-                                android:text="วันเกิด"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:textColor="@color/success_bootstrap"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="wrap_content"
-                                android:text="18 ก.พ 2540"
-                                android:gravity="right"
-                                android:id="@+id/email_value"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:maxLines="1"
-                                android:textStyle="italic"
-                                android:textColor="@color/info_bootstrap"/>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="2"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/location"
-                                android:text="สถานะ"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:textColor="@color/success_bootstrap"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="wrap_content"
-                                android:text="โสด"
-                                android:gravity="right"
-                                android:id="@+id/location_value"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:maxLines="1"
-                                android:textStyle="italic"
-                                android:textColor="@color/info_bootstrap"/>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="2"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/locationa"
-                                android:text="จำนวนสมาชิกในบ้าน"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:textColor="@color/success_bootstrap"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="wrap_content"
-                                android:text="0 คน"
-                                android:gravity="right"
-                                android:id="@+id/Programming"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:maxLines="1"
-                                android:textStyle="italic"
-                                android:textColor="@color/info_bootstrap"/>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="2"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/locatisona"
-                                android:text="รายได้ต่อเดือน"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:textColor="@color/success_bootstrap"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="wrap_content"
-                                android:text="0 บาท"
-                                android:gravity="right"
-                                android:id="@+id/Prograssmming"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:maxLines="1"
-                                android:textStyle="italic"
-                                android:textColor="@color/info_bootstrap"/>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:background="@color/colorFormMasterDivider" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="2"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/locatsna"
-                                android:text="ที่อยู่"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:textColor="@color/success_bootstrap"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="wrap_content"
-                                android:text="ว่าง"
-                                android:gravity="right"
-                                android:id="@+id/Prograssmaaaming"
-                                android:textSize="@dimen/elementTextTitleSize"
-                                android:maxLines="1"
-                                android:textStyle="italic"
-                                android:textColor="@color/info_bootstrap"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <android.support.design.widget.FloatingActionButton
-                    android:layout_gravity="right"
-                    android:id="@+id/profile_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_margin="16dp"
-                    android:src="@drawable/ic_edit_white_24dp"
-                    app:backgroundTint="@color/success_bootstrap"
-                    app:fabSize="normal" />
-
-            </LinearLayout>
-
-        </ScrollView>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:background="@color/success_bootstrap">
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:layout_above="@+id/scroller"-->
-        <!--android:id="@+id/profile_edit"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:src="@drawable/ic_edit_white_24dp"-->
-        <!--app:backgroundTint="@color/success_bootstrap"-->
-        <!--app:fabSize="normal" />-->
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/success_bootstrap"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="22sp"
+                android:textColor="@color/default_bootstrap"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Credit"
+                android:textSize="18sp"
+                android:textColor="@color/dark_gray"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/material_success"
+            android:gravity="center">
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="22sp"
+                android:textColor="@color/default_bootstrap"/>
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Credit"
+                android:textSize="18sp"
+                android:textColor="@color/dark_gray"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

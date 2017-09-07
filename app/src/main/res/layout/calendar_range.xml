@@ -107,7 +107,7 @@
 
                 <ImageButton
                     android:id="@+id/close1"
-                    android:src="@drawable/met_ic_close"
+                    android:src="@drawable/ic_close_black_24dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -169,7 +169,7 @@
 
                 <ImageButton
                     android:id="@+id/close2"
-                    android:src="@drawable/met_ic_close"
+                    android:src="@drawable/ic_close_black_24dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
