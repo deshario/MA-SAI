@@ -1,6 +1,5 @@
 package com.deshario.agriculture;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -39,8 +38,6 @@ public class ReportsManager extends AppCompatActivity {
         tool_icon = (ImageView) myToolbar.findViewById(R.id.toolbar_icon);
         title = (TextView) myToolbar.findViewById(R.id.toolbar_title);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -13,9 +13,9 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.Records;
+import com.deshario.agriculture.ProgressBarAnimation;
 import com.deshario.agriculture.R;
 
 import java.text.DateFormat;
@@ -68,7 +68,7 @@ public class Previous_Record_Frag extends Fragment {
         double expenses = 0.0; // รายจ่าย
         double profit = 0.0; // กำไร
         double debt = 0.0; // หนี้สิน
-        double pay_debts = 0.0; // ชำระหนี้สิน
+        //double pay_debts = 0.0; // ชำระหนี้สิน
         double remain = 0.0; // คงเหลือ
 
         records = Records.getAllRecords();
@@ -95,8 +95,8 @@ public class Previous_Record_Frag extends Fragment {
                 expenses = 0.0; // ok
                 profit = income-expenses; // ok
                 debt = record.getData_amount(); //
-                pay_debts = 0.0; //
-                remain = debt-pay_debts; // ok
+                //pay_debts = 0.0; //
+                //remain = debt-pay_debts; // ok
                 break;
             case 2:
                 //  amounts = Records.getCustom("data_amount",2);
@@ -104,8 +104,8 @@ public class Previous_Record_Frag extends Fragment {
                 expenses = record.getData_amount(); // ok
                 profit = income-expenses; // ok
                 debt = 0.0; // ok
-                pay_debts = 0.0; // ok
-                remain = debt-pay_debts; // ok
+                //pay_debts = 0.0; // ok
+                //remain = debt-pay_debts; // ok
                 break;
             case 3:
                 // amounts = Records.getCustom("data_amount",3);
@@ -113,24 +113,24 @@ public class Previous_Record_Frag extends Fragment {
                 expenses = 0.0; // ok
                 profit = income-expenses; //
                 debt = 0.0; //
-                pay_debts = 0.0; //
-                remain = debt-pay_debts; // ok
+                //pay_debts = 0.0; //
+                //remain = debt-pay_debts; // ok
                 break;
             default:
         }
 
-        for(int j=0; j<amounts.size(); j++){
-            // System.out.println("Amounts : "+amounts.get(j));
-            total_amounts += Double.valueOf(amounts.get(j));
-        }
-        // System.out.println("Total Amounts : "+total_amounts);
+//        for(int j=0; j<amounts.size(); j++){
+//            // System.out.println("Amounts : "+amounts.get(j));
+//            total_amounts += Double.valueOf(amounts.get(j));
+//        }
+//         System.out.println("Total Amounts : "+total_amounts);
 
-        // System.out.println("Income : "+income);
-        // System.out.println("expenses : "+expenses);
-        // System.out.println("profit : "+profit);
-        // System.out.println("debt : "+debt);
-        // System.out.println("pay_debts : "+pay_debts);
-        // System.out.println("remain : "+remain);
+//         System.out.println("Income : "+income);
+//         System.out.println("expenses : "+expenses);
+//         System.out.println("profit : "+profit);
+//         System.out.println("debt : "+debt);
+//         //System.out.println("pay_debts : "+pay_debts);
+//         System.out.println("remain : "+remain);
 
         String note = record.getShortnote();
         //String date = today.format(record.getData_recorded());
@@ -144,8 +144,8 @@ public class Previous_Record_Frag extends Fragment {
                 String.valueOf(expenses), // [1]
                 String.valueOf(profit), // [2]
                 String.valueOf(debt), // [3]
-                String.valueOf(pay_debts), // [4]
-                String.valueOf(remain), // [5]
+                //String.valueOf(pay_debts), // [4]
+                //String.valueOf(remain), // [5]
                 String.valueOf(note), // [6]
                 String.valueOf(date) // [7]
         };
@@ -160,23 +160,25 @@ public class Previous_Record_Frag extends Fragment {
         expense = (TextView) view.findViewById(R.id.item2);
         profit = (TextView) view.findViewById(R.id.item3);
         debt = (TextView) view.findViewById(R.id.item4);
-        pay_debt = (TextView) view.findViewById(R.id.item5);
+        //pay_debt = (TextView) view.findViewById(R.id.item5);
         total_remain = (TextView) view.findViewById(R.id.item6);
 
         income_val = (TextView) view.findViewById(R.id.amount1);
         expense_val = (TextView) view.findViewById(R.id.amount2);
         profit_val = (TextView) view.findViewById(R.id.amount3);
         debt_val = (TextView) view.findViewById(R.id.amount4);
-        pay_debt_val = (TextView) view.findViewById(R.id.amount5);
+        //pay_debt_val = (TextView) view.findViewById(R.id.amount5);
         total_remain_val = (TextView) view.findViewById(R.id.amount6);
+
+        TextView[] textViews = {income,expense,profit,debt,total_remain,income_val,expense_val,profit_val,debt_val,total_remain_val};
+        Deshario_Functions.fillColor(getActivity(),textViews);
 
         prog_income = (RoundCornerProgressBar)view.findViewById(R.id.progress1);
         prog_expense = (RoundCornerProgressBar)view.findViewById(R.id.progress2);
         prog_profit = (RoundCornerProgressBar)view.findViewById(R.id.progress3);
         prog_debt = (RoundCornerProgressBar)view.findViewById(R.id.progress4);
-        prog_paydebt = (RoundCornerProgressBar)view.findViewById(R.id.progress5);
+        //prog_paydebt = (RoundCornerProgressBar)view.findViewById(R.id.progress5);
         prog_remain = (RoundCornerProgressBar)view.findViewById(R.id.progress6);
-
 
         btn_refresh = (ImageButton) view.findViewById(R.id.refresh_btn);
         btn_refresh.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +194,7 @@ public class Previous_Record_Frag extends Fragment {
         expense.setText(all_items[1]);
         profit.setText(all_items[2]);
         debt.setText(all_items[3]);
-        pay_debt.setText(all_items[4]);
+        //pay_debt.setText(all_items[4]);
         total_remain.setText(all_items[5]);
 
         Records record = Records.getLatestRecordByDate();
@@ -208,32 +210,47 @@ public class Previous_Record_Frag extends Fragment {
                 Records previous_record = Records.getPreviousRecord(latest_date);
                 String datas [] = calculation(previous_record);
 
-                String date_ = datas[7];
+                String date_ = datas[5];
                 String dates[] = getThaiDate(date_);
                 String day = dates[0];
                 String month = dates[1];
                 String year = dates[2];
 
-                income_val.setText(thb+datas[0]);
-                expense_val.setText(thb+datas[1]);
-                profit_val.setText(thb+datas[2]);
+                double income = Double.valueOf(datas[0]);
+                double expense = Double.valueOf(datas[1]);
+                double MTotal = income-expense;
+
+                setData(income_val,prog_income,income);
+                setData(expense_val,prog_expense,expense);
+                setData(profit_val,prog_profit,Double.valueOf(Deshario_Functions.filterNum(Deshario_Functions.getDecimal2Format(MTotal))));
+                setData(debt_val,prog_debt,Double.valueOf(datas[3]));
+                setData(total_remain_val,prog_remain,MTotal);
+
+                //(income) (expenses), (profit), (debt),(note),(date)
+
                 debt_val.setText(thb+datas[3]);
-                pay_debt_val.setText(thb+datas[4]);
-                total_remain_val.setText(thb+datas[5]);
-                note_txt.setText("บันทึกย่อ : "+datas[6]);
+//                pay_debt_val.setText(thb+datas[4]);
+                total_remain_val.setText(thb+MTotal);
+                note_txt.setText("บันทึกย่อ : "+datas[4]);
+
                 date1.setText(day);
                 date2.setText(month+" "+year);
-
-                prog_income.setProgress(50);
-                prog_expense.setProgress(50);
-                prog_profit.setProgress(50);
-                prog_debt.setProgress(50);
-                prog_paydebt.setProgress(50);
-                prog_remain.setProgress(50);
 
             }
         }else{
             NO_DATA_EXISTS();
+        }
+    }
+
+    private void setData(TextView textView, RoundCornerProgressBar bar, double data){
+        textView.setText(thb+Deshario_Functions.getDecimal2Format(Double.valueOf(data)));
+        bar.setProgressColor(getResources().getColor(R.color.material_primary));
+        if(data <= 0){
+            bar.setProgress(0);
+        }else{
+            ProgressBarAnimation anim = new ProgressBarAnimation(bar, 0, 100);
+            anim.setDuration(1000);
+            bar.startAnimation(anim);
         }
     }
 
@@ -246,7 +263,7 @@ public class Previous_Record_Frag extends Fragment {
         expense_val.setText(thb+"0.00");
         profit_val.setText(thb+"0.00");
         debt_val.setText(thb+"0.00");
-        pay_debt_val.setText(thb+"0.00");
+        //pay_debt_val.setText(thb+"0.00");
         total_remain_val.setText(thb+"0.00");
         date1.setText(day);
         date2.setText(month+" "+year);
@@ -254,7 +271,7 @@ public class Previous_Record_Frag extends Fragment {
         prog_expense.setProgress(0);
         prog_profit.setProgress(0);
         prog_debt.setProgress(0);
-        prog_paydebt.setProgress(0);
+//        prog_paydebt.setProgress(0);
         prog_remain.setProgress(0);
     }
 

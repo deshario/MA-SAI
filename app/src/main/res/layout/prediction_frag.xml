@@ -136,7 +136,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="$100"
+                            android:text="$0.00"
                             android:gravity="right"
                             android:layout_toRightOf="@id/item1"
                             android:textColor="@color/black"/>
@@ -152,7 +152,7 @@
                             app:rcBackgroundColor="@color/dark_gray"
                             app:rcBackgroundPadding="2dp"
                             app:rcMax="100"
-                            app:rcProgress="50"
+                            app:rcProgress="0"
                             app:rcProgressColor="@color/custom_text_inactive"
                             app:rcRadius="20dp" />
 
@@ -207,7 +207,7 @@
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@id/item2"
                             android:gravity="right"
-                            android:text="$100"
+                            android:text="$0.00"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -222,7 +222,7 @@
                             app:rcBackgroundColor="@color/dark_gray"
                             app:rcBackgroundPadding="2dp"
                             app:rcMax="100"
-                            app:rcProgress="50"
+                            app:rcProgress="0"
                             app:rcProgressColor="@color/custom_text_inactive"
                             app:rcRadius="20dp" />
 
@@ -260,7 +260,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="$100"
+                            android:text="$0.00"
                             android:gravity="right"
                             android:layout_toRightOf="@id/item3"
                             android:textColor="@color/black"/>
@@ -276,7 +276,7 @@
                             app:rcBackgroundColor="@color/dark_gray"
                             app:rcBackgroundPadding="2dp"
                             app:rcMax="100"
-                            app:rcProgress="50"
+                            app:rcProgress="0"
                             app:rcProgressColor="@color/custom_text_inactive"
                             app:rcRadius="20dp" />
 

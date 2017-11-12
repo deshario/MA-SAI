@@ -9,8 +9,6 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -131,6 +129,16 @@ public class Records extends Model {
                 .orderBy("data_created DESC")
                 .executeSingle();
         return record;
+    }
+
+    public static List<Records> getLatestRecordBySameDate(String Mdate) {
+        return new Select()
+                .from(Records.class)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
+                .where("Records.data_created = ?",Mdate)
+                .orderBy("data_created DESC")
+                .execute();
     }
 
     public static boolean previous_records_exists(String latestdate) {

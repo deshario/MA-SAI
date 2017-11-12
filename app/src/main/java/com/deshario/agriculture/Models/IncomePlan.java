@@ -5,7 +5,6 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -91,10 +90,24 @@ public class IncomePlan extends Model {
         return new Select().from(IncomePlan.class).execute();
     }
 
+    public static IncomePlan getLatestIncomeByDate() {
+        IncomePlan incomePlan = new Select()
+                .from(IncomePlan.class)
+                .orderBy("income_created DESC")
+                .executeSingle();
+        return incomePlan;
+    }
+
     public static boolean income_exists(String date) {
         return new Select()
                 .from(IncomePlan.class)
                 .where("income_created = ?", date)
+                .exists();
+    }
+
+    public static boolean income_exists() {
+        return new Select()
+                .from(IncomePlan.class)
                 .exists();
     }
 }

@@ -1,18 +1,15 @@
 package com.deshario.agriculture;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import com.vk.dev.android.ExpandableBottomTabBar;
 
 import in.arjsna.passcodeview.PassCodeView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String PASSCODE = "3322";
+    private final String Passcode = "3322";
     private PassCodeView passCodeView;
 
     @Override

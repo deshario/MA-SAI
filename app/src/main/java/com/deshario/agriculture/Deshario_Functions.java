@@ -2,19 +2,17 @@ package com.deshario.agriculture;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -170,6 +168,23 @@ public class Deshario_Functions {
         DecimalFormat desharioformat = new DecimalFormat();
         desharioformat.applyPattern("0.00");
         return Double.valueOf(desharioformat.format(data));
+    }
+
+    public static String getDecimal2Format(double data){
+        DecimalFormat desharioformat = new DecimalFormat();
+        desharioformat.applyPattern("0.00");
+        return desharioformat.format(data);
+    }
+
+    public static String filterNum(String text){
+        String filter = text.replaceAll("[^0-9.]", "");
+        return filter;
+    }
+
+    public static void fillColor(Context context, TextView[] textViews){
+        for(int i=0; i<textViews.length; i++){
+            textViews[i].setTextColor(context.getResources().getColor(R.color.material_primary));
+        }
     }
 
     public static ArrayList<Integer> getRandomColors(){

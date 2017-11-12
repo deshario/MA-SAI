@@ -38,7 +38,6 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
     FragmentTransaction mFragmentTransaction;
     public FullScreenDialogFragment records_fulldialog;
     Calendar manual;
-    Activity activity;
     String dialogTag;
 
     @Override

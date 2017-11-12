@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Models.ExpensePlan;
+import com.deshario.agriculture.Models.IncomePlan;
 import com.deshario.agriculture.R;
 
 import java.text.SimpleDateFormat;
@@ -24,6 +27,7 @@ public class Prediction_Frag extends Fragment {
     TextView income, expense, profit;
     TextView income_val, expense_val, profit_val;
     RoundCornerProgressBar prog_income,prog_expense,prog_profit;
+    public static ImageButton btn_refresh;
     String thb = "\u0E3F";
 
     public Prediction_Frag(){}
@@ -32,7 +36,7 @@ public class Prediction_Frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.prediction_frag, container, false);
         bindview(view);
-        NO_DATA_EXISTS();
+        work();
         return view;
     }
 
@@ -52,6 +56,54 @@ public class Prediction_Frag extends Fragment {
         prog_expense = (RoundCornerProgressBar)view.findViewById(R.id.progress2);
         prog_profit = (RoundCornerProgressBar)view.findViewById(R.id.progress3);
 
+        btn_refresh = (ImageButton) view.findViewById(R.id.refresh_btn);
+        btn_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                work();
+            }
+        });
+    }
+
+    private void work(){
+        boolean income_e  = IncomePlan.income_exists();
+        boolean expense_e  = ExpensePlan.expense_exists();
+
+        if(income_e == true || expense_e == true){
+            IncomePlan incomePlan = IncomePlan.getLatestIncomeByDate();
+            ExpensePlan expensePlan = ExpensePlan.getLatestExpenseByDate();
+            String income,expense;
+
+            if(incomePlan == null){
+                income = "0.00";
+            }else{
+                income = Deshario_Functions.getDecimal2Format(incomePlan.getIncome_x_area());
+            }
+
+            if(expensePlan == null){
+                expense = "0.00";
+            }else{
+                expense = Deshario_Functions.getDecimal2Format(expensePlan.getExpense_x_area());
+            }
+
+            double Mincome = Double.valueOf(income);
+            double Mexpense = Double.valueOf(expense);
+            double MTotal = Mincome-Mexpense;
+
+            if(Mincome > Mexpense){
+                profit.setText("กำไร");
+            }else{
+                profit.setText("ขาดทุน");
+                profit_val.setTextColor(getResources().getColor(R.color.material_danger));
+            }
+
+            income_val.setText(thb+income);
+            expense_val.setText(thb+expense);
+            profit_val.setText(thb+Deshario_Functions.filterNum(Deshario_Functions.getDecimal2Format(MTotal)));
+
+        }else{
+            NO_DATA_EXISTS();
+        }
     }
 
     private void NO_DATA_EXISTS() {

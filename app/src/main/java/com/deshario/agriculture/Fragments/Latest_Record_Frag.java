@@ -13,9 +13,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Models.CustomRecords;
 import com.deshario.agriculture.Models.Records;
+import com.deshario.agriculture.ProgressBarAnimation;
 import com.deshario.agriculture.R;
 
 import java.text.DateFormat;
@@ -38,6 +39,15 @@ public class Latest_Record_Frag extends Fragment {
     private ArrayList<String> values = new ArrayList<>();
     private SimpleAdapter phone_adapter;
     private List<HashMap<String, String>> aList;
+    String thb = "\u0E3F";
+
+    DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH"));
+    public static double M_income = 0.0; // รายรับ
+    public static double M_expenses = 0.0; // รายจ่าย
+    public static double M_profit = 0.0; // กำไร
+    public static double M_debt = 0.0; // หนี้สิน
+    public static double M_remain = 0.0; // คงเหลือ
+
     private static List<Records> records;
 
     public Latest_Record_Frag() {
@@ -59,103 +69,113 @@ public class Latest_Record_Frag extends Fragment {
         return view;
     }
 
-    public static String[] calculation(Records record){
-        ArrayList<String> amounts = new ArrayList<String>();
-        DateFormat today = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH"));
-        double income = 0.0; // รายรับ
-        double expenses = 0.0; // รายจ่าย
-        double profit = 0.0; // กำไร
-        double debt = 0.0; // หนี้สิน
-        double pay_debts = 0.0; // ชำระหนี้สิน
-        double remain = 0.0; // คงเหลือ
-
-        records = Records.getAllRecords();
-        //ArrayList<String> amounts = Records.getCustom("data_amount",record.getCategory());
-        //System.out.println("datas size is == "+datas.size());
-        //System.out.println("Amount is == "+amounts);
-
-        for(int i=0; i< records.size(); i++){
-          Double balance = records.get(i).getData_amount();
-          int dbalance = records.get(i).getCategory().getCat_type();
-            remain += balance;
-        }
-
-        //System.out.println(" Total : "+remain);
-
-        int type = record.getCategory().getCat_type();
-        boolean cat_topic_1 = false, cat_topic_2 = false, cat_topic_3 = false;
-        double total_amounts = 0.0;
-
-        switch (type){
+    public static CustomRecords calculation(List<Records> record){
+        CustomRecords customRecords = new CustomRecords();
+        switch(record.size()){
             case 1:
-                //amounts = Records.getCustom("data_amount",1);
-                income = 0.0; // ok // ติดลบ
-                expenses = 0.0; // ok
-                profit = income-expenses; // ok
-                debt = record.getData_amount(); //
-                pay_debts = 0.0; //
-                remain = debt-pay_debts; // ok
+                customRecords = One_Records(record.get(0));
                 break;
             case 2:
-              //  amounts = Records.getCustom("data_amount",2);
-                income = 0.0; // ok
-                expenses = record.getData_amount(); // ok
-                profit = income-expenses; // ok
-                debt = 0.0; // ok
-                pay_debts = 0.0; // ok
-                remain = debt-pay_debts; // ok
+                customRecords = Multiple_Records(record);
                 break;
             case 3:
-               // amounts = Records.getCustom("data_amount",3);
-                income = record.getData_amount(); // ok
-                expenses = 0.0; // ok
-                profit = income-expenses; //
-                debt = 0.0; //
-                pay_debts = 0.0; //
-                remain = debt-pay_debts; // ok
+                customRecords = Multiple_Records(record);
                 break;
-                default:
+            default:
         }
 
-        for(int j=0; j<amounts.size(); j++){
-           // System.out.println("Amounts : "+amounts.get(j));
-            total_amounts += Double.valueOf(amounts.get(j));
+        ArrayList<String> amounts = new ArrayList<String>();
+        records = Records.getAllRecords();
+        for(int i=0; i< records.size(); i++){
+            Double balance = records.get(i).getData_amount();
+            int dbalance = records.get(i).getCategory().getCat_type();
+            M_remain += balance;
         }
-        // System.out.println("Total Amounts : "+total_amounts);
 
-       // System.out.println("Income : "+income);
-       // System.out.println("expenses : "+expenses);
-       // System.out.println("profit : "+profit);
-       // System.out.println("debt : "+debt);
-       // System.out.println("pay_debts : "+pay_debts);
-       // System.out.println("remain : "+remain);
-
-        String note = record.getShortnote();
-        //String date = today.format(record.getData_recorded());
-//        Date date = record.getData_created();
-        String date = record.getData_created();
-
-       // System.out.println("Date : "+remain);
-
-        return new String[]{
-                String.valueOf(income), // [0]
-                String.valueOf(expenses), // [1]
-                String.valueOf(profit), // [2]
-                String.valueOf(debt), // [3]
-                String.valueOf(pay_debts), // [4]
-                String.valueOf(remain), // [5]
-                String.valueOf(note), // [6]
-                String.valueOf(date) // [7]
-        };
+        return customRecords;
     }
 
-    public void calculation(){
-        Double income = 0.0; // รายรับ
-        Double expenses = 0.0; // รายจ่าย
-        Double profit = 0.0; // กำไร
-        Double debt = 0.0; // หนี้สิน
-        Double Pay_debts = 0.0; // ชำระหนี้สิน
-        Double remain = 0.0; // คงเหลือ
+    private static CustomRecords One_Records(Records records){
+        int type = records.getCategory().getCat_type();
+        switch (type){
+            case 1:
+                M_income = 0.0; // ok // ติดลบ
+                M_expenses = 0.0; // ok
+                M_profit = M_income-M_expenses; // ok
+                M_debt = records.getData_amount(); //
+                break;
+            case 2:
+                //  amounts = Records.getCustom("data_amount",2);
+                M_income = 0.0; // ok
+                M_expenses = records.getData_amount(); // ok
+                M_profit = M_income-M_expenses; // ok
+                M_debt = 0.0; // ok
+                break;
+            case 3:
+                // amounts = Records.getCustom("data_amount",3);
+                M_income = records.getData_amount(); // ok
+                M_expenses = 0.0; // ok
+                M_profit = M_income-M_expenses; // ok
+                M_debt = 0.0; //
+                break;
+            default:
+        }
+        String note = records.getShortnote();
+        String date = records.getData_created();
+
+        CustomRecords cr = new CustomRecords();
+        cr.setIncome(String.valueOf(M_income));
+        cr.setExpense(String.valueOf(M_expenses));
+        cr.setProfit(String.valueOf(M_profit));
+        cr.setDebt(String.valueOf(M_debt));
+        cr.setNote(note);
+        cr.setDate(date);
+        return cr;
+    }
+
+    private static CustomRecords Multiple_Records(List<Records> records){
+        CustomRecords cr = new CustomRecords();
+        for(int i=0; i<records.size(); i++){
+            int type = records.get(i).getCategory().getCat_type();
+            switch (type){
+                case 1:
+                    M_income = 0.0; // ok // ติดลบ
+                    M_expenses = 0.0; // ok
+                    M_debt = records.get(i).getData_amount(); //
+                    break;
+                case 2:
+                    //  amounts = Records.getCustom("data_amount",2);
+                    M_income = 0.0; // ok
+                    M_expenses = records.get(i).getData_amount(); // ok
+                    M_debt = 0.0; // ok
+                    break;
+                case 3:
+                    // amounts = Records.getCustom("data_amount",3);
+                    M_income = records.get(i).getData_amount(); // ok
+                    M_expenses = 0.0; // ok
+                    M_debt = 0.0; //
+                    break;
+                default:
+            }
+            String note = records.get(i).getShortnote();
+            String date = records.get(i).getData_created();
+
+            if(M_income != 0.0){
+                cr.setIncome(String.valueOf(M_income));
+            }
+
+            if(M_expenses != 0.0){ cr.setExpense(String.valueOf(M_expenses)); }
+
+            if(M_debt != 0.0){ cr.setDebt(String.valueOf(M_debt)); }
+
+            cr.setNote(note);
+            cr.setDate(date);
+        }
+
+        M_profit = M_income-M_expenses; // ok
+        cr.setProfit(String.valueOf(M_profit));
+
+        return cr;
     }
 
     public void bindview(View view){
@@ -167,21 +187,24 @@ public class Latest_Record_Frag extends Fragment {
         expense = (TextView) view.findViewById(R.id.item2);
         profit = (TextView) view.findViewById(R.id.item3);
         debt = (TextView) view.findViewById(R.id.item4);
-        pay_debt = (TextView) view.findViewById(R.id.item5);
+        //pay_debt = (TextView) view.findViewById(R.id.item5);
         total_remain = (TextView) view.findViewById(R.id.item6);
 
         income_val = (TextView) view.findViewById(R.id.amount1);
         expense_val = (TextView) view.findViewById(R.id.amount2);
         profit_val = (TextView) view.findViewById(R.id.amount3);
         debt_val = (TextView) view.findViewById(R.id.amount4);
-        pay_debt_val = (TextView) view.findViewById(R.id.amount5);
+        //pay_debt_val = (TextView) view.findViewById(R.id.amount5);
         total_remain_val = (TextView) view.findViewById(R.id.amount6);
+
+        TextView[] textViews = {income,expense,profit,total_remain,debt,debt_val,income_val,expense_val,profit_val,total_remain_val};
+        Deshario_Functions.fillColor(getActivity(),textViews);
 
         prog_income = (RoundCornerProgressBar)view.findViewById(R.id.progress1);
         prog_expense = (RoundCornerProgressBar)view.findViewById(R.id.progress2);
         prog_profit = (RoundCornerProgressBar)view.findViewById(R.id.progress3);
         prog_debt = (RoundCornerProgressBar)view.findViewById(R.id.progress4);
-        prog_paydebt = (RoundCornerProgressBar)view.findViewById(R.id.progress5);
+        //prog_paydebt = (RoundCornerProgressBar)view.findViewById(R.id.progress5);
         prog_remain = (RoundCornerProgressBar)view.findViewById(R.id.progress6);
 
         btn_refresh = (ImageButton) view.findViewById(R.id.refresh_btn);
@@ -194,55 +217,121 @@ public class Latest_Record_Frag extends Fragment {
     }
 
     public void work(){
-        String thb = "\u0E3F";
-
         income.setText(all_items[0]);
         expense.setText(all_items[1]);
         profit.setText(all_items[2]);
         debt.setText(all_items[3]);
-        pay_debt.setText(all_items[4]);
         total_remain.setText(all_items[5]);
 
         boolean records_exists  = Records.records_exists();
-        System.out.println("Record Exists : "+records_exists);
         if(records_exists == false){ // No record
-            String dates[] = getDefault_date();
-            String day = dates[0];
-            String month = dates[1];
-            String year = dates[2];
-            income_val.setText(thb+"0.00");
-            expense_val.setText(thb+"0.00");
-            profit_val.setText(thb+"0.00");
-            debt_val.setText(thb+"0.00");
-            pay_debt_val.setText(thb+"0.00");
-            total_remain_val.setText(thb+"0.00");
-            date1.setText(day);
-            date2.setText(month+" "+year);
-            prog_income.setProgress(0);
-            prog_expense.setProgress(0);
-            prog_profit.setProgress(0);
-            prog_debt.setProgress(0);
-            prog_paydebt.setProgress(0);
-            prog_remain.setProgress(0);
+            Nofound();
         }else{
             Records temp = Records.getLatestRecordByDate();
-            String datas [] = calculation(temp);
 
-            String date_ = datas[7];
-            String dates[] = getThaiDate(date_);
+            List<Records> rec = Records.getLatestRecordBySameDate("2017-11-11");
+
+            CustomRecords datas = calculation(rec);
+
+            System.out.println("datas :: "+datas.getIncome());
+
+            String date_ = datas.getDate();
+            String dates[] = getThaiDate("2017-11-11");
             String day = dates[0];
             String month = dates[1];
             String year = dates[2];
 
-            income_val.setText(thb+datas[0]);
-            expense_val.setText(thb+datas[1]);
-            profit_val.setText(thb+datas[2]);
-            debt_val.setText(thb+datas[3]);
-            pay_debt_val.setText(thb+datas[4]);
-            total_remain_val.setText(thb+datas[5]);
-            note_txt.setText("บันทึกย่อ : "+datas[6]);
+            double inc = (datas.getIncome() == null) ? 0.00 : Double.valueOf(datas.getIncome());
+            double exp = (datas.getExpense() == null) ? 0.00 : Double.valueOf(datas.getExpense());
+            double prof = (datas.getProfit() == null) ? 0.00 : Double.valueOf(datas.getProfit());
+            double deb = (datas.getDebt() == null) ? 0.00 : Double.valueOf(datas.getDebt());
+            double MTotal = inc-exp;
+            setData(income_val,prog_income,inc);
+            setData(expense_val,prog_expense,exp);
+            setData(profit_val,prog_profit,Double.valueOf(Deshario_Functions.filterNum(Deshario_Functions.getDecimal2Format(MTotal))));
+
+            TextView[] debt_text = {debt,debt_val};
+            if(deb > 0){
+                fillColor(debt_text,getResources().getColor(R.color.deep_orange));
+                setData(debt_val,prog_debt,deb,getResources().getColor(R.color.deep_orange));
+            }else{
+                fillColor(debt_text,getResources().getColor(R.color.material_primary));
+                setData(debt_val,prog_debt,deb,getResources().getColor(R.color.material_primary));
+            }
+
+            if(inc > exp){
+                profit.setText("กำไร");
+                setData(total_remain_val,prog_remain,MTotal);
+                profit.setTextColor(getResources().getColor(R.color.material_primary));
+                profit_val.setTextColor(getResources().getColor(R.color.material_primary));
+            }else if(income == expense){
+                profit.setText("กำไร/ขาดทุน");
+                setData(total_remain_val,prog_remain,MTotal);
+                profit.setTextColor(getResources().getColor(R.color.material_primary));
+                profit_val.setTextColor(getResources().getColor(R.color.material_primary));
+            }else{
+                profit.setText("ขาดทุน");
+                prog_profit.setProgressColor(getResources().getColor(R.color.material_danger));
+                prog_profit.setProgress(100);
+                profit.setTextColor(getResources().getColor(R.color.material_danger));
+                profit_val.setTextColor(getResources().getColor(R.color.material_danger));
+                setData(total_remain_val,prog_remain,0.00);
+            }
+
+            note_txt.setText("บันทึกย่อ : "+datas.getNote());
             date1.setText(day);
             date2.setText(month+" "+year);
+        }
+    }
+
+    private void Nofound(){
+        String dates[] = getDefault_date();
+        String day = dates[0];
+        String month = dates[1];
+        String year = dates[2];
+        income_val.setText(thb+"0.00");
+        expense_val.setText(thb+"0.00");
+        profit_val.setText(thb+"0.00");
+        debt_val.setText(thb+"0.00");
+        //pay_debt_val.setText(thb+"0.00");
+        total_remain_val.setText(thb+"0.00");
+        date1.setText(day);
+        date2.setText(month+" "+year);
+        prog_income.setProgress(0);
+        prog_expense.setProgress(0);
+        prog_profit.setProgress(0);
+        prog_debt.setProgress(0);
+//            prog_paydebt.setProgress(0);
+        prog_remain.setProgress(0);
+    }
+
+    private void fillColor(TextView[] textViews, int Color){
+        for(int i=0; i<textViews.length; i++){
+            textViews[i].setTextColor(Color);
+        }
+    }
+
+    private void setData(TextView textView, RoundCornerProgressBar bar, double data){
+        textView.setText(thb+Deshario_Functions.getDecimal2Format(Double.valueOf(data)));
+        bar.setProgressColor(getResources().getColor(R.color.material_primary));
+        if(data <= 0){
+            bar.setProgress(0);
+        }else{
+            ProgressBarAnimation anim = new ProgressBarAnimation(bar, 0, 100);
+            anim.setDuration(1000);
+            bar.startAnimation(anim);
+        }
+    }
+
+    private void setData(TextView textView, RoundCornerProgressBar bar, double data, int color){
+        textView.setText(thb+Deshario_Functions.getDecimal2Format(Double.valueOf(data)));
+        bar.setProgressColor(color);
+        if(data <= 0){
+            bar.setProgress(0);
+        }else{
+            ProgressBarAnimation anim = new ProgressBarAnimation(bar, 0, 100);
+            anim.setDuration(1000);
+            bar.startAnimation(anim);
         }
     }
 

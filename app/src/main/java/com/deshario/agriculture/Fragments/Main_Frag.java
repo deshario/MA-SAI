@@ -205,6 +205,7 @@ public class Main_Frag extends Fragment {
                         Latest_Record_Frag.btn_refresh.performClick();
                         break;
                     case 2:
+                        Prediction_Frag.btn_refresh.performClick();
                         break;
                     default:
                 }
