@@ -141,8 +141,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 }
 
                 Calendar[] disabledDays1 = dates.toArray(new Calendar[dates.size()]);
-                dpd.setDisabledDays(disabledDays1);
-                // Disable Specific Dates in Calendar
+                //dpd.setDisabledDays(disabledDays1);
 
             }
         });
@@ -177,10 +176,10 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 }else{
                     Double amount = Double.parseDouble(_amount);
                     String selected_date = date_4insert;
-                    boolean date_taken = Records.isExists_From_Category(selected_date,catg_id+1);
-                    if(date_taken == true){
-                        Toasty.warning(AddRecords.this," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
-                    }else{
+//                    boolean date_taken = Records.isExists_From_Category(selected_date,catg_id+1);
+//                    if(date_taken == true){
+//                        Toasty.warning(AddRecords.this," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
+//                    }else{
                         Category category = Category.getSingleCategory(item_id);
                         Records records = new Records();
                         records.setCategory(category);
@@ -205,7 +204,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                         Previous_Record_Frag.btn_refresh.performClick();
                         Latest_Record_Frag.btn_refresh.performClick();
                         //}
-                    }
+//                    }
                 }
             }
         });

@@ -12,6 +12,7 @@ public class CustomRecords {
     public String debt;
     public String note;
     public String date;
+    public String total;
 
     public String getIncome() {
         return income;
@@ -43,6 +44,14 @@ public class CustomRecords {
 
     public void setDebt(String debt) {
         this.debt = debt;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
     }
 
     public String getNote() {

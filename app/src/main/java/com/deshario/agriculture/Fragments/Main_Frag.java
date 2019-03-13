@@ -25,12 +25,7 @@ import com.deshario.agriculture.R;
 
 import java.util.Calendar;
 
-/**
- * Created by Deshario on 4/17/2017.
- */
-
 public class Main_Frag extends Fragment {
-
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
@@ -44,12 +39,10 @@ public class Main_Frag extends Fragment {
     Context context;
 
     final int[] ICONS = new int[] {
-//            R.mipmap.ic_launcher,
             R.drawable.left,
             R.drawable.latest,
             R.drawable.predict,
     };
-
 
     @Nullable
     @Override
@@ -57,9 +50,6 @@ public class Main_Frag extends Fragment {
 
         View myview =  inflater.inflate(R.layout.main_tabbar,null);
         context = myview.getContext();
-//        System.out.println("Infalte ok");
-//        Toast.makeText(getActivity(),"Inflate Done",Toast.LENGTH_SHORT).show();
-        //((Main_Tab) getActivity()).setActionBarTitle("title");
         tabLayout = (TabLayout) myview.findViewById(R.id.tabs);
         viewPager = (ViewPager) myview.findViewById(R.id.viewpager);
 
@@ -72,15 +62,12 @@ public class Main_Frag extends Fragment {
             }
         }
 
-
         adap();
 
         tabBarView = (ExpandableBottomTabBar)myview.findViewById(R.id.bottom_tabs);
         //tabBarView.setEnabled(false);
         //tabBarView.setSelected(false);
         tabBarView.resetFocusOnAllTabs();
-
-
 
         tabBarView.setOnTabClickedListener(new ExpandableBottomTabBar.OnTabClickedListener() {
             @Override
@@ -181,7 +168,6 @@ public class Main_Frag extends Fragment {
     }
 
     public void adap(){
-        //Set an Apater for the View Pager
         myAdapter = new MyAdapter(getChildFragmentManager());
         viewPager.setAdapter(myAdapter);
         viewPager.setCurrentItem(1);
@@ -194,7 +180,6 @@ public class Main_Frag extends Fragment {
                  //   first = false;
                 //}
             }
-
             @Override
             public void onPageSelected(int position) {
                 switch (position){
@@ -210,14 +195,11 @@ public class Main_Frag extends Fragment {
                     default:
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
-
-
 
         // SetupWithViewPager doesn't works without the runnable
         tabLayout.post(new Runnable() {
@@ -229,7 +211,6 @@ public class Main_Frag extends Fragment {
                 tabLayout.getTabAt(2).setIcon(ICONS[2]);
             }
         });
-
     }
 
     class MyAdapter extends FragmentPagerAdapter {

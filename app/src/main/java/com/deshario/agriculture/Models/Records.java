@@ -131,6 +131,13 @@ public class Records extends Model {
         return record;
     }
 
+    public static List<Records> getAllLatestRecordByDate() {
+        return new Select()
+                .from(Records.class)
+                .orderBy("data_created DESC")
+                .execute();
+    }
+
     public static List<Records> getLatestRecordBySameDate(String Mdate) {
         return new Select()
                 .from(Records.class)
@@ -153,7 +160,6 @@ public class Records extends Model {
     }
 
     public static Records getPreviousRecord(String latestdate){
-        //select * from Records where data_created < 1499792400000 order by data_created desc limit 1;
         Records record = new Select()
                 .from(Records.class)
                 //.where("datetime('data_created') < ?",latestdate)
@@ -162,6 +168,16 @@ public class Records extends Model {
                 .limit(1)
                 .executeSingle();
         return record;
+    }
+
+    public static List<Records> getPreviousRecordBySameDate(String Mdate) {
+        return new Select()
+                .from(Records.class)
+                .innerJoin(Category.class)
+                .on("Records.category_id = Categories.Id")
+                .where("Records.data_created < ?",Mdate)
+                .orderBy("data_created DESC")
+                .execute();
     }
 
     public static ArrayList<String> getSpecific(String field_name) {
