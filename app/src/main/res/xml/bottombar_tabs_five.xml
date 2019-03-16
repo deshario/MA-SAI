@@ -4,18 +4,17 @@
         icon="@drawable/ic_timeline_white_24dp"
         icon_pressed="@drawable/ic_timeline_white_24dp"
         title="รายงาน" />
+
     <tab
         icon="@drawable/ic_note_add_white_24dp"
         icon_pressed="@drawable/ic_note_add_white_24dp"
         title="เพิ่มรายการ" />
+
     <tab
         icon="@drawable/ic_layers_white_24dp"
         icon_pressed="@drawable/ic_layers_white_24dp"
         title="วางแผน" />
-    <tab
-        icon="@drawable/ic_person_outline_white_24dp"
-        icon_pressed="@drawable/ic_person_outline_white_24dp"
-        title="ข้อมูลส่วนตัว" />
+
     <tab
         icon="@drawable/ic_payment_white_24dp"
         icon_pressed="@drawable/ic_payment_white_24dp"
@@ -25,15 +24,5 @@
         icon="@drawable/ic_settings_white_24dp"
         icon_pressed="@drawable/ic_settings_white_24dp"
         title="ตั้งค่า" />
-
-    <tab
-        icon="@drawable/ic_info_outline_white_24dp"
-        icon_pressed="@drawable/ic_info_outline_white_24dp"
-        title="เกียวกับ" />
-
-    <tab
-        icon="@drawable/ic_exit_to_app_white_24dp"
-        icon_pressed="@drawable/ic_exit_to_app_white_24dp"
-        title="ออก" />
 
 </tabs>

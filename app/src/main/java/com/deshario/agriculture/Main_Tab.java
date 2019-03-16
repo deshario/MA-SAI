@@ -1,7 +1,5 @@
 package com.deshario.agriculture;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,12 +12,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.deshario.agriculture.Fragments.AllRecords;
+import com.deshario.agriculture.Fragments.Main_Frag;
 import com.deshario.agriculture.Fragments.Planning_Tab_Frag;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
-import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
-
-import com.deshario.agriculture.Fragments.Main_Frag;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
+import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,7 +41,6 @@ public class Main_Tab extends AppCompatActivity implements OnDateSetListener{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_tablayout);
-
 
         dialogTag = "dialog";
         if (savedInstanceState != null) {

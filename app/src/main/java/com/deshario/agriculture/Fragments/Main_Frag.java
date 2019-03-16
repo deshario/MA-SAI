@@ -2,6 +2,7 @@ package com.deshario.agriculture.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,21 +10,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.PayDebt;
+import com.deshario.agriculture.R;
 import com.deshario.agriculture.ReportsManager;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.vk.dev.android.ExpandableBottomTabBar;
-import com.deshario.agriculture.R;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Main_Frag extends Fragment {
 
@@ -92,30 +93,11 @@ public class Main_Frag extends Fragment {
 
                         dialogFragment.show(getFragmentManager(), dialogTag);
                         break;
-                    case 3:
-                        final Bundle profile_args = new Bundle();
-                        profile_args.putString(Profile_Frag.UNIQUE_NAME, "profile_key");
-                        dialogFragment = new FullScreenDialogFragment.Builder(getActivity())
-                                .setTitle("ข้อมูลส่วนตัว")
-                                //.setConfirmButton("ตกลง")
-                                .setContent(Profile_Frag.class, profile_args)
-                                .build();
-
-                        dialogFragment.show(getFragmentManager(), dialogTag);
-                        break;
-                    case 4: // More Button
-                        tabBarView.resetFocusOnAllTabs();
-                        break;
-                    case 5: // paydebt
+                    case 3: // paydebt
                         startActivity(new Intent(getActivity(),PayDebt.class));
                         break;
-                    case 6: // calendar
-                        break;
-                    case 7:
-                        about_application();
-                        break;
-                    case 8:
-                        getActivity().finish();
+                    case 4: // settings
+                        Toast.makeText(getActivity(),"Setting",Toast.LENGTH_SHORT).show();
                         break;
                     default:
                 }
@@ -131,35 +113,6 @@ public class Main_Frag extends Fragment {
                 getResources().getDrawable(R.drawable.ic_settings_white_24dp),
                 getResources().getColor(R.color.default_bootstrap));
         super.onResume();
-    }
-
-    public void about_application(){
-// api 16
-//        Dialog alertDialog = new Dialog(context);
-//        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        alertDialog.setContentView(R.layout.about_app);
-//        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        alertDialog.show();
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.about_app, null);
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setView(view);
-        alert.setCancelable(false);
-        final AlertDialog dialog = alert.create();
-        dialog.getWindow().setDimAmount(0.8f);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.SlideUpDownAnimation;
-        dialog.show();
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-        ImageButton imageButton = (ImageButton)view.findViewById(R.id.close_modal);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                tabBarView.resetFocusOnAllTabs();
-            }
-        });
     }
 
     @Override
@@ -206,9 +159,11 @@ public class Main_Frag extends Fragment {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(viewPager);
-                tabLayout.getTabAt(0).setIcon(ICONS[0]);
-                tabLayout.getTabAt(1).setIcon(ICONS[1]);
-                tabLayout.getTabAt(2).setIcon(ICONS[2]);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(tabLayout.getTabAt(0)).setIcon(ICONS[0]);
+                    Objects.requireNonNull(tabLayout.getTabAt(1)).setIcon(ICONS[1]);
+                    Objects.requireNonNull(tabLayout.getTabAt(2)).setIcon(ICONS[2]);
+                }
             }
         });
     }

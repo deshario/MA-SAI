@@ -34,8 +34,8 @@ public class Deshario_Functions {
     // Find Max Value from array
     public static int maxValue(int array[]){
         List<Integer> list = new ArrayList<Integer>();
-        for (int i = 0; i < array.length; i++) {
-            list.add(array[i]);
+        for (int anArray : array) {
+            list.add(anArray);
         }
         return Collections.max(list);
     }
@@ -58,6 +58,7 @@ public class Deshario_Functions {
         if (v == null)
             return;
 
+        assert inputManager != null;
         inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
@@ -123,7 +124,8 @@ public class Deshario_Functions {
                 "พฤศจิกายน",
                 "ธันวาคม"
         };
-        if(full == true){
+//        if(full == true){
+        if(full){
             return th_months_long[month-1];
         }else{
             return th_months_short[month-1];
@@ -153,11 +155,12 @@ public class Deshario_Functions {
 
     public static boolean check_exists(ArrayList<String> datalist,String keywordtosearch){
         int index = datalist.indexOf(keywordtosearch);
-        if(index <= -1){
-            return false;
-        }else{
-            return true;
-        }
+//        if(index <= -1){
+//            return false;
+//        }else{
+//            return true;
+//        }
+        return index > -1;
     }
 
     public static double getPercentFromTotal(double myvalue,double total){
@@ -177,13 +180,15 @@ public class Deshario_Functions {
     }
 
     public static String filterNum(String text){
-        String filter = text.replaceAll("[^0-9.]", "");
-        return filter;
+        return text.replaceAll("[^0-9.]", "");
     }
 
     public static void fillColor(Context context, TextView[] textViews){
-        for(int i=0; i<textViews.length; i++){
-            textViews[i].setTextColor(context.getResources().getColor(R.color.material_primary));
+//        for(int i=0; i<textViews.length; i++){
+//            textViews[i].setTextColor(context.getResources().getColor(R.color.material_primary));
+//        }
+        for (TextView textView : textViews) {
+            textView.setTextColor(context.getResources().getColor(R.color.material_primary));
         }
     }
 

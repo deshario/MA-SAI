@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.R;
 
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -47,9 +49,15 @@ public class Reports_Tab_Frag extends Fragment {
 
 
     public void adap(){
-        final Drawable income_icon = Deshario_Functions.setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
-        final Drawable decrease_icon = Deshario_Functions.setTint(getResources().getDrawable(R.drawable.decrease),Color.WHITE);
-        final Drawable other_icon = Deshario_Functions.setTint(getResources().getDrawable(R.drawable.income_icon),Color.WHITE);
+        Drawable incomeIcon = getResources().getDrawable(R.drawable.income_icon);
+        Drawable expenseIcon = getResources().getDrawable(R.drawable.decrease);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) { // Cloning by not reference
+            incomeIcon = Objects.requireNonNull(getResources().getDrawable(R.drawable.income_icon).getConstantState()).newDrawable().mutate();
+            expenseIcon = Objects.requireNonNull(getResources().getDrawable(R.drawable.decrease).getConstantState()).newDrawable().mutate();
+        }
+        final Drawable income_icon = Deshario_Functions.setTint(incomeIcon,Color.WHITE);
+        final Drawable decrease_icon = Deshario_Functions.setTint(incomeIcon,Color.WHITE);
+        final Drawable other_icon = Deshario_Functions.setTint(expenseIcon,Color.WHITE);
         //Set an Apater for the View Pager
         myAdapter = new MyAdapter(getChildFragmentManager());
         viewPager.setAdapter(myAdapter);
