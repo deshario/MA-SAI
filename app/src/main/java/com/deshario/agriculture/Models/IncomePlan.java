@@ -91,23 +91,30 @@ public class IncomePlan extends Model {
     }
 
     public static IncomePlan getLatestIncomeByDate() {
-        IncomePlan incomePlan = new Select()
-                .from(IncomePlan.class)
-                .orderBy("income_created DESC")
-                .executeSingle();
-        return incomePlan;
+        return new Select()
+            .from(IncomePlan.class)
+            .orderBy("income_created DESC")
+            .executeSingle();
     }
 
     public static boolean income_exists(String date) {
         return new Select()
-                .from(IncomePlan.class)
-                .where("income_created = ?", date)
-                .exists();
+            .from(IncomePlan.class)
+            .where("income_created = ?", date)
+            .exists();
     }
 
     public static boolean income_exists() {
         return new Select()
-                .from(IncomePlan.class)
-                .exists();
+            .from(IncomePlan.class)
+            .exists();
+    }
+
+    public static List<IncomePlan> getLatestIncomeBySameDate(String Mdate) {
+        return new Select()
+            .from(IncomePlan.class)
+            .where("income_created = ?",Mdate)
+            .orderBy("income_created DESC")
+            .execute();
     }
 }

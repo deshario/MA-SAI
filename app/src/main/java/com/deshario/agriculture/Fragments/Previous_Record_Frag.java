@@ -30,7 +30,7 @@ public class Previous_Record_Frag extends Fragment {
 
     private Context context;
     private ListView list_view;
-    private String all_items[] = {"รายได้","ค่าใช้จ่าย","กำไร","หนี้สิน/เงินกู้","ชำระหนี้สิน/เงินกู้","คงเหลือ","บันทึกย่อ","วันที่"};
+    private String all_items[] = {"รายได้","ค่าใช้จ่าย","กำไร/ขาดทุน","หนี้สิน/เงินกู้","ชำระหนี้สิน/เงินกู้","คงเหลือ","บันทึกย่อ","วันที่"};
     private ArrayList<String> values = new ArrayList<>();
     private SimpleAdapter phone_adapter;
     private List<HashMap<String, String>> aList;
@@ -271,6 +271,8 @@ public class Previous_Record_Frag extends Fragment {
                     setData(debt_val,prog_debt,deb,getResources().getColor(R.color.material_primary));
                 }
 
+                System.out.println(" -- "+inc+" -- "+exp);
+
                 if(inc > exp){
                     profit.setText("กำไร");
                     profit.setTextColor(getResources().getColor(R.color.material_primary));
@@ -292,9 +294,10 @@ public class Previous_Record_Frag extends Fragment {
                     total_remain.setTextColor(getResources().getColor(R.color.material_primary));
                     total_remain_val.setTextColor(getResources().getColor(R.color.material_primary));
                 }else{
-                    prog_remain.setProgressColor(getResources().getColor(R.color.material_danger));
-                    total_remain.setTextColor(getResources().getColor(R.color.material_danger));
-                    total_remain_val.setTextColor(getResources().getColor(R.color.material_danger));
+                    //prog_remain.setProgressColor(getResources().getColor(R.color.material_danger));
+                    //total_remain.setTextColor(getResources().getColor(R.color.material_danger));
+                    //total_remain_val.setTextColor(getResources().getColor(R.color.material_danger));
+                    total_remain_val.setText(thb+"0.00");
                 }
 
                 System.out.println("inc total : "+inc);

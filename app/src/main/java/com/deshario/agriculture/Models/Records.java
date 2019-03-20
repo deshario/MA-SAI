@@ -116,36 +116,34 @@ public class Records extends Model {
     }
 
     public static Records getLatestRecordById() {
-        Records record = new Select()
-                .from(Records.class)
-                .orderBy("Id DESC")
-                .executeSingle();
-        return record;
+        return new Select()
+            .from(Records.class)
+            .orderBy("Id DESC")
+            .executeSingle();
     }
 
     public static Records getLatestRecordByDate() {
-        Records record = new Select()
-                .from(Records.class)
-                .orderBy("data_created DESC")
-                .executeSingle();
-        return record;
+        return new Select()
+            .from(Records.class)
+            .orderBy("data_created DESC")
+            .executeSingle();
     }
 
     public static List<Records> getAllLatestRecordByDate() {
         return new Select()
-                .from(Records.class)
-                .orderBy("data_created DESC")
-                .execute();
+            .from(Records.class)
+            .orderBy("data_created DESC")
+            .execute();
     }
 
     public static List<Records> getLatestRecordBySameDate(String Mdate) {
         return new Select()
-                .from(Records.class)
-                .innerJoin(Category.class)
-                .on("Records.category_id = Categories.Id")
-                .where("Records.data_created = ?",Mdate)
-                .orderBy("data_created DESC")
-                .execute();
+            .from(Records.class)
+            .innerJoin(Category.class)
+            .on("Records.category_id = Categories.Id")
+            .where("Records.data_created = ?",Mdate)
+            .orderBy("data_created DESC")
+            .execute();
     }
 
     public static boolean previous_records_exists(String latestdate) {
@@ -160,14 +158,13 @@ public class Records extends Model {
     }
 
     public static Records getPreviousRecord(String latestdate){
-        Records record = new Select()
-                .from(Records.class)
-                //.where("datetime('data_created') < ?",latestdate)
-                .where("data_created < ?",latestdate)
-                .orderBy("data_created DESC")
-                .limit(1)
-                .executeSingle();
-        return record;
+        return new Select()
+            .from(Records.class)
+            //.where("datetime('data_created') < ?",latestdate)
+            .where("data_created < ?",latestdate)
+            .orderBy("data_created DESC")
+            .limit(1)
+            .executeSingle();
     }
 
     public static List<Records> getPreviousRecordBySameDate(String Mdate) {

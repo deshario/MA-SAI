@@ -238,7 +238,7 @@ public class Latest_Record_Frag extends Fragment {
         total_remain.setText(all_items[5]);
 
         boolean records_exists  = Records.records_exists();
-        if(records_exists == false){ // No record
+        if(!records_exists){ // No record
             Nofound();
         }else{
             String latestRecordDate = Records.getLatestRecordByDate().getData_created();
@@ -291,11 +291,11 @@ public class Latest_Record_Frag extends Fragment {
                 total_remain.setTextColor(getResources().getColor(R.color.material_primary));
                 total_remain_val.setTextColor(getResources().getColor(R.color.material_primary));
             }else{
-                prog_remain.setProgressColor(getResources().getColor(R.color.material_danger));
-                total_remain.setTextColor(getResources().getColor(R.color.material_danger));
-                total_remain_val.setTextColor(getResources().getColor(R.color.material_danger));
+                //prog_remain.setProgressColor(getResources().getColor(R.color.material_danger));
+                //total_remain.setTextColor(getResources().getColor(R.color.material_danger));
+                //total_remain_val.setTextColor(getResources().getColor(R.color.material_danger));
+                total_remain_val.setText(thb+"0.00");
             }
-
 
             System.out.println("inc total : "+inc);
             System.out.println("exp total : "+exp);

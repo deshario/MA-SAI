@@ -38,7 +38,18 @@
                     android:textSize="30sp"
                     android:padding="8dp"/>
 
+                <TextView
+                    android:id="@+id/nodata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ไม่พบข้อมูล"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:textSize="20sp"
+                    android:padding="8dp"/>
+
                 <View
+                    android:id="@+id/titleDivider"
                     android:layout_width="2dp"
                     android:layout_height="match_parent"
                     android:background="@color/dark_gray"
@@ -64,7 +75,7 @@
                         android:id="@+id/note"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="                     "
+                        android:text="ข้อมูลที่เกิดจากการวางแผน"
                         android:layout_marginTop="2dp"
                         android:background="@drawable/rounded_textview"
                         android:textColor="@color/material_primary"
@@ -113,7 +124,10 @@
                         android:id="@+id/col1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/icon1"
@@ -129,7 +143,7 @@
                             android:textSize="18sp"
                             android:text="รายได้คาดการณ์"
                             android:layout_toRightOf="@id/icon1"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/material_primary"/>
 
                         <TextView
                             android:id="@+id/amount1"
@@ -139,7 +153,7 @@
                             android:text="$0.00"
                             android:gravity="right"
                             android:layout_toRightOf="@id/item1"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/material_primary"/>
 
                         <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
                             android:id="@+id/progress1"
@@ -183,7 +197,10 @@
                         android:id="@+id/col2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/icon2"
@@ -199,7 +216,7 @@
                             android:textSize="18sp"
                             android:text="ค่าใช้จ่ายคาดการณ์"
                             android:layout_toRightOf="@id/icon2"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/material_primary"/>
 
                         <TextView
                             android:id="@+id/amount2"
@@ -208,7 +225,7 @@
                             android:layout_toRightOf="@id/item2"
                             android:gravity="right"
                             android:text="$0.00"
-                            android:textColor="@color/black"
+                            android:textColor="@color/material_primary"
                             android:textSize="18sp" />
 
                         <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
@@ -237,7 +254,10 @@
                         android:id="@+id/col3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/icon3"
@@ -251,9 +271,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="กำไร"
+                            android:text="กำไร/ขาดทุน"
                             android:layout_toRightOf="@id/icon3"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/material_primary"/>
 
                         <TextView
                             android:id="@+id/amount3"
@@ -263,7 +283,7 @@
                             android:text="$0.00"
                             android:gravity="right"
                             android:layout_toRightOf="@id/item3"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/material_primary"/>
 
                         <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
                             android:id="@+id/progress3"

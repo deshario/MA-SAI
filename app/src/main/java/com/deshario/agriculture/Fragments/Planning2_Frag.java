@@ -15,25 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.deshario.agriculture.AddRecords;
 import com.deshario.agriculture.Deshario_Functions;
 import com.deshario.agriculture.Models.ExpensePlan;
-import com.deshario.agriculture.Models.IncomePlan;
-import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 
@@ -141,30 +133,6 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                 dpd.show(manager, "Datepickerdialog");
                 dpd.setCancelText("ยกเลิก");
                 dpd.setOkText("เลือก");
-
-                // Disable Specific Dates in Calendar
-                List<ExpensePlan> Expenseplans = ExpensePlan.getAllExpensePlans();
-                Calendar calendar = null;
-                SimpleDateFormat sdf = new SimpleDateFormat(SQLITE_DATE_FORMAT);
-                List<Calendar> dates = new ArrayList<>();
-                Date date = null;
-
-                for(int i=0; i<Expenseplans.size(); i++){
-                    String used_date = Expenseplans.get(i).getExpense_created();
-                    //System.out.println("Used Date : "+date);
-                    try {
-                        date = sdf.parse(used_date);
-                        Planning2_Frag obj = new Planning2_Frag();
-                        calendar = obj.dateToCalendar(date);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    dates.add(calendar);
-                }
-
-                Calendar[] disabledDays1 = dates.toArray(new Calendar[dates.size()]);
-                dpd.setDisabledDays(disabledDays1);
-                // Disable Specific Dates in Calendar
             }
         });
         btn_save_expense.setOnClickListener(new View.OnClickListener() {
@@ -184,20 +152,15 @@ public class Planning2_Frag extends Fragment implements FullScreenDialogContent,
                     String item_name = name;
                     String date_expense = expensedate;
 
-                    boolean date_exists = ExpensePlan.expense_exists(date_expense);
-                    if(date_exists == true){
-                        Toasty.warning(context," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
-                    }else{
-                        ExpensePlan expensePlan = new ExpensePlan();
-                        expensePlan.setItem_name(item_name);
-                        expensePlan.setArea(_area);
-                        expensePlan.setExpense(_expense);
-                        expensePlan.setExpense_x_area(_total);
-                        expensePlan.setExpense_created(date_expense);
-                        expensePlan.save();
-                        clear_fields();
-                        Toasty.success(context,"ค่าใช้จ่ายของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
-                    }
+                    ExpensePlan expensePlan = new ExpensePlan();
+                    expensePlan.setItem_name(item_name);
+                    expensePlan.setArea(_area);
+                    expensePlan.setExpense(_expense);
+                    expensePlan.setExpense_x_area(_total);
+                    expensePlan.setExpense_created(date_expense);
+                    expensePlan.save();
+                    clear_fields();
+                    Toasty.success(context,"ค่าใช้จ่ายของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                 }
             }
         });

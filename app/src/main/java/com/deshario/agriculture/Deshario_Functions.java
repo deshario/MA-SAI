@@ -11,7 +11,10 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -140,6 +143,39 @@ public class Deshario_Functions {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;
+    }
+
+    public static String dateToString(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
+
+    public static Date stringToDate(String date) {
+        Date tempDate = null;
+        try {
+            tempDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return tempDate;
+    }
+
+//    public static Date getMaxDate(Date date1, Date date2){
+//        if(date1.compareTo(date2) < 0){
+//            return date2;
+//        }else{
+//            return date1;
+//        }
+//    }
+
+    public static String getMaxDate(String date1, String date2){
+        Date newDate1 = stringToDate(date1);
+        Date newDate2 = stringToDate(date2);
+        if(newDate1.compareTo(newDate2) < 0){
+            return date2;
+        }else{
+            return date1;
+        }
     }
 
     public static String add_zero_or_not(int number){

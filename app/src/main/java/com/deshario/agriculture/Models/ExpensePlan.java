@@ -98,6 +98,13 @@ public class ExpensePlan extends Model {
         return expensePlan;
     }
 
+    public static List<ExpensePlan> getLatestExpenseBySameDate(String Mdate) {
+        return new Select()
+                .from(ExpensePlan.class)
+                .where("expense_created = ?",Mdate)
+                .orderBy("expense_created DESC")
+                .execute();
+    }
 
     public static boolean expense_exists(String date) {
         return new Select()
