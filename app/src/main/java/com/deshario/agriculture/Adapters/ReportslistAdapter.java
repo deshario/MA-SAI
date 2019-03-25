@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.deshario.agriculture.Fragments.Charts_Root;
-import com.deshario.agriculture.Fragments.Compensation_Per_Date_Frag;
+import com.deshario.agriculture.Fragments.Compensation_Per_Date;
+import com.deshario.agriculture.Fragments.Compensation_Per_Month;
+import com.deshario.agriculture.Fragments.Compensation_Per_Year;
 import com.deshario.agriculture.Fragments.Expense_Category_Frag;
 import com.deshario.agriculture.Fragments.Expense_Per_Date_Frag;
 import com.deshario.agriculture.Fragments.Expense_Per_Month_Frag;
@@ -108,11 +110,11 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
                     break;
                 case 2:
                     if(id == 1)
-                        frag = new Compensation_Per_Date_Frag();
+                        frag = new Compensation_Per_Date();
                     if(id == 2)
-                        frag = new Expense_Per_Month_Frag();
+                        frag = new Compensation_Per_Month();
                     if(id == 3)
-                        frag = new Expense_Per_Year_Frag();
+                        frag = new Compensation_Per_Year();
                     bundle.putString("title3", title);
                     break;
                 default:
