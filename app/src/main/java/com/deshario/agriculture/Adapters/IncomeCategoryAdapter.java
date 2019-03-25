@@ -1,34 +1,19 @@
 package com.deshario.agriculture.Adapters;
         import android.animation.ObjectAnimator;
-        import android.animation.ValueAnimator;
         import android.content.Context;
-        import android.support.annotation.NonNull;
         import android.support.v7.widget.RecyclerView;
-        import android.text.InputFilter;
-        import android.text.TextUtils;
-        import android.text.method.ScrollingMovementMethod;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
-        import android.view.WindowManager;
-        import android.widget.EditText;
-        import android.widget.ImageButton;
         import android.widget.ImageView;
         import android.widget.TextView;
-        import android.widget.Toast;
 
         import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-        import com.deshario.agriculture.CustomRangeInputFilter;
-        import com.deshario.agriculture.Deshario_Functions;
         import com.deshario.agriculture.Models.Category;
         import com.deshario.agriculture.Models.Records;
-        import com.deshario.agriculture.PayDebt;
         import com.deshario.agriculture.R;
 
-        import java.util.ArrayList;
         import java.util.List;
-
-        import es.dmoral.toasty.Toasty;
 
 public class IncomeCategoryAdapter extends RecyclerView.Adapter<IncomeCategoryAdapter.DataObjectHolder> {
     private Context context;

@@ -48,7 +48,7 @@ public class Planning_Tab_Frag extends Fragment implements FullScreenDialogConte
         View myview =  inflater.inflate(R.layout.categories_tab_view,null);
 
         //  Toast.makeText(getActivity(),"Inflate Done",Toast.LENGTH_SHORT).show();
-        // ((MainActivity) getActivity()).setActionBarTitle("");
+        // ((UserLogin) getActivity()).setActionBarTitle("");
         tabLayout = (TabLayout) myview.findViewById(R.id.tabs);
         viewPager = (ViewPager) myview.findViewById(R.id.viewpager);
         adap();

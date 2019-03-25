@@ -58,7 +58,7 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
 //                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //  Toast.makeText(getActivity(),"Inflate Done",Toast.LENGTH_SHORT).show();
-        // ((MainActivity) getActivity()).setActionBarTitle("");
+        // ((LoginActivity) getActivity()).setActionBarTitle("");
         tabLayout = (TabLayout) myview.findViewById(R.id.tabs);
         viewPager = (ViewPager) myview.findViewById(R.id.viewpager);
         adap();

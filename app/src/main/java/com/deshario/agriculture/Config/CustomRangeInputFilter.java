@@ -1,4 +1,4 @@
-package com.deshario.agriculture;
+package com.deshario.agriculture.Config;
 
 import android.text.InputFilter;
 import android.text.Spanned;

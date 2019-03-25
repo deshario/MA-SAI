@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.Models.ExpensePlan;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;

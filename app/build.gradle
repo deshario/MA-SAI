@@ -51,5 +51,6 @@ dependencies {
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.github.GrenderG:Toasty:1.2.5'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'lib.kashif:folderpicker:2.4'
     testCompile 'junit:junit:4.12'
 }

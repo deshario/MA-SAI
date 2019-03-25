@@ -3,8 +3,7 @@ package com.deshario.agriculture.Formatter;
 /**
  * Created by Deshario on 8/24/2017.
  */
-import com.deshario.agriculture.Deshario_Functions;
-import com.deshario.agriculture.Fragments.Income_Per_Date_Frag;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 

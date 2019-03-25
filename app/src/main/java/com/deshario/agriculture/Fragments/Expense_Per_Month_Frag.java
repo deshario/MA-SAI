@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
 import com.deshario.agriculture.Formatter.Month_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;
@@ -23,14 +23,11 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.

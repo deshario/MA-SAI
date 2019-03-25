@@ -1,4 +1,4 @@
-package com.deshario.agriculture;
+package com.deshario.agriculture.Config;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.deshario.agriculture.R;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DateFormat;

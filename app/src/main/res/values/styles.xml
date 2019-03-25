@@ -1,26 +1,21 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="android:textColorSecondary">@color/default_bootstrap</item>-->
+    </style>
+
+    <style name="PreferenceTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/material_primary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Mero_CustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16sp</item>
     </style>
 
-
-    <!--<style name="ToolbarColoredBackArrow" parent="AppTheme">-->
-        <!--&lt;!&ndash;Toolbar of add_record.xml || Add this style to toolbar in add_record.xml&ndash;&gt;-->
-        <!--&lt;!&ndash;app:theme="@style/ToolbarColoredBackArrow" &ndash;&gt;-->
-        <!--&lt;!&ndash;android:theme="@style/ThemeOverlay.AppCompat.ActionBar"&ndash;&gt;-->
-        <!--<item name="android:textColorSecondary">@color/default_bootstrap</item> -->
-    <!--</style>-->
 
     <style name="FullScreenDialogToolbar">
         <item name="android:background">@color/light_success</item>

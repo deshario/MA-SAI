@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.Formatter.BottomXValueFormatter;
 import com.deshario.agriculture.Formatter.Day_XAxisValueFormatter;
 import com.deshario.agriculture.Formatter.YAxisValueFormatter;

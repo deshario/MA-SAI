@@ -13,10 +13,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.Models.CustomRecords;
 import com.deshario.agriculture.Models.Records;
-import com.deshario.agriculture.ProgressBarAnimation;
+import com.deshario.agriculture.Config.ProgressBarAnimation;
 import com.deshario.agriculture.R;
 
 import java.text.DateFormat;

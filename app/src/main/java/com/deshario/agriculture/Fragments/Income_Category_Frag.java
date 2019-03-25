@@ -2,8 +2,6 @@ package com.deshario.agriculture.Fragments;
 
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -28,11 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.deshario.agriculture.Adapters.IncomeCategoryAdapter;
-import com.deshario.agriculture.Adapters.PayDebtAdapter;
-import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
-import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
@@ -42,22 +38,15 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import es.dmoral.toasty.Toasty;
 

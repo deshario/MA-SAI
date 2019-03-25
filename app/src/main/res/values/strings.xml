@@ -21,6 +21,20 @@
     </string-array>
 
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae dicta doloremque eaque, enim illum incidunt ipsum magni, modi molestias nemo possimus quasi unde? Distinctio ducimus itaque iusto, saepe sint unde!</string>
-    <string name="about"></string>
+
+    <string name="dataManage">การจัดการข้อมูล</string>
+    <string name="url_terms">http://sat.nan.rmutl.ac.th/science/</string>
+    <string name="terms">ข้อตกลงและเงื่อนไข</string>
+    <string name="faq">คำถามที่พบบ่อย</string>
+    <string name="faq_summary">ดูคำถามที่ถามบ่อยจากผู้ใช้งาน</string>
+    <string name="faq_url">https://www.google.com/</string>
+    <string name="version">เวอร์ชั่น</string>
+    <string name="security">ความปลอดภัย</string>
+    <string name="about">เกี่ยวกับ</string>
+    <string name="changePass">เปลียนรหัสผ่าน</string>
+    <string name="importData">นำเข้าข้อมูล</string>
+    <string name="importDataSummary">นำเข้าข้อมูลแอพจากที่เก็บข้อมูล</string>
+    <string name="exportData">ส่งออกข้อมูล</string>
+    <string name="exportDataSummary">ส่งออกข้อมูลไปยังที่เก็บข้อมูล</string>
 
 </resources>

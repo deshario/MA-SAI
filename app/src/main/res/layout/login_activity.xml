@@ -26,7 +26,7 @@
         android:id="@+id/pass_code_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:digits="4"
+        app:digits="5"
         app:digit_size="30dp"
         app:key_text_size="30sp"
         android:padding="25dp"

@@ -1,4 +1,4 @@
-package com.deshario.agriculture;
+package com.deshario.agriculture.Config;
 
 import android.view.animation.Animation;
 import android.view.animation.Transformation;

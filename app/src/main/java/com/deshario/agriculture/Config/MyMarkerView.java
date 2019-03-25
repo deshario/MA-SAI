@@ -1,4 +1,4 @@
-package com.deshario.agriculture;
+package com.deshario.agriculture.Config;
 
 /**
  * Created by Deshario on 8/20/2017.
@@ -7,6 +7,7 @@ package com.deshario.agriculture;
 import android.content.Context;
 import android.widget.TextView;
 
+import com.deshario.agriculture.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;

@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.deshario.agriculture.CustomRangeInputFilter;
-import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Config.CustomRangeInputFilter;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.R;

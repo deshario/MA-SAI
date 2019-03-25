@@ -13,13 +13,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.deshario.agriculture.AddRecords;
-import com.deshario.agriculture.Deshario_Functions;
+import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.PayDebt;
 import com.deshario.agriculture.R;
 import com.deshario.agriculture.ReportsManager;
+import com.deshario.agriculture.SettingsActivity;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.vk.dev.android.ExpandableBottomTabBar;
 
@@ -97,7 +97,7 @@ public class Main_Frag extends Fragment {
                         startActivity(new Intent(getActivity(),PayDebt.class));
                         break;
                     case 4: // settings
-                        Toast.makeText(getActivity(),"Setting",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), SettingsActivity.class));
                         break;
                     default:
                 }

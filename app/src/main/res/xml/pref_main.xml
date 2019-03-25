@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/security">
+        <Preference
+            android:title="@string/changePass"
+            android:key="changePassword"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/dataManage">
+        <Preference
+            android:summary="@string/importDataSummary"
+            android:title="@string/importData"
+            android:key="import"/>
+        <Preference
+            android:summary="@string/exportDataSummary"
+            android:title="@string/exportData"
+            android:key="export"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/about">
+        <Preference
+            android:summary="1.0"
+            android:title="@string/version" />
+
+        <!-- preference opens url in browser -->
+        <Preference
+            android:summary="@string/faq_summary"
+            android:title="@string/faq">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/faq_url" />
+        </Preference>
+
+        <Preference android:title="@string/terms">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_terms" />
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
