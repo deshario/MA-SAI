@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import es.dmoral.toasty.Toasty;
-
 public class UserRegister extends AppCompatActivity {
 
     SharedPreference sharedPreference;
@@ -67,7 +65,7 @@ public class UserRegister extends AppCompatActivity {
                 String pass = password.getText().toString();
                 String confirmPass = confirmPassword.getText().toString();
                 if(pass.equals("") || confirmPass.equals("")){
-                    Toasty.info(UserRegister.this,"กรุณากรอกทุกช่อง",Toast.LENGTH_SHORT,true).show();
+                    Toast.makeText(UserRegister.this,"กรุณากรอกทุกช่อง",Toast.LENGTH_SHORT).show();
                 }else{
                     if(pass.length() == 5 && confirmPass.length() == 5){
                         if(pass.equals(confirmPass)){
@@ -76,10 +74,10 @@ public class UserRegister extends AppCompatActivity {
                             Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                             assert vib != null;
                             vib.vibrate(400);
-                            Toasty.error(UserRegister.this,"รหัสผ่านไม่ตรงกัน",Toast.LENGTH_SHORT,true).show();
+                            Toast.makeText(UserRegister.this,"รหัสผ่านไม่ตรงกัน",Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toasty.error(UserRegister.this,"ความยาวรหัสผ่านไม่ถูกต้อง",Toast.LENGTH_SHORT,true).show();
+                        Toast.makeText(UserRegister.this,"ความยาวรหัสผ่านไม่ถูกต้อง",Toast.LENGTH_SHORT).show();
                     }
                 }
             }

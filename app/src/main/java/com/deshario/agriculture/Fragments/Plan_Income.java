@@ -27,8 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -145,7 +143,7 @@ public class Plan_Income extends Fragment implements FullScreenDialogContent,
                 String total = et_total.getText().toString();
                 String date = et_date.getText().toString();
                 if(area.isEmpty() || name.isEmpty() || income.isEmpty() || total.isEmpty() || date.isEmpty()){
-                    Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                 }else{
                     Double _area = Double.parseDouble(area);
                     Double _income = Double.parseDouble(income);
@@ -160,7 +158,7 @@ public class Plan_Income extends Fragment implements FullScreenDialogContent,
                     incomePlan.setIncome_created(date_income);
                     incomePlan.save();
                     clear_fields();
-                    Toasty.success(context,"รายได้ของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"รายได้ของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                 }
             }
         });

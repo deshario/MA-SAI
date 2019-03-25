@@ -16,8 +16,6 @@ import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
 import com.deshario.agriculture.R;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * Created by Deshario on 4/17/2017.
  */
@@ -121,7 +119,7 @@ public class Plan_Root extends Fragment implements FullScreenDialogContent {
         //Toast.makeText(getActivity(),"Page "+pageno+" : "+data,Toast.LENGTH_SHORT).show();
         Bundle result = new Bundle();
         if(data == null) {
-            Toasty.info(getActivity(), "กรุณาเลือกรายการจากหมวดหมู่", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "กรุณาเลือกรายการจากหมวดหมู่", Toast.LENGTH_SHORT).show();
         }else{
             //result.putString(SELECTED_ANS, data);
            // result.putInt(SELECTED_CATG, pageno);

@@ -31,7 +31,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-import es.dmoral.toasty.Toasty;
 import lib.folderpicker.FolderPicker;
 
 public class SettingsActivity extends AppPreferenceActivity {
@@ -143,14 +142,14 @@ public class SettingsActivity extends AppPreferenceActivity {
                 String passOld = oldPassword.getText().toString();
                 String passNew = newPassword.getText().toString();
                 if(passOld.equals("") || passNew.equals("")){
-                    Toasty.warning(context,"กรุณากรอกทุกช่อง",Toast.LENGTH_SHORT,true).show();
+                    Toast.makeText(context,"กรุณากรอกทุกช่อง",Toast.LENGTH_SHORT).show();
                 }else{
                     if(passOld.length() == 5 && passNew.length() == 5){
                         if(passOld.equals(tempSharedPreference.getLoginPassword())){
                             tempSharedPreference.setLoginPassword(passNew);
                             tempSharedPreference.setInitialLaunch(false);
                             tempSharedPreference.resetPassword(true);
-                            Toasty.success(context,"อัปเดตรหัสผ่านสำเร็จ \nกรุณาเข้าสู่ระบบอีกครั้ง",Toast.LENGTH_LONG,true).show();
+                            Toast.makeText(context,"อัปเดตรหัสผ่านสำเร็จ \nกรุณาเข้าสู่ระบบอีกครั้ง",Toast.LENGTH_LONG).show();
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 public void run() {
@@ -162,10 +161,10 @@ public class SettingsActivity extends AppPreferenceActivity {
                             Vibrator vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
                             assert vib != null;
                             vib.vibrate(400);
-                            Toasty.error(context,"รหัสผ่านเก่าไม่ถูกต้อง",Toast.LENGTH_SHORT,true).show();
+                            Toast.makeText(context,"รหัสผ่านเก่าไม่ถูกต้อง",Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toasty.error(context,"ความยาวรหัสผ่านไม่ถูกต้อง",Toast.LENGTH_SHORT,true).show();
+                        Toast.makeText(context,"ความยาวรหัสผ่านไม่ถูกต้อง",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -266,7 +265,7 @@ public class SettingsActivity extends AppPreferenceActivity {
                 destination.transferFrom(source, 0, source.size());
                 source.close();
                 destination.close();
-                Toasty.success(this, "Export Success", Toast.LENGTH_SHORT,true).show();
+                Toast.makeText(this, "Export Success", Toast.LENGTH_SHORT).show();
             } catch(IOException e) {
                 e.printStackTrace();
             }
@@ -289,7 +288,7 @@ public class SettingsActivity extends AppPreferenceActivity {
             destination.transferFrom(source, 0, source.size());
             source.close();
             destination.close();
-            Toasty.success(this, "Please wait", Toast.LENGTH_SHORT,true).show();
+            Toast.makeText(this, "Please wait", Toast.LENGTH_SHORT).show();
         } catch(IOException e) {
             e.printStackTrace();
         }

@@ -9,13 +9,10 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.R;
-
 import java.util.ArrayList;
 
-import es.dmoral.toasty.Toasty;
 
 public class CategoryAdapter extends BaseAdapter {
     private Context context;
@@ -118,7 +115,7 @@ public class CategoryAdapter extends BaseAdapter {
         if (selectedPosition != -1) {
             return sel_position;
         }else{
-            Toasty.info(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
         }
         return -1;
     }
@@ -130,7 +127,7 @@ public class CategoryAdapter extends BaseAdapter {
             selectedPosition = -1;//after removing selectedPosition set it back to -1
             notifyDataSetChanged();
         }else{
-            Toasty.info(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "กรุณาเลือกรายการใดรายการหนึ่ง", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -23,8 +23,6 @@ import com.deshario.agriculture.Adapters.CategoryAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * Created by deshario on 10/06/17.
  */
@@ -114,14 +112,14 @@ public class CategoryIncome extends Fragment {
                     public void onClick(View v) {
                         String new_item = et_topic.getText().toString();
                         if(new_item == null || new_item.isEmpty()){
-                            Toasty.info(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                         }else{
                             if(new_item.length() <=5 ){
-                                Toasty.info(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),"ชื่อรายการสั้นเกินไป",Toast.LENGTH_SHORT).show();
                             }else{
                                 boolean validate = Category.check_exists(new_item);
                                 if(validate == true){
-                                    Toasty.info(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context," กรุณาเลือกชื่ออื่น \n\n ชื่อนี้ถูกเลือกไว้แล้ว",Toast.LENGTH_SHORT).show();
                                 }else{
                                     Category category = new Category();
                                     category.setCat_topic(title);
@@ -131,7 +129,7 @@ public class CategoryIncome extends Fragment {
 
                                     boolean status = Category.check_exists(new_item);
                                     if(status == true){
-                                        Toasty.success(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                                     }
                                     resetdata();
                                     dialog.dismiss();
@@ -202,11 +200,11 @@ public class CategoryIncome extends Fragment {
         List<Records> records = Records.getSpecificRecordsByItem(category);
         int count = records.size();
         if(count >= 1){
-            Toasty.info(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"รายการนี้ไม่สามารถลบได้",Toast.LENGTH_SHORT).show();
         }else{
             category.delete();
             resetdata();
-            Toasty.success(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"รายการของคุณถูกลบเรียบร้อยแล้ว",Toast.LENGTH_SHORT).show();
         }
     }
 

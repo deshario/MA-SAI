@@ -18,8 +18,6 @@ import com.franmontiel.fullscreendialog.FullScreenDialogController;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * Created by Deshario on 4/17/2017.
  */
@@ -125,7 +123,7 @@ public class Category_Root extends Fragment implements FullScreenDialogContent {
 
         Bundle result = new Bundle();
         if(data == null) {
-            Toasty.info(getActivity(), "กรุณาเลือกรายการจากหมวดหมู่", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "กรุณาเลือกรายการจากหมวดหมู่", Toast.LENGTH_SHORT).show();
         }else{
 
             Category category = new Category();

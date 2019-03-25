@@ -22,8 +22,6 @@ import com.deshario.agriculture.R;
 
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
-
 public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObjectHolder> {
     private Context context;
     private List<Records> mDataset;
@@ -152,7 +150,7 @@ public class PayDebtAdapter extends RecyclerView.Adapter<PayDebtAdapter.DataObje
             public void onClick(View v) {
                 String cash = amount2pay.getText().toString();
                 if(cash.isEmpty()){
-                    Toasty.info(context,"กรุณาป้อนจำนวนเงิน", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"กรุณาป้อนจำนวนเงิน", Toast.LENGTH_SHORT).show();
                 }else{
                     dialog.dismiss();
                     double amount = Double.parseDouble(cash);

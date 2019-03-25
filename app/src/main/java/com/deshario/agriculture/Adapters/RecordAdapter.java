@@ -26,8 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
-
 public class RecordAdapter extends BaseAdapter {
 
     private LayoutInflater layoutinflater;
@@ -172,7 +170,7 @@ public class RecordAdapter extends BaseAdapter {
     public void select(int position, Records record){
         switch (position){
             case -1:
-                Toasty.info(context,"กรุณาเลือกรายการใดรายการหนึ่ง",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"กรุณาเลือกรายการใดรายการหนึ่ง",Toast.LENGTH_SHORT).show();
                 break;
             case 0:
                 do_view(record);
@@ -272,7 +270,7 @@ public class RecordAdapter extends BaseAdapter {
                 str_amount = et_amount.getText().toString();
                 str_note = et_note.getText().toString();
                 if(str_amount.isEmpty() || str_note.isEmpty()){
-                    Toasty.info(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                 }else{
                     dialog.dismiss();
                     double amount = Double.parseDouble(str_amount);
@@ -292,7 +290,7 @@ public class RecordAdapter extends BaseAdapter {
         record.setShortnote(note);
         records.save();
         notifyDataSetChanged();
-        Toasty.success(context,"รายการของคุณปรับปรุงสำเร็จ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"รายการของคุณปรับปรุงสำเร็จ",Toast.LENGTH_SHORT).show();
     }
 
     public void do_delete(final Records record){
@@ -346,7 +344,7 @@ public class RecordAdapter extends BaseAdapter {
         records.delete();
         listStorage.remove(data_position);
         notifyDataSetChanged();
-        Toasty.success(context,"ลบรายการสำเร็จ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"ลบรายการสำเร็จ",Toast.LENGTH_SHORT).show();
     }
 
     public String getThaiDate(String date){

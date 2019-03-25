@@ -49,8 +49,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -213,7 +211,7 @@ public class Expense_Category_Frag extends Fragment implements DatePickerDialog.
             @Override
             public void onClick(View v) {
                 if(daterange1 == null || daterange2 == null){
-                    Toasty.info(getActivity(),"วันที่ผิดพลาด", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"วันที่ผิดพลาด", Toast.LENGTH_SHORT).show();
                 }else{
                     dialog.dismiss();
                     search(daterange1,daterange2);

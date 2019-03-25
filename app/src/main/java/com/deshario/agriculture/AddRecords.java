@@ -30,8 +30,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * Created by Deshario on 5/31/2017.
  */
@@ -88,7 +86,6 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                                 String res = result.getString(Category_Root.SELECTED_ANS);
                                 catg_id = result.getInt(Category_Root.SELECTED_CATG); // cat id
                                 item_id = result.getInt(Category_Root.ITEM_ID);
-                                //Toasty.info(AddRecords.this,res+" : "+catg_id+"\n item_id : "+item_id,Toast.LENGTH_SHORT).show();
                                 et_categories.setText(" "+res+" : "+ Category_Root.getTitle(catg_id));
 
                                 et_date.setEnabled(true);
@@ -173,13 +170,13 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                 String shortnote = et_shortnote.getText().toString();
 
                 if(_amount.isEmpty() || cat.isEmpty() || _date.isEmpty() || shortnote.isEmpty()){
-                    Toasty.info(AddRecords.this,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddRecords.this,"กรุณากรอกข้อมูลให้ครบ",Toast.LENGTH_SHORT).show();
                 }else{
                     Double amount = Double.parseDouble(_amount);
                     String selected_date = date_4insert;
 //                    boolean date_taken = Records.isExists_From_Category(selected_date,catg_id+1);
 //                    if(date_taken == true){
-//                        Toasty.warning(AddRecords.this," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(AddRecords.this," วันที่ที่คุณเลือกไม่ว่าง \n กรุณาเลือกวันที่อื่น",Toast.LENGTH_LONG).show();
 //                    }else{
                         Category category = Category.getSingleCategory(item_id);
                         Records records = new Records();
@@ -200,7 +197,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                         //boolean status = Records.check_exists();
                         //if(status == true){
                         cls_btn.performClick();
-                        Toasty.success(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                         onBackPressed();
                         Record_Previous.btn_refresh.performClick();
                         Record_Latest.btn_refresh.performClick();

@@ -26,8 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * Created by Deshario on 5/28/2017.
  */
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnDateSetListener
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toasty.warning(this, "กดอีกครั้งเพื่อออกจากโปรแกรม", Toast.LENGTH_SHORT,true).show();
+            Toast.makeText(this, "กดอีกครั้งเพื่อออกจากโปรแกรม", Toast.LENGTH_SHORT).show();
 
             new Handler().postDelayed(new Runnable() {
 
@@ -139,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements OnDateSetListener
         DateFormat thai = DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale("TH")); // DATE
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("TH"));
         Date date = manual.getTime();
-        Toasty.normal(MainActivity.this, "วันที่ : " + thai.format(date), Toast.LENGTH_SHORT).show(); // use for insert
+        Toast.makeText(MainActivity.this, "วันที่ : " + thai.format(date), Toast.LENGTH_SHORT).show(); // use for insert
     }
 
     @Override
