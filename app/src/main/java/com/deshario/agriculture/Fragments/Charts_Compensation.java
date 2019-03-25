@@ -20,11 +20,11 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Charts_Compensation_Lists_Frag extends Fragment {
+public class Charts_Compensation extends Fragment {
 
     public static View customview;
 
-    public Charts_Compensation_Lists_Frag() {
+    public Charts_Compensation() {
         // Required empty public constructor
     }
 

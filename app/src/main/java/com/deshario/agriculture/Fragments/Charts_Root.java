@@ -24,18 +24,18 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Reports_Tab_Frag extends Fragment {
+public class Charts_Root extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
     public static int int_items = 3;
-    Reports_Tab_Frag.MyAdapter myAdapter;
+    Charts_Root.MyAdapter myAdapter;
     Context context;
     Integer[] colors = null;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
 
-    public Reports_Tab_Frag(){}
+    public Charts_Root(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,17 +89,17 @@ public class Reports_Tab_Frag extends Fragment {
 //                    case 0:
 //                        tabLayout.setBackgroundColor(getResources().getColor(R.color.primary_deshario));
 //                        toolbar.setBackgroundColor(getResources().getColor(R.color.primary_deshario));
-////                        Charts_Income_Lists_Frag.changecolor(getResources().getColor(R.color.primary_deshario));
+////                        Charts_Income.changecolor(getResources().getColor(R.color.primary_deshario));
 //                        break;
 //                    case 1:
 //                        tabLayout.setBackgroundColor(getResources().getColor(R.color.material_red));
 //                        toolbar.setBackgroundColor(getResources().getColor(R.color.material_red));
-////                        Charts_Expense_Lists_Frag.changecolor(getResources().getColor(R.color.material_red));
+////                        Charts_Expense.changecolor(getResources().getColor(R.color.material_red));
 //                        break;
 //                    case 2:
 //                        tabLayout.setBackgroundColor(getResources().getColor(R.color.success_bootstrap));
 //                        toolbar.setBackgroundColor(getResources().getColor(R.color.success_bootstrap));
-////                        Charts_Compensation_Lists_Frag.changecolor(getResources().getColor(R.color.success_bootstrap));
+////                        Charts_Compensation.changecolor(getResources().getColor(R.color.success_bootstrap));
 //                        break;
 //                    default:
 //                }
@@ -146,9 +146,9 @@ public class Reports_Tab_Frag extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new Charts_Income_Lists_Frag();
-                case 1 : return new Charts_Expense_Lists_Frag();
-                case 2 : return new Charts_Compensation_Lists_Frag();
+                case 0 : return new Charts_Income();
+                case 1 : return new Charts_Expense();
+                case 2 : return new Charts_Compensation();
 
             }
             return null;

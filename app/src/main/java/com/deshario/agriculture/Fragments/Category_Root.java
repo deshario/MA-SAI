@@ -24,10 +24,10 @@ import es.dmoral.toasty.Toasty;
  * Created by Deshario on 4/17/2017.
  */
 
-public class Categories_Tab_Frag extends Fragment implements FullScreenDialogContent {
+public class Category_Root extends Fragment implements FullScreenDialogContent {
 
-    public static TabLayout tabLayout;
-    public static ViewPager viewPager;
+    public TabLayout tabLayout;
+    public ViewPager viewPager;
     public static int int_items = 3 ;
     public static int pageno;
     MyAdapter myAdapter;
@@ -38,7 +38,7 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
     public static final String ITEM_ID = "ITEM_ID";
     private FullScreenDialogController dialogController;
     FullScreenDialogFragment dialogFragment;
-    //declare key
+
     Boolean first = true;
 
     final int[] ICONS = new int[] {
@@ -51,24 +51,14 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View myview =  inflater.inflate(R.layout.categories_tab_view,null);
-
-//        getActivity().getWindow().setSoftInputMode(
-//                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        //  Toast.makeText(getActivity(),"Inflate Done",Toast.LENGTH_SHORT).show();
-        // ((LoginActivity) getActivity()).setActionBarTitle("");
         tabLayout = (TabLayout) myview.findViewById(R.id.tabs);
         viewPager = (ViewPager) myview.findViewById(R.id.viewpager);
         adap();
-
         return myview;
     }
 
     public void adap(){
-
-        //Set an Apater for the View Pager
         myAdapter = new MyAdapter(getChildFragmentManager());
         viewPager.setAdapter(myAdapter);
 
@@ -86,15 +76,15 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
                 //Toast.makeText(getActivity(),"Page : "+position,Toast.LENGTH_SHORT).show();
                pageno = position;
                 if(position == 0){
-                    Categories1_Frag.resetdata();
+                    CategoryDebtLoan.resetdata();
                 }
 
                 if(position == 1){
-                    Categories2_Frag.resetdata();
+                    CategoryExpense.resetdata();
                 }
 
                 if(position == 2){
-                    Categories3_Frag.resetdata();
+                    CategoryIncome.resetdata();
                 }
             }
 
@@ -103,7 +93,6 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
             }
         });
 
-        // SetupWithViewPager doesn't works without the runnable
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -113,13 +102,11 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
                 tabLayout.getTabAt(2).setIcon(ICONS[2]);
             }
         });
-
     }
 
     @Override
     public void onDialogCreated(FullScreenDialogController dialogController) {
         this.dialogController = dialogController;
-
     }
 
     @Override
@@ -127,25 +114,14 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
         String data = null; // Itemname of Category
        // Toast.makeText(getActivity(),"PageNo:"+pageno,Toast.LENGTH_SHORT).show();
         if(pageno == 0){
-            data = Categories1_Frag.adapter.getSelectedItem();
+            data = CategoryDebtLoan.adapter.getSelectedItem();
         }
         if(pageno == 1){
-            data = Categories2_Frag.adapter.getSelectedItem();
+            data = CategoryExpense.adapter.getSelectedItem();
         }
         if(pageno == 2){
-            data = Categories3_Frag.adapter.getSelectedItem();
+            data = CategoryIncome.adapter.getSelectedItem();
         }
-
-        //Toast.makeText(getActivity(),"Page "+pageno+" : "+data,Toast.LENGTH_SHORT).show();
-        //Toast.makeText(getActivity(),"Data :: ->  "+data,Toast.LENGTH_SHORT).show();
-
-//        Category category = new Category();
-//        category = Category.getSingleCategory(data);
-//        long main_id = category.getId();
-//
-//        Long long_id = new Long(main_id);
-//        int mainid = long_id.intValue();
-
 
         Bundle result = new Bundle();
         if(data == null) {
@@ -187,18 +163,17 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
 
     class MyAdapter extends FragmentPagerAdapter {
 
-        public MyAdapter(FragmentManager fm) {
+        MyAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        // Return fragment with respect to Position
         @Override
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new Categories1_Frag();
-                case 1 : return new Categories2_Frag();
-                case 2 : return new Categories3_Frag();
+                case 0 : return new CategoryDebtLoan();
+                case 1 : return new CategoryExpense();
+                case 2 : return new CategoryIncome();
 
             }
             return null;
@@ -210,7 +185,8 @@ public class Categories_Tab_Frag extends Fragment implements FullScreenDialogCon
         }
 
         @Override
-        public int getItemPosition(Object object) { // Notify changed
+        public int getItemPosition(Object object) {
+            // Notify changed
             // Causes adapter to reload all Fragments when
             // notifyDataSetChanged is called
             return POSITION_NONE;

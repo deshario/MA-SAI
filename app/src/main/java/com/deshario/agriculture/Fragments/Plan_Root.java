@@ -22,7 +22,7 @@ import es.dmoral.toasty.Toasty;
  * Created by Deshario on 4/17/2017.
  */
 
-public class Planning_Tab_Frag extends Fragment implements FullScreenDialogContent {
+public class Plan_Root extends Fragment implements FullScreenDialogContent {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
@@ -76,11 +76,11 @@ public class Planning_Tab_Frag extends Fragment implements FullScreenDialogConte
                 //Toast.makeText(getActivity(),"Page : "+position,Toast.LENGTH_SHORT).show();
                 pageno = position;
                 if(position == 0){
-                    //Categories1_Frag.resetdata();
+                    //CategoryDebtLoan.resetdata();
                 }
 
                 if(position == 1){
-                   // Categories2_Frag.resetdata();
+                   // CategoryExpense.resetdata();
                 }
             }
 
@@ -112,10 +112,10 @@ public class Planning_Tab_Frag extends Fragment implements FullScreenDialogConte
         String data = null;
         // Toast.makeText(getActivity(),"PageNo:"+pageno,Toast.LENGTH_SHORT).show();
         if(pageno == 0){
-      //      data = Categories1_Frag.adapter.getSelectedItem();
+      //      data = CategoryDebtLoan.adapter.getSelectedItem();
         }
         if(pageno == 1){
-         //   data = Categories2_Frag.adapter.getSelectedItem();
+         //   data = CategoryExpense.adapter.getSelectedItem();
         }
 
         //Toast.makeText(getActivity(),"Page "+pageno+" : "+data,Toast.LENGTH_SHORT).show();
@@ -149,8 +149,8 @@ public class Planning_Tab_Frag extends Fragment implements FullScreenDialogConte
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new Planning1_Frag();
-                case 1 : return new Planning2_Frag();
+                case 0 : return new Plan_Income();
+                case 1 : return new Plan_Expense();
 
             }
             return null;

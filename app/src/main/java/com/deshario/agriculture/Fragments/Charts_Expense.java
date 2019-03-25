@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +20,11 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Charts_Expense_Lists_Frag extends Fragment {
+public class Charts_Expense extends Fragment {
 
     public static View customview;
 
-    public Charts_Expense_Lists_Frag() {
+    public Charts_Expense() {
         // Required empty public constructor
     }
 

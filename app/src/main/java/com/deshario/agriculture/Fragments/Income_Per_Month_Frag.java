@@ -188,7 +188,7 @@ public class Income_Per_Month_Frag extends Fragment {
             //set1.setColors(ColorTemplate.MATERIAL_COLORS);
             set1.setColors(getResources().getColor(R.color.material_primary));
             set1.setHighlightEnabled(true);
-            set1.setHighLightColor(getResources().getColor(R.color.success_bootstrap));
+            set1.setHighLightColor(getResources().getColor(R.color.primary_bootstrap));
             set1.setHighLightAlpha(200);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();

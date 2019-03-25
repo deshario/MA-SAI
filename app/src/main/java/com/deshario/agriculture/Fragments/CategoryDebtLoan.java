@@ -1,7 +1,6 @@
 package com.deshario.agriculture.Fragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,15 +11,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.deshario.agriculture.Adapters.CategoryAdapter;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
-import com.deshario.agriculture.Adapters.CategoryAdapter;
+import com.franmontiel.fullscreendialog.FullScreenDialogContent;
+import com.franmontiel.fullscreendialog.FullScreenDialogController;
+import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +31,20 @@ import es.dmoral.toasty.Toasty;
 /**
  * Created by deshario on 10/06/17.
  */
-public class Categories2_Frag extends Fragment {
+
+public class CategoryDebtLoan extends Fragment implements FullScreenDialogContent{
     public static Context context;
     public static CategoryAdapter adapter;
     public static ArrayList<String> arrayList;
     public static ListView listView;
     public String new_item;
+    public Button btn_add,btn_del;
+
+    private FullScreenDialogController dialogController;
+    FullScreenDialogFragment dialogFragment;
     public List<Category> category_items;
 
-    public static Button btn_add,btn_del;
-
-    public Categories2_Frag() {
+    public CategoryDebtLoan() {
     }
 
     @Override
@@ -53,6 +57,7 @@ public class Categories2_Frag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.categories_listview, container, false);
+
     }
 
     @Override
@@ -72,7 +77,7 @@ public class Categories2_Frag extends Fragment {
     }
 
     public void dowork(){
-        category_items = Category.getItembyTopic(2);
+        category_items = Category.getItembyTopic(1);
         for (int i = 0; i < category_items.size(); i++) {
             arrayList.add(category_items.get(i).getCat_item());
         }
@@ -99,8 +104,8 @@ public class Categories2_Frag extends Fragment {
                 final TextView my_title = (TextView)view.findViewById(R.id.item_title);
                 final EditText et_topic = (EditText)view.findViewById(R.id.input_title);
 
-                int pageno = Categories_Tab_Frag.pageno;
-                final String title = Categories_Tab_Frag.getTitle(pageno);
+                int pageno = Category_Root.pageno;
+                final String title = Category_Root.getTitle(pageno);
                 my_title.setText("หมวดหมู่ : "+title);
 
                 final Button btn_save = (Button)view.findViewById(R.id.save_btn);
@@ -128,7 +133,7 @@ public class Categories2_Frag extends Fragment {
                                     Category category = new Category();
                                     category.setCat_topic(title);
                                     category.setCat_item(new_item);
-                                    category.setCat_type(Category.CATEGORY_EXPENSE);
+                                    category.setCat_type(Category.CATEGORY_DEBTS);
                                     category.save();
 
                                     boolean status = Category.check_exists(new_item);
@@ -214,6 +219,21 @@ public class Categories2_Frag extends Fragment {
 
     public static void resetdata(){
         arrayList.clear();
-        new Categories2_Frag().dowork();
+        new CategoryDebtLoan().dowork();
+    }
+
+    @Override
+    public void onDialogCreated(FullScreenDialogController dialogController) {
+
+    }
+
+    @Override
+    public boolean onConfirmClick(FullScreenDialogController dialogController) {
+        return false;
+    }
+
+    @Override
+    public boolean onDiscardClick(FullScreenDialogController dialogController) {
+        return false;
     }
 }

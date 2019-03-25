@@ -1,7 +1,6 @@
 package com.deshario.agriculture.Fragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,17 +28,16 @@ import es.dmoral.toasty.Toasty;
 /**
  * Created by deshario on 10/06/17.
  */
-public class Categories3_Frag extends Fragment {
+public class CategoryExpense extends Fragment {
     public static Context context;
     public static CategoryAdapter adapter;
     public static ArrayList<String> arrayList;
     public static ListView listView;
     public String new_item;
     public List<Category> category_items;
+    public Button btn_add,btn_del;
 
-    public static Button btn_add,btn_del;
-
-    public Categories3_Frag() {
+    public CategoryExpense() {
     }
 
     @Override
@@ -72,7 +69,7 @@ public class Categories3_Frag extends Fragment {
     }
 
     public void dowork(){
-        category_items = Category.getItembyTopic(3);
+        category_items = Category.getItembyTopic(2);
         for (int i = 0; i < category_items.size(); i++) {
             arrayList.add(category_items.get(i).getCat_item());
         }
@@ -99,8 +96,8 @@ public class Categories3_Frag extends Fragment {
                 final TextView my_title = (TextView)view.findViewById(R.id.item_title);
                 final EditText et_topic = (EditText)view.findViewById(R.id.input_title);
 
-                int pageno = Categories_Tab_Frag.pageno;
-                final String title = Categories_Tab_Frag.getTitle(pageno);
+                int pageno = Category_Root.pageno;
+                final String title = Category_Root.getTitle(pageno);
                 my_title.setText("หมวดหมู่ : "+title);
 
                 final Button btn_save = (Button)view.findViewById(R.id.save_btn);
@@ -128,7 +125,7 @@ public class Categories3_Frag extends Fragment {
                                     Category category = new Category();
                                     category.setCat_topic(title);
                                     category.setCat_item(new_item);
-                                    category.setCat_type(Category.CATEGORY_INCOME);
+                                    category.setCat_type(Category.CATEGORY_EXPENSE);
                                     category.save();
 
                                     boolean status = Category.check_exists(new_item);
@@ -214,6 +211,6 @@ public class Categories3_Frag extends Fragment {
 
     public static void resetdata(){
         arrayList.clear();
-        new Categories3_Frag().dowork();
+        new CategoryExpense().dowork();
     }
 }

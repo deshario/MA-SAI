@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.deshario.agriculture.Fragments.Charts_Root;
 import com.deshario.agriculture.Fragments.Compensation_Per_Date_Frag;
 import com.deshario.agriculture.Fragments.Expense_Category_Frag;
 import com.deshario.agriculture.Fragments.Expense_Per_Date_Frag;
@@ -21,10 +22,8 @@ import com.deshario.agriculture.Fragments.Expense_Per_Month_Frag;
 import com.deshario.agriculture.Fragments.Expense_Per_Year_Frag;
 import com.deshario.agriculture.Fragments.Income_Category_Frag;
 import com.deshario.agriculture.Fragments.Income_Per_Date_Frag;
-import com.deshario.agriculture.Fragments.Categories2_Frag;
 import com.deshario.agriculture.Fragments.Income_Per_Month_Frag;
 import com.deshario.agriculture.Fragments.Income_Per_Year_Frag;
-import com.deshario.agriculture.Fragments.Reports_Tab_Frag;
 import com.deshario.agriculture.Models.ChartsTypes;
 import com.deshario.agriculture.R;
 
@@ -80,7 +79,7 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
             ChartsTypes chartsTypes = contactList.get(getPosition());
             int id = chartsTypes.getId();
             String title = chartsTypes.getTitle();
-            int page_no = Reports_Tab_Frag.getPage();
+            int page_no = Charts_Root.getPage();
             //Toast.makeText(v.getContext(),"Page :: "+ page_no+"\nID :: "+id+"\nTitle :: "+title,Toast.LENGTH_SHORT).show();
             //System.out.println("pageno :: "+page_no);
             Bundle bundle = new Bundle();
@@ -108,7 +107,12 @@ public class ReportslistAdapter extends RecyclerView.Adapter<ReportslistAdapter.
                     bundle.putString("title2", title);
                     break;
                 case 2:
-                    frag = new Compensation_Per_Date_Frag();
+                    if(id == 1)
+                        frag = new Compensation_Per_Date_Frag();
+                    if(id == 2)
+                        frag = new Expense_Per_Month_Frag();
+                    if(id == 3)
+                        frag = new Expense_Per_Year_Frag();
                     bundle.putString("title3", title);
                     break;
                 default:

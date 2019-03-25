@@ -84,11 +84,11 @@ public class Main_Frag extends Fragment {
                         break;
                     case  2:
                         final Bundle plan_args = new Bundle();
-                        plan_args.putString(Planning_Tab_Frag.UNIQUE_NAME, "planning_key");
+                        plan_args.putString(Plan_Root.UNIQUE_NAME, "planning_key");
                         dialogFragment = new FullScreenDialogFragment.Builder(getActivity())
                                 .setTitle("การวางแผน")
                                 //.setConfirmButton("Confirm")
-                                .setContent(Planning_Tab_Frag.class, plan_args)
+                                .setContent(Plan_Root.class, plan_args)
                                 .build();
 
                         dialogFragment.show(getFragmentManager(), dialogTag);
@@ -137,10 +137,10 @@ public class Main_Frag extends Fragment {
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        Previous_Record_Frag.btn_refresh.performClick();
+                        Record_Previous.btn_refresh.performClick();
                         break;
                     case 1:
-                        Latest_Record_Frag.btn_refresh.performClick();
+                        Record_Latest.btn_refresh.performClick();
                         break;
                     case 2:
                         Prediction_Frag.btn_refresh.performClick();
@@ -179,8 +179,8 @@ public class Main_Frag extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new Previous_Record_Frag();
-                case 1 : return new Latest_Record_Frag();
+                case 0 : return new Record_Previous();
+                case 1 : return new Record_Latest();
                 case 2 : return new Prediction_Frag();
 
             }

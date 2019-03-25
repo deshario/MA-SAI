@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.deshario.agriculture.Fragments.Reports_Tab_Frag;
+import com.deshario.agriculture.Fragments.Charts_Root;
 
 /**
  * Created by Deshario on 8/21/2017.
@@ -30,7 +30,7 @@ public class ReportsManager extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        mFragmentTransaction.replace(R.id.containerView, new Reports_Tab_Frag());
+        mFragmentTransaction.replace(R.id.containerView, new Charts_Root());
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.commit();
 
@@ -56,7 +56,7 @@ public class ReportsManager extends AppCompatActivity {
             }else{
                 mFragmentManager.popBackStackImmediate();
                 resetTolbar();
-                Reports_Tab_Frag.tabLayout.setBackgroundColor(getResources().getColor(R.color.light_success));
+                Charts_Root.tabLayout.setBackgroundColor(getResources().getColor(R.color.light_success));
             }
         } else {
             super.onBackPressed();

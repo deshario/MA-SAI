@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.deshario.agriculture.Config.Deshario_Functions;
 import com.deshario.agriculture.Fragments.AllRecords;
 import com.deshario.agriculture.Fragments.Main_Frag;
-import com.deshario.agriculture.Fragments.Planning_Tab_Frag;
+import com.deshario.agriculture.Fragments.Plan_Root;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog;
 import com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnDateSetListener
 
     private void alldata() {
         final Bundle plan_args = new Bundle();
-        plan_args.putString(Planning_Tab_Frag.UNIQUE_NAME, "planning_key");
+        plan_args.putString(Plan_Root.UNIQUE_NAME, "planning_key");
         records_fulldialog = new FullScreenDialogFragment.Builder(MainActivity.this)
                 .setTitle("รายการทั้งหมด")
                 .setContent(AllRecords.class, plan_args)

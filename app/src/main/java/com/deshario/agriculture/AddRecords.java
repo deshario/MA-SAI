@@ -13,9 +13,9 @@ import android.widget.Toast;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.deshario.agriculture.Config.Deshario_Functions;
-import com.deshario.agriculture.Fragments.Categories_Tab_Frag;
-import com.deshario.agriculture.Fragments.Latest_Record_Frag;
-import com.deshario.agriculture.Fragments.Previous_Record_Frag;
+import com.deshario.agriculture.Fragments.Category_Root;
+import com.deshario.agriculture.Fragments.Record_Latest;
+import com.deshario.agriculture.Fragments.Record_Previous;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.Models.Records;
 import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
@@ -78,18 +78,18 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
             public void onClick(View v) {
                 Deshario_Functions.hideKeyboard(AddRecords.this);
                 final Bundle args = new Bundle();
-                args.putString(Categories_Tab_Frag.EXTRA_NAME, "test");
+                args.putString(Category_Root.EXTRA_NAME, "test");
                 dialogFragment = new FullScreenDialogFragment.Builder(AddRecords.this)
                         .setTitle("เลือกหมวดหมู่")
                         .setConfirmButton("ตกลง")
                         .setOnConfirmListener(new FullScreenDialogFragment.OnConfirmListener() {
                             @Override
                             public void onConfirm(@Nullable Bundle result) {
-                                String res = result.getString(Categories_Tab_Frag.SELECTED_ANS);
-                                catg_id = result.getInt(Categories_Tab_Frag.SELECTED_CATG); // cat id
-                                item_id = result.getInt(Categories_Tab_Frag.ITEM_ID);
+                                String res = result.getString(Category_Root.SELECTED_ANS);
+                                catg_id = result.getInt(Category_Root.SELECTED_CATG); // cat id
+                                item_id = result.getInt(Category_Root.ITEM_ID);
                                 //Toasty.info(AddRecords.this,res+" : "+catg_id+"\n item_id : "+item_id,Toast.LENGTH_SHORT).show();
-                                et_categories.setText(" "+res+" : "+ Categories_Tab_Frag.getTitle(catg_id));
+                                et_categories.setText(" "+res+" : "+ Category_Root.getTitle(catg_id));
 
                                 et_date.setEnabled(true);
                                 et_date.setFocusable(true);
@@ -101,7 +101,7 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                                 //Toast.makeText(AddRecords.this,"onDiscard",Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setContent(Categories_Tab_Frag.class, args)
+                        .setContent(Category_Root.class, args)
                         .build();
 
                 dialogFragment.show(getSupportFragmentManager(), dialogTag);
@@ -202,8 +202,8 @@ public class AddRecords extends AppCompatActivity implements OnDateSetListener {
                         cls_btn.performClick();
                         Toasty.success(AddRecords.this,"รายการของคุณถูกบันทึกแล้ว",Toast.LENGTH_SHORT).show();
                         onBackPressed();
-                        Previous_Record_Frag.btn_refresh.performClick();
-                        Latest_Record_Frag.btn_refresh.performClick();
+                        Record_Previous.btn_refresh.performClick();
+                        Record_Latest.btn_refresh.performClick();
                         //}
 //                    }
                 }

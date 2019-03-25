@@ -32,7 +32,7 @@ import es.dmoral.toasty.Toasty;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
+public class Plan_Income extends Fragment implements FullScreenDialogContent,
         com.layernet.thaidatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
     EditText et_area,et_name,et_income,et_total,et_date;
@@ -44,7 +44,7 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
     String SQLITE_DATE_FORMAT = "yyyy-MM-dd";
     private FullScreenDialogController dialogController;
 
-    public Planning1_Frag(){}
+    public Plan_Income(){}
 
 
     @Override
@@ -125,7 +125,7 @@ public class Planning1_Frag extends Fragment implements FullScreenDialogContent,
                 now = Calendar.getInstance();
                 FragmentManager manager = ((AppCompatActivity) context).getFragmentManager();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
-                        Planning1_Frag.this,
+                        Plan_Income.this,
                         now.get(Calendar.YEAR),
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH)

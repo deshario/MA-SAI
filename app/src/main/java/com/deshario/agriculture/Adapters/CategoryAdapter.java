@@ -4,14 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.deshario.agriculture.Fragments.Categories1_Frag;
 import com.deshario.agriculture.Models.Category;
 import com.deshario.agriculture.R;
 
