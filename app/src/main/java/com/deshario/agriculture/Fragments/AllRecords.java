@@ -10,18 +10,12 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.deshario.agriculture.Adapters.RecordAdapter;
-import com.deshario.agriculture.Models.DateValue;
 import com.deshario.agriculture.Models.Records;
 import com.deshario.agriculture.R;
 import com.franmontiel.fullscreendialog.FullScreenDialogContent;
 import com.franmontiel.fullscreendialog.FullScreenDialogController;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,9 +79,6 @@ public class AllRecords extends Fragment implements FullScreenDialogContent {
 //        }
 //
 //        System.out.println(Arrays.toString(month_datas));
-
-
-
 
         customAdapter = new RecordAdapter(context,allItems);
         gridview.setAdapter(customAdapter);
